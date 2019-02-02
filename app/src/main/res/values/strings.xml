@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Photosen</string>
+    <string name="check_your_internet_connection_please">Check your internet connection please</string>
+    <string name="try_again">Try again</string>
+    <string name="latest">latest</string>
+    <string name="popular">popular</string>
+    <string name="oldest">oldest</string>
+    <string name="open_in_browser">Open in browser</string>
+    <string name="search_hint">Search for photos</string>
+    <string name="search">Search</string>
+    <string name="set_as_wallpaper">Set as wallpaper</string>
+    <string name="download">Download</string>
+    <string name="no_permisson">Can\'t download file without permission</string>
+    <string name="downloading_image">Downloading image…</string>
+    <string name="downloading_wallpaper">Downloading wallpaper…</string>
+    <string name="download_error">Download error</string>
+    <string name="download_complete">Download complete</string>
+    <string name="click_here_to_open">Click here to open</string>
+    <string name="open_file_with">Open file with</string>
+    <string name="download_started">Download started</string>
+    <string name="please_wait_for_current_download">Please wait for current download</string>
+    <plurals name="x_pixels">
+        <item quantity="zero">%1$d pixels</item>
+        <item quantity="one">%1$d pixel</item>
+        <item quantity="two">%1$d pixels</item>
+        <item quantity="few">%1$d pixels</item>
+        <item quantity="many">%1$d pixels</item>
+        <item quantity="other">%1$d pixels</item>
+    </plurals>
+</resources>
