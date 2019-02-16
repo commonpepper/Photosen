@@ -1,6 +1,6 @@
 package com.commonpepper.photosen.ui.viewmodels;
 
-import com.commonpepper.photosen.network.datasource.SearchDataSourceFactory;
+import com.commonpepper.photosen.network.datasource.SearchListDataSourceFactory;
 import com.commonpepper.photosen.network.model.Photo;
 
 import androidx.annotation.NonNull;
@@ -18,14 +18,14 @@ public class SearchFragmentViewModelFactory implements ViewModelProvider.Factory
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-        return (T) new SearchFragmentViewModelFactory.SearchFragmentViewModel();
+        return (T) new SearchListFragmentViewModel();
     }
 
-    public class SearchFragmentViewModel extends MyAbstractFragmentViewModel<Photo> {
+    public class SearchListFragmentViewModel extends AbstractListFragmentViewModel<Photo> {
 
         @Override
-        public SearchDataSourceFactory createDataSourceFactory() {
-            return new SearchDataSourceFactory(query);
+        public SearchListDataSourceFactory createDataSourceFactory() {
+            return new SearchListDataSourceFactory(query);
         }
     }
 

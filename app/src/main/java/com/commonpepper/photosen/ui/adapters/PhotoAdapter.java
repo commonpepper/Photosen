@@ -1,8 +1,10 @@
 package com.commonpepper.photosen.ui.adapters;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,13 +14,17 @@ import android.widget.TextView;
 
 import com.commonpepper.photosen.R;
 import com.commonpepper.photosen.network.NetworkState;
-import com.commonpepper.photosen.network.datasource.MyAbstractDataSource;
+import com.commonpepper.photosen.network.datasource.AbstractListDataSource;
 import com.commonpepper.photosen.network.model.Photo;
 import com.commonpepper.photosen.ui.activities.SinglePhotoActivity;
 import com.google.android.material.button.MaterialButton;
 import com.squareup.picasso.Picasso;
 
+import java.util.Random;
+
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.paging.PagedList;
 import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
@@ -105,16 +111,20 @@ public class PhotoAdapter extends PagedListAdapter<Photo, RecyclerView.ViewHolde
 
         public void bind(Photo photo) {
             GradientDrawable gd = new GradientDrawable();
-            gd.setSize(photo.getWidth(), photo.getHeight());
+            gd.setSize(photo.getWidth_z(), photo.getHeight_z());
             gd.setShape(GradientDrawable.RECTANGLE);
-            gd.setColor(Color.parseColor(photo.getColor()));
+            Random rnd = new Random();
+            int color = Color.argb(255, rnd.nextInt(100), rnd.nextInt(100), rnd.nextInt(100));
+            gd.setColor(color);
 
-            Picasso.get().load(photo.getUrls().getSmall()).placeholder(gd).into(mImageView);
+            Picasso.get().load(photo.getUrl_z()).placeholder(gd).into(mImageView);
 
             mImageView.setOnClickListener(v -> {
                 Intent intent = new Intent(mImageView.getContext(), SinglePhotoActivity.class);
                 intent.putExtra(SinglePhotoActivity.PHOTO_TAG, photo);
-                mImageView.getContext().startActivity(intent);
+                Bundle options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity)mImageView.getContext(),
+                        mImageView, "sharedImageView").toBundle();
+                ActivityCompat.startActivity(mImageView.getContext(), intent, options);
             });
         }
     }
@@ -137,7 +147,7 @@ public class PhotoAdapter extends PagedListAdapter<Photo, RecyclerView.ViewHolde
                     if (list.size() == 0) {
                         list.getDataSource().invalidate();
                     } else {
-                        ((MyAbstractDataSource) list.getDataSource()).retryLast();
+                        ((AbstractListDataSource) list.getDataSource()).retryLast();
                     }
                 }
             });

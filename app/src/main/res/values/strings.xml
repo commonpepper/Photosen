@@ -1,10 +1,8 @@
 <resources>
     <string name="app_name">Photosen</string>
-    <string name="check_your_internet_connection_please">Check your internet connection please</string>
+    <string name="something_went_wrong">Oops! Something went wrong.</string>
     <string name="try_again">Try again</string>
-    <string name="latest">latest</string>
-    <string name="popular">popular</string>
-    <string name="oldest">oldest</string>
+    <string name="popular">Popular</string>
     <string name="open_in_browser">Open in browser</string>
     <string name="search_hint">Search for photos</string>
     <string name="search">Search</string>
@@ -26,5 +24,13 @@
         <item quantity="few">%1$d pixels</item>
         <item quantity="many">%1$d pixels</item>
         <item quantity="other">%1$d pixels</item>
+    </plurals>
+    <plurals name="x_views">
+        <item quantity="zero">%1$d views</item>
+        <item quantity="one">%1$d view</item>
+        <item quantity="two">%1$d views</item>
+        <item quantity="few">%1$d views</item>
+        <item quantity="many">%1$d views</item>
+        <item quantity="other">%1$d views</item>
     </plurals>
 </resources>

@@ -3,21 +3,18 @@ package com.commonpepper.photosen.network.datasource;
 import com.commonpepper.photosen.network.NetworkState;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.concurrent.Executors;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import androidx.paging.PageKeyedDataSource;
-import retrofit2.Call;
-import retrofit2.Response;
 
 /**
  * PageKeyedDataSource that supports network state and retry last {@link #loadAfter(LoadParams, LoadCallback) call
  *
  * @param <T> Type of items being loaded by the DataSource.
  */
-public abstract class MyAbstractDataSource<T> extends PageKeyedDataSource<Integer, T> {
+public abstract class AbstractListDataSource<T> extends PageKeyedDataSource<Integer, T> {
     protected MutableLiveData<NetworkState> networkState = new MutableLiveData<>();
 
     private PageKeyedDataSource.LoadParams<Integer> lastParams;

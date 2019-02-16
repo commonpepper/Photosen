@@ -9,7 +9,7 @@
         android:id="@+id/item_last_error_textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/check_your_internet_connection_please"
+        android:text="@string/something_went_wrong"
         android:textAlignment="center"
         android:layout_marginTop="8dp"/>
 

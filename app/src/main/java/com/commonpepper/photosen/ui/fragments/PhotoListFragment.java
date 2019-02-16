@@ -7,27 +7,27 @@ import com.commonpepper.photosen.ui.viewmodels.PhotoFragmentViewModelFactory;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProviders;
 
-public class PhotoFragment extends MyAbstractFragment {
-    private static final String TAG_ORDER_BY = "order_by";
+public class PhotoListFragment extends AbstractListFragment {
+    private static final String TAG_DATE = "date";
 
-    public static PhotoFragment newInstance(String order_by) {
-        PhotoFragment newFragment = new PhotoFragment();
+    public static PhotoListFragment newInstance(String date) {
+        PhotoListFragment newFragment = new PhotoListFragment();
         Bundle args = new Bundle();
-        args.putString(TAG_ORDER_BY, order_by);
+        args.putString(TAG_DATE, date);
         newFragment.setArguments(args);
         return newFragment;
     }
 
-    public PhotoFragment() {
+    public PhotoListFragment() {
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
-        String order_by = args.getString(TAG_ORDER_BY);
+        String order_by = args.getString(TAG_DATE);
         PhotoFragmentViewModelFactory factory = new PhotoFragmentViewModelFactory(order_by);
 
-        mViewModel = ViewModelProviders.of(this, factory).get(PhotoFragmentViewModelFactory.PhotoFragmentViewModel.class);
+        mViewModel = ViewModelProviders.of(this, factory).get(PhotoFragmentViewModelFactory.PhotoListFragmentViewModel.class);
     }
 }

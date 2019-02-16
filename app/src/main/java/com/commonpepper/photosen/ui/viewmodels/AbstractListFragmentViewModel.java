@@ -2,8 +2,8 @@ package com.commonpepper.photosen.ui.viewmodels;
 
 import com.commonpepper.photosen.Photosen;
 import com.commonpepper.photosen.network.NetworkState;
-import com.commonpepper.photosen.network.datasource.MyAbstractDataSource;
-import com.commonpepper.photosen.network.datasource.MyAbstractDataSourceFactory;
+import com.commonpepper.photosen.network.datasource.AbstractListDataSource;
+import com.commonpepper.photosen.network.datasource.AbstractListDataSourceFactory;
 
 import java.util.concurrent.Executors;
 
@@ -13,11 +13,13 @@ import androidx.lifecycle.ViewModel;
 import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
 
-public abstract class MyAbstractFragmentViewModel<T> extends ViewModel {
+public abstract class AbstractListFragmentViewModel<T> extends ViewModel {
     private LiveData<NetworkState> networkState;
     private LiveData<PagedList<T>> photosList;
 
-    public MyAbstractFragmentViewModel() {
+    public abstract AbstractListDataSourceFactory<T> createDataSourceFactory();
+
+    public AbstractListFragmentViewModel() {
         PagedList.Config config = new PagedList.Config.Builder()
                 .setEnablePlaceholders(false)
                 .setPageSize(Photosen.PAGE_SIZE)
@@ -25,16 +27,14 @@ public abstract class MyAbstractFragmentViewModel<T> extends ViewModel {
                 .setInitialLoadSizeHint(Photosen.PAGE_SIZE)
                 .build();
 
-        MyAbstractDataSourceFactory<T> dataSourceFactory = createDataSourceFactory();
-        networkState = Transformations.switchMap(dataSourceFactory.getLiveDataSource(), MyAbstractDataSource::getNetworkState);
+        AbstractListDataSourceFactory<T> dataSourceFactory = createDataSourceFactory();
+        networkState = Transformations.switchMap(dataSourceFactory.getLiveDataSource(), AbstractListDataSource::getNetworkState);
 
         photosList = new LivePagedListBuilder<>(dataSourceFactory, config)
                 .setFetchExecutor(Executors.newSingleThreadExecutor())
                 .build();
 
     }
-
-    public abstract MyAbstractDataSourceFactory<T> createDataSourceFactory();
 
     public LiveData<NetworkState> getNetworkState() {
         return networkState;

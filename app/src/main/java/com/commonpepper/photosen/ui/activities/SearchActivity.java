@@ -8,7 +8,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.commonpepper.photosen.R;
-import com.commonpepper.photosen.ui.fragments.SearchFragment;
+import com.commonpepper.photosen.ui.fragments.SearchListFragment;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -35,7 +35,7 @@ public class SearchActivity extends AppCompatActivity {
             String query = v.getText().toString();
 
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.search_linear_layout, SearchFragment.newInstance(query))
+                    .replace(R.id.search_linear_layout, SearchListFragment.newInstance(query))
                     .commit();
 
             View view = this.getCurrentFocus();

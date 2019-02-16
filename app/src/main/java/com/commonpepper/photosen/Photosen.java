@@ -5,8 +5,8 @@ import android.app.Application;
 import android.content.pm.PackageManager;
 import android.os.Build;
 
-import com.commonpepper.photosen.network.AuthInterceptor;
-import com.commonpepper.photosen.network.UnsplashAPI;
+import com.commonpepper.photosen.network.KeyFormatInterceptor;
+import com.commonpepper.photosen.network.FlickrApi;
 
 import androidx.core.app.ActivityCompat;
 import okhttp3.OkHttpClient;
@@ -15,7 +15,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Photosen extends Application {
 
-    public static final String API_URL = "https://api.unsplash.com/";
+    public static final String API_URL = "https://api.flickr.com/";
+
     public static final int PAGE_SIZE = 10;
     public static final String PACKAGE_NAME = "com.commonpepper.photosen";
 
@@ -24,18 +25,18 @@ public class Photosen extends Application {
         super.onCreate();
     }
 
-    public static UnsplashAPI getUnsplashAPI() {
+    public static FlickrApi getFlickrApi() {
         return new Retrofit.Builder()
                 .baseUrl(API_URL)
                 .client(getClient())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
-                .create(UnsplashAPI.class);
+                .create(FlickrApi.class);
     }
 
     private static OkHttpClient getClient() {
         return new OkHttpClient.Builder()
-                .addInterceptor(new AuthInterceptor())
+                .addInterceptor(new KeyFormatInterceptor())
                 .build();
     }
 

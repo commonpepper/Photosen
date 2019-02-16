@@ -7,18 +7,18 @@ import com.commonpepper.photosen.ui.viewmodels.SearchFragmentViewModelFactory;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProviders;
 
-public class SearchFragment extends MyAbstractFragment {
-    private static final String TAG_QUERY = "order_by";
+public class SearchListFragment extends AbstractListFragment {
+    private static final String TAG_QUERY = "query";
 
-    public static SearchFragment newInstance(String query) {
-        SearchFragment newFragment = new SearchFragment();
+    public static SearchListFragment newInstance(String query) {
+        SearchListFragment newFragment = new SearchListFragment();
         Bundle args = new Bundle();
         args.putString(TAG_QUERY, query);
         newFragment.setArguments(args);
         return newFragment;
     }
 
-    public SearchFragment() {
+    public SearchListFragment() {
     }
 
     @Override
@@ -28,6 +28,6 @@ public class SearchFragment extends MyAbstractFragment {
         String query = args.getString(TAG_QUERY);
         SearchFragmentViewModelFactory factory = new SearchFragmentViewModelFactory(query);
 
-        mViewModel = ViewModelProviders.of(this, factory).get(SearchFragmentViewModelFactory.SearchFragmentViewModel.class);
+        mViewModel = ViewModelProviders.of(this, factory).get(SearchFragmentViewModelFactory.SearchListFragmentViewModel.class);
     }
 }

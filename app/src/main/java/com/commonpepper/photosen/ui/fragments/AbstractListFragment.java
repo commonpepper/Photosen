@@ -1,16 +1,14 @@
 package com.commonpepper.photosen.ui.fragments;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.commonpepper.photosen.R;
 import com.commonpepper.photosen.network.NetworkState;
-import com.commonpepper.photosen.network.model.Photo;
 import com.commonpepper.photosen.ui.adapters.PhotoAdapter;
-import com.commonpepper.photosen.ui.viewmodels.MyAbstractFragmentViewModel;
+import com.commonpepper.photosen.ui.viewmodels.AbstractListFragmentViewModel;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,10 +17,8 @@ import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class MyAbstractFragment extends Fragment {
-    private static final String TAG = MyAbstractFragment.class.getSimpleName();
-
-    protected MyAbstractFragmentViewModel mViewModel;
+public class AbstractListFragment extends Fragment {
+    protected AbstractListFragmentViewModel mViewModel;
     protected RecyclerView mRecyclerView;
     protected PhotoAdapter mPhotoAdapter = new PhotoAdapter();
 

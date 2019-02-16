@@ -3,30 +3,30 @@ package com.commonpepper.photosen.network.datasource;
 import com.commonpepper.photosen.Photosen;
 import com.commonpepper.photosen.network.NetworkState;
 import com.commonpepper.photosen.network.model.Photo;
+import com.commonpepper.photosen.network.model.SearchPhotos;
 
 import java.io.IOException;
-import java.util.List;
 
 import androidx.annotation.NonNull;
 import retrofit2.Response;
 
-public class PhotoDataSourceFactory extends MyAbstractDataSourceFactory<Photo> {
+public class PhotoListDataSourceFactory extends AbstractListDataSourceFactory<Photo> {
 
-    private String order_by;
+    private String date;
 
-    public PhotoDataSourceFactory(String order_by) {
-        this.order_by = order_by;
+    public PhotoListDataSourceFactory(String date) {
+        this.date = date;
     }
 
     @NonNull
     @Override
-    public MyAbstractDataSource<Photo> create() {
-        MyAbstractDataSource<Photo> dataSource = new MyAbstractDataSource<Photo>() {
+    public AbstractListDataSource<Photo> create() {
+        AbstractListDataSource<Photo> dataSource = new AbstractListDataSource<Photo>() {
             @Override
             public void loadFirst(@NonNull LoadInitialParams<Integer> params, @NonNull LoadInitialCallback<Integer, Photo> callback) throws IOException {
-                Response<List<Photo>> response = Photosen.getUnsplashAPI().getPhotos(1, Photosen.PAGE_SIZE, order_by).execute();
+                Response<SearchPhotos> response = Photosen.getFlickrApi().getRecentPhotos(date, 1, Photosen.PAGE_SIZE).execute();
                 if (response.isSuccessful() && response.code() == 200 && response.body() != null) {
-                    callback.onResult(response.body(), null, 2);
+                    callback.onResult(response.body().getPhotos().getPhoto(), null, 2);
                     networkState.postValue(NetworkState.SUCCESS);
                 } else {
                     networkState.postValue(NetworkState.FAILED);
@@ -35,9 +35,9 @@ public class PhotoDataSourceFactory extends MyAbstractDataSourceFactory<Photo> {
 
             @Override
             public void loadNext(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, Photo> callback) throws IOException {
-                Response<List<Photo>> response = Photosen.getUnsplashAPI().getPhotos(params.key, Photosen.PAGE_SIZE, order_by).execute();
+                Response<SearchPhotos> response = Photosen.getFlickrApi().getRecentPhotos(date, params.key, Photosen.PAGE_SIZE).execute();
                 if (response.isSuccessful() && response.code() == 200 && response.body() != null) {
-                    callback.onResult(response.body(), params.key + 1);
+                    callback.onResult(response.body().getPhotos().getPhoto(), params.key + 1);
                     networkState.postValue(NetworkState.SUCCESS);
                 } else {
                     networkState.postValue(NetworkState.FAILED);

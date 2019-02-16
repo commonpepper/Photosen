@@ -2,14 +2,17 @@ package com.commonpepper.photosen.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.commonpepper.photosen.R;
 import com.commonpepper.photosen.ui.adapters.MyPagerAdapter;
-import com.commonpepper.photosen.ui.fragments.PhotoFragment;
+import com.commonpepper.photosen.ui.fragments.PhotoListFragment;
 import com.google.android.material.tabs.TabLayout;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -36,12 +39,15 @@ public class MainActivity extends AppCompatActivity {
         mPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mPagerAdapter);
 
-        PhotoFragment latestPhotoFragment = PhotoFragment.newInstance("latest");
-        mPagerAdapter.addFragment(latestPhotoFragment, getString(R.string.latest));
-        PhotoFragment popularPhotoFragment = PhotoFragment.newInstance("popular");
-        mPagerAdapter.addFragment(popularPhotoFragment, getString(R.string.popular));
-        PhotoFragment oldestPhotoFragment = PhotoFragment.newInstance("oldest");
-        mPagerAdapter.addFragment(oldestPhotoFragment, getString(R.string.oldest));
+        DateFormat dateFormatApi = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat dateFormatTitle = new SimpleDateFormat("dd.MM");
+        final Calendar cal = Calendar.getInstance();
+        for (int i = 0; i < 7; i++) {
+            cal.add(Calendar.DATE, -1);
+            PhotoListFragment latestPhotoFragment = PhotoListFragment.newInstance(dateFormatApi.format(cal.getTime()));
+            mPagerAdapter.addFragment(latestPhotoFragment, getString(R.string.popular) + " "
+                    + dateFormatTitle.format(cal.getTime()));
+        }
 
         mTabLayout.setupWithViewPager(mViewPager);
     }
