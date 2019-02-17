@@ -2,6 +2,7 @@ package com.commonpepper.photosen.ui.adapters;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -113,9 +114,11 @@ public class PhotoAdapter extends PagedListAdapter<Photo, RecyclerView.ViewHolde
             GradientDrawable gd = new GradientDrawable();
             gd.setSize(photo.getWidth_z(), photo.getHeight_z());
             gd.setShape(GradientDrawable.RECTANGLE);
-            Random rnd = new Random();
-            int color = Color.argb(255, rnd.nextInt(100), rnd.nextInt(100), rnd.nextInt(100));
+            TypedArray colors = mImageView.getResources().obtainTypedArray(R.array.scroll_colors);
+            int index = (int) (Math.random() * colors .length());
+            int color = colors.getColor(index, Color.BLACK);
             gd.setColor(color);
+            colors.recycle();
 
             Picasso.get().load(photo.getUrl_z()).placeholder(gd).into(mImageView);
 

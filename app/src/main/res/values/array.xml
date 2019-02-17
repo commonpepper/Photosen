@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="scroll_colors">
+        <item name="primary900" type="color">#4527a0</item>
+        <item name="primary800" type="color">#512da8</item>
+        <item name="primary700" type="color">#5e35b1</item>
+        <item name="primary600" type="color">#673ab7</item>
+        <item name="primary500" type="color">#7e57c2</item>
+        <item name="primary400" type="color">#9575cd</item>
+        <item name="primary300" type="color">#9575cd</item>
+        <item name="primary200" type="color">#b39ddb</item>
+        <item name="primary100" type="color">#d1c4e9</item>
+    </array>
+</resources>

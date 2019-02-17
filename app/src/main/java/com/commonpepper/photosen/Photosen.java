@@ -3,6 +3,7 @@ package com.commonpepper.photosen;
 import android.app.Activity;
 import android.app.Application;
 import android.content.pm.PackageManager;
+import android.content.res.TypedArray;
 import android.os.Build;
 
 import com.commonpepper.photosen.network.KeyFormatInterceptor;

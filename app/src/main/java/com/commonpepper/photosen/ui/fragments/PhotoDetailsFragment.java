@@ -14,6 +14,7 @@ import com.commonpepper.photosen.R;
 import com.commonpepper.photosen.network.NetworkState;
 import com.commonpepper.photosen.network.model.Photo;
 import com.commonpepper.photosen.network.model.PhotoDetails;
+import com.commonpepper.photosen.network.model.PhotoSizes;
 import com.commonpepper.photosen.ui.viewmodels.PhotoDetailsViewModelFactory;
 import com.google.android.material.button.MaterialButton;
 import com.squareup.picasso.Picasso;
@@ -96,6 +97,15 @@ public class PhotoDetailsFragment extends Fragment {
 
         mViewModel.getPhotoDetails().observe(this, this::showSuccess);
 
+        mViewModel.getPhotoSizes().observe(this, photoSizes -> {
+            if (photoSizes.getSizes().getSize().size() > 0) {
+                int width = photoSizes.getSizes().getSize().get(photoSizes.getSizes().getSize().size() - 1).getWidth();
+                int height = photoSizes.getSizes().getSize().get(photoSizes.getSizes().getSize().size() - 1).getHeight();
+                textViewWidth.setText(getResources().getQuantityString(R.plurals.x_pixels, width, width));
+                textViewHeigth.setText(getResources().getQuantityString(R.plurals.x_pixels, height, height));
+            }
+        });
+
         return view;
     }
 
@@ -120,9 +130,6 @@ public class PhotoDetailsFragment extends Fragment {
 
         int views = photoDetails.getPhoto().getViews();
         viewsNumber.setText(getResources().getQuantityString(R.plurals.x_views, views, views));
-
-        textViewWidth.setText(getResources().getQuantityString(R.plurals.x_pixels, photo.getWidth_o(), photo.getWidth_o()));
-        textViewHeigth.setText(getResources().getQuantityString(R.plurals.x_pixels, photo.getHeight_o(), photo.getHeight_o()));
 
         String locationStr = photoDetails.getPhoto().getOwner().getLocation();
         if (locationStr.length() > 0) {

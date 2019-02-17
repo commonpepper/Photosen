@@ -641,7 +641,6 @@ public class PhotoDetails {
                 private String authorname;
                 private String raw;
                 private String _content;
-                private int machine_tag;
 
                 public String getId() {
                     return id;
@@ -681,14 +680,6 @@ public class PhotoDetails {
 
                 public void set_content(String _content) {
                     this._content = _content;
-                }
-
-                public int getMachine_tag() {
-                    return machine_tag;
-                }
-
-                public void setMachine_tag(int machine_tag) {
-                    this.machine_tag = machine_tag;
                 }
             }
         }

@@ -1,6 +1,7 @@
 package com.commonpepper.photosen.network;
 
 import com.commonpepper.photosen.network.model.PhotoDetails;
+import com.commonpepper.photosen.network.model.PhotoSizes;
 import com.commonpepper.photosen.network.model.SearchPhotos;
 
 import retrofit2.Call;
@@ -25,4 +26,7 @@ public interface FlickrApi {
     @GET("services/rest/?method=flickr.photos.getInfo")
     Call<PhotoDetails> getPhotoInfo(@Query("photo_id") String photo_id,
                                     @Query("secret") String secret);
+
+    @GET("services/rest/?method=flickr.photos.getSizes")
+    Call<PhotoSizes> getPhotoSizes(@Query("photo_id") String photo_id);
 }
