@@ -17,6 +17,7 @@
     <string name="open_file_with">Open file with</string>
     <string name="download_started">Download started</string>
     <string name="please_wait_for_current_download">Please wait for current download</string>
+    <string name="tags">Tags:</string>
     <plurals name="x_pixels">
         <item quantity="zero">%1$d pixels</item>
         <item quantity="one">%1$d pixel</item>

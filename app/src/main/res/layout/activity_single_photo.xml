@@ -67,7 +67,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/baseline_wallpaper_24"
         android:layout_gravity="top|end"
-        android:layout_marginBottom="85dp"
+        android:layout_marginBottom="75dp"
         app:layout_anchor="@id/fab_download"
         android:tint="@color/colorWhite"
         app:layout_anchorGravity="top"/>
@@ -77,7 +77,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
-        android:layout_margin="16dp"
+        android:layout_margin="10dp"
         android:tint="@color/colorWhite"
         android:src="@drawable/download" />
 

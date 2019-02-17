@@ -10,9 +10,11 @@ import androidx.lifecycle.ViewModelProvider;
 public class SearchFragmentViewModelFactory implements ViewModelProvider.Factory {
 
     private String query;
+    private String tags;
 
-    public SearchFragmentViewModelFactory(String query) {
+    public SearchFragmentViewModelFactory(String query, String tags) {
         this.query = query;
+        this.tags = tags;
     }
 
     @NonNull
@@ -25,7 +27,7 @@ public class SearchFragmentViewModelFactory implements ViewModelProvider.Factory
 
         @Override
         public SearchListDataSourceFactory createDataSourceFactory() {
-            return new SearchListDataSourceFactory(query);
+            return new SearchListDataSourceFactory(query, tags);
         }
     }
 

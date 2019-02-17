@@ -35,7 +35,7 @@ public class SearchActivity extends AppCompatActivity {
             String query = v.getText().toString();
 
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.search_linear_layout, SearchListFragment.newInstance(query))
+                    .replace(R.id.search_linear_layout, SearchListFragment.newInstance(query, null))
                     .commit();
 
             View view = this.getCurrentFocus();

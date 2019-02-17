@@ -20,6 +20,7 @@ public interface FlickrApi {
             "&extras=date_taken,url_o,url_z,original_format,icon_server,owner_name,o_dims" +
             "&sort=interestingness-desc")
     Call<SearchPhotos> searchPhotos(@Query("text") String text,
+                                    @Query("tags") String tags,
                                     @Query("page") int page,
                                     @Query("per_page") int per_page);
 

@@ -17,7 +17,11 @@ import com.commonpepper.photosen.network.model.PhotoDetails;
 import com.commonpepper.photosen.network.model.PhotoSizes;
 import com.commonpepper.photosen.ui.viewmodels.PhotoDetailsViewModelFactory;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -42,6 +46,8 @@ public class PhotoDetailsFragment extends Fragment {
     private TextView textViewHeigth;
     private TextView textViewDate;
     private Photo photo;
+    private ChipGroup chipGroup;
+    private TextView tagsLabel;
 
     public static PhotoDetailsFragment newInstance(Photo photo) {
         PhotoDetailsFragment newFragment = new PhotoDetailsFragment();
@@ -84,6 +90,8 @@ public class PhotoDetailsFragment extends Fragment {
         textViewWidth = view.findViewById(R.id.single_image_width);
         textViewHeigth = view.findViewById(R.id.single_image_height);
         textViewDate = view.findViewById(R.id.single_image_date);
+        chipGroup = view.findViewById(R.id.details_chip_group);
+        tagsLabel = view.findViewById(R.id.tags_label);
 
         showRunning();
 
@@ -139,6 +147,17 @@ public class PhotoDetailsFragment extends Fragment {
         }
 
         textViewDate.setText(photo.getDatetaken());
+
+        List<PhotoDetails.PhotoBean.TagsBean.TagBean> tags = photoDetails.getPhoto().getTags().getTag();
+        if (tags.isEmpty()) {
+            tagsLabel.setVisibility(View.GONE);
+        }
+        for (PhotoDetails.PhotoBean.TagsBean.TagBean tag : tags) {
+            Chip chip = new Chip(getContext());
+            chip.setText(tag.getRaw());
+            chip.setLayoutDirection(View.LAYOUT_DIRECTION_LOCALE);
+            chipGroup.addView(chip);
+        }
     }
 
     private void showFailed() {
