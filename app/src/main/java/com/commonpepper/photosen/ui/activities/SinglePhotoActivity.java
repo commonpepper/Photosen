@@ -16,14 +16,19 @@ import com.commonpepper.photosen.Photosen;
 import com.commonpepper.photosen.R;
 import com.commonpepper.photosen.network.DownloadService;
 import com.commonpepper.photosen.network.model.Photo;
+import com.commonpepper.photosen.network.model.PhotoDetails;
+import com.commonpepper.photosen.network.model.PhotoSizes;
 import com.commonpepper.photosen.ui.fragments.PhotoDetailsFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 public class SinglePhotoActivity extends AppCompatActivity {
     private static final String TAG = SinglePhotoActivity.class.getSimpleName();
@@ -34,6 +39,8 @@ public class SinglePhotoActivity extends AppCompatActivity {
     private Photo photo;
 
     private DownloadService.Aciton action;
+    private PhotoDetailsFragment detailsFragment;
+    private PhotoSizes photoSizes;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,7 +59,8 @@ public class SinglePhotoActivity extends AppCompatActivity {
 
         FloatingActionButton fabDownload = findViewById(R.id.fab_download);
         FloatingActionButton fabSetWallpaper = findViewById(R.id.fab_wallpaper);
-
+        hideFAB(fabDownload);
+        hideFAB(fabSetWallpaper);
         fabDownload.setOnClickListener(v -> {
             action = DownloadService.Aciton.DOWNLOAD_ONLY;
             if (Photosen.isStoragePermissionGranted(SinglePhotoActivity.this)) {
@@ -75,10 +83,19 @@ public class SinglePhotoActivity extends AppCompatActivity {
         Picasso.get().load(photo.getUrl_z()).into(imageView);
 
         if (getSupportFragmentManager().getFragments().size() == 0) {
+            detailsFragment = PhotoDetailsFragment.newInstance(photo);
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.single_image_details_layout, PhotoDetailsFragment.newInstance(photo))
+                    .add(R.id.single_image_details_layout, detailsFragment)
                     .commit();
+        } else {
+            detailsFragment = (PhotoDetailsFragment) getSupportFragmentManager().getFragments().get(0);
         }
+
+        detailsFragment.getLiveSizes().observe(this, x -> {
+            photoSizes = x;
+            showFAB(fabDownload);
+            showFAB(fabSetWallpaper);
+        });
     }
 
     @Override
@@ -114,8 +131,13 @@ public class SinglePhotoActivity extends AppCompatActivity {
         if (!DownloadService.isRunning) {
             Toast.makeText(this, getString(R.string.download_started), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, DownloadService.class);
-            intent.putExtra(DownloadService.TAG_URL, photo.getUrl_o());
-            intent.putExtra(DownloadService.TAG_FILENAME, photo.getId() + "." + photo.getOriginalformat());
+            List<PhotoSizes.SizesBean.SizeBean> sizes = photoSizes.getSizes().getSize();
+            String url = sizes.get(sizes.size() - 1).getSource();
+            intent.putExtra(DownloadService.TAG_URL, url);
+            String[] urlSplit = url.split("\\.");
+            String format = urlSplit[urlSplit.length - 1];
+            if (!format.equals("jpg") && !format.equals("gif") && !format.equals("png")) format = "jpg";
+            intent.putExtra(DownloadService.TAG_FILENAME, photo.getId() + "." + format);
             intent.putExtra(DownloadService.TAG_ACTION, action);
             startService(intent);
         } else {
@@ -131,5 +153,19 @@ public class SinglePhotoActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, getString(R.string.no_permisson), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void hideFAB(FloatingActionButton fab) {
+        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) fab.getLayoutParams();
+        FloatingActionButton.Behavior behavior = (FloatingActionButton.Behavior) params.getBehavior();
+        if (behavior != null) behavior.setAutoHideEnabled(false);
+        fab.hide();
+    }
+
+    private void showFAB(FloatingActionButton fab) {
+        fab.show();
+        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) fab.getLayoutParams();
+        FloatingActionButton.Behavior behavior = (FloatingActionButton.Behavior) params.getBehavior();
+        if (behavior != null) behavior.setAutoHideEnabled(true);
     }
 }

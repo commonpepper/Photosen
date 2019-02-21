@@ -12,6 +12,8 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class KeyFormatInterceptor implements Interceptor {
+    private static final String TAG = KeyFormatInterceptor.class.getSimpleName();
+
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request original = chain.request();
@@ -23,7 +25,7 @@ public class KeyFormatInterceptor implements Interceptor {
                 .addQueryParameter("nojsoncallback", "1")
                 .build();
 
-        Log.d("URL:", url.toString());
+        Log.d(TAG, url.toString());
 
         Request.Builder requestBuilder = original.newBuilder()
                 .url(url);

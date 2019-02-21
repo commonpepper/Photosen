@@ -56,6 +56,7 @@ public class SearchActivity extends AppCompatActivity {
             firstChip.setOnCloseIconClickListener(x -> {
                 chipGroup.removeView(firstChip);
                 tags.remove(firstChip.getText().toString());
+                doSearch();
             });
             doSearch();
         } else {

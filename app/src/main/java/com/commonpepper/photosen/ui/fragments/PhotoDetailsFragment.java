@@ -32,6 +32,8 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProviders;
 
 public class PhotoDetailsFragment extends Fragment {
@@ -55,6 +57,7 @@ public class PhotoDetailsFragment extends Fragment {
     private ChipGroup chipGroup;
     private TextView tagsLabel;
     private PhotoDetails details;
+    private MutableLiveData<PhotoSizes> photoSizes = new MutableLiveData<>();
 
     public static PhotoDetailsFragment newInstance(Photo photo) {
         PhotoDetailsFragment newFragment = new PhotoDetailsFragment();
@@ -112,10 +115,11 @@ public class PhotoDetailsFragment extends Fragment {
 
         mViewModel.getPhotoDetails().observe(this, this::showSuccess);
 
-        mViewModel.getPhotoSizes().observe(this, photoSizes -> {
-            if (photoSizes.getSizes().getSize().size() > 0) {
-                int width = photoSizes.getSizes().getSize().get(photoSizes.getSizes().getSize().size() - 1).getWidth();
-                int height = photoSizes.getSizes().getSize().get(photoSizes.getSizes().getSize().size() - 1).getHeight();
+        mViewModel.getPhotoSizes().observe(this, x -> {
+            photoSizes.postValue(x);
+            if (x.getSizes().getSize().size() > 0) {
+                int width = x.getSizes().getSize().get(x.getSizes().getSize().size() - 1).getWidth();
+                int height = x.getSizes().getSize().get(x.getSizes().getSize().size() - 1).getHeight();
                 textViewWidth.setText(getResources().getQuantityString(R.plurals.x_pixels, width, width));
                 textViewHeigth.setText(getResources().getQuantityString(R.plurals.x_pixels, height, height));
             }
@@ -185,7 +189,7 @@ public class PhotoDetailsFragment extends Fragment {
         detailsLayout.setVisibility(View.GONE);
     }
 
-    public PhotoDetails getDetails() {
-        return details;
+    public LiveData<PhotoSizes> getLiveSizes() {
+        return photoSizes;
     }
 }

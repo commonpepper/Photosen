@@ -70,7 +70,8 @@
         android:layout_marginBottom="75dp"
         app:layout_anchor="@id/fab_download"
         android:tint="@color/colorWhite"
-        app:layout_anchorGravity="top"/>
+        app:layout_anchorGravity="top"
+        app:layout_behavior="com.commonpepper.photosen.ScrollFABBehavior"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_download"
@@ -79,7 +80,8 @@
         android:layout_gravity="end|bottom"
         android:layout_margin="10dp"
         android:tint="@color/colorWhite"
-        android:src="@drawable/download" />
+        android:src="@drawable/download"
+        app:layout_behavior="com.commonpepper.photosen.ScrollFABBehavior"/>
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
