@@ -23,7 +23,7 @@ public class KeyFormatInterceptor implements Interceptor {
                 .addQueryParameter("nojsoncallback", "1")
                 .build();
 
-//        Log.d("URL:", url.toString());
+        Log.d("URL:", url.toString());
 
         Request.Builder requestBuilder = original.newBuilder()
                 .url(url);

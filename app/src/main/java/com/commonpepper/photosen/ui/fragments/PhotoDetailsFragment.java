@@ -1,5 +1,7 @@
 package com.commonpepper.photosen.ui.fragments;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,6 +17,8 @@ import com.commonpepper.photosen.network.NetworkState;
 import com.commonpepper.photosen.network.model.Photo;
 import com.commonpepper.photosen.network.model.PhotoDetails;
 import com.commonpepper.photosen.network.model.PhotoSizes;
+import com.commonpepper.photosen.ui.activities.SearchActivity;
+import com.commonpepper.photosen.ui.activities.SinglePhotoActivity;
 import com.commonpepper.photosen.ui.viewmodels.PhotoDetailsViewModelFactory;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
@@ -25,6 +29,8 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -48,6 +54,7 @@ public class PhotoDetailsFragment extends Fragment {
     private Photo photo;
     private ChipGroup chipGroup;
     private TextView tagsLabel;
+    private PhotoDetails details;
 
     public static PhotoDetailsFragment newInstance(Photo photo) {
         PhotoDetailsFragment newFragment = new PhotoDetailsFragment();
@@ -126,6 +133,8 @@ public class PhotoDetailsFragment extends Fragment {
     }
 
     private void showSuccess(PhotoDetails photoDetails) {
+        details = photoDetails;
+
         progressLayout.setVisibility(View.GONE);
         detailsLayout.setVisibility(View.VISIBLE);
 
@@ -154,9 +163,17 @@ public class PhotoDetailsFragment extends Fragment {
         }
         for (PhotoDetails.PhotoBean.TagsBean.TagBean tag : tags) {
             Chip chip = new Chip(getContext());
+            chip.setTransitionName("sharedChip");
             chip.setText(tag.getRaw());
             chip.setLayoutDirection(View.LAYOUT_DIRECTION_LOCALE);
             chipGroup.addView(chip);
+            chip.setOnClickListener(v -> {
+                Intent intent = new Intent(PhotoDetailsFragment.this.getContext(), SearchActivity.class);
+                intent.putExtra(SearchActivity.TAG_SEARCHTAG, tag.getRaw());
+                Bundle options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity)PhotoDetailsFragment.this.getContext(),
+                        chip, "sharedChip").toBundle();
+                ActivityCompat.startActivity(PhotoDetailsFragment.this.getContext(), intent, options);
+            });
         }
     }
 
@@ -166,5 +183,9 @@ public class PhotoDetailsFragment extends Fragment {
         errorTextView.setVisibility(View.VISIBLE);
         refreshButton.setVisibility(View.VISIBLE);
         detailsLayout.setVisibility(View.GONE);
+    }
+
+    public PhotoDetails getDetails() {
+        return details;
     }
 }
