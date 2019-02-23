@@ -46,8 +46,6 @@ public class SearchActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-
         Intent intent = getIntent();
         String firstTag = intent.getStringExtra(TAG_SEARCHTAG);
         if (firstTag != null) {
@@ -61,6 +59,7 @@ public class SearchActivity extends AppCompatActivity {
             doSearch();
         } else {
             chipGroup.removeView(firstChip);
+            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         }
 
         mEditText.setOnEditorActionListener((v, actionId, event) -> {

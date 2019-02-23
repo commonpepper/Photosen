@@ -26,9 +26,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activities.SearchActivity"
-            android:launchMode="singleTop">
-        </activity>
+        <activity android:name=".ui.activities.SearchActivity" />
         <activity android:name=".ui.activities.SinglePhotoActivity" />
 
         <service android:name=".network.DownloadService" />
