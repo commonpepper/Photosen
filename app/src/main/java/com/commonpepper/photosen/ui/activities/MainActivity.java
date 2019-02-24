@@ -22,13 +22,12 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AbstractNavActivity {
 
     private Toolbar mToolbar;
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
     private MyPagerAdapter mPagerAdapter;
-    private DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,22 +44,9 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
 
-
+        navigationView.getMenu().findItem(R.id.drawer_popular).setCheckable(true);
         navigationView.getMenu().findItem(R.id.drawer_popular).setChecked(true);
-        navigationView.setNavigationItemSelectedListener(item -> {
-            int id = item.getItemId();
-
-            if (id == R.id.drawer_search) {
-                Intent intent = new Intent(MainActivity.this, SearchActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-            } else if (id == R.id.drawer_popular) {
-
-            }
-
-            drawerLayout.closeDrawers();
-            return true;
-        });
+        navigationView.setNavigationItemSelectedListener(this);
 
         mPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mPagerAdapter);

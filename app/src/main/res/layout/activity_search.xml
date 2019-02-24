@@ -1,79 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    android:id="@+id/drawer_layout"
     tools:context=".ui.activities.SearchActivity">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/search_toolbar"
+        <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/ToolbarTheme"
-            app:layout_scrollFlags="scroll|enterAlways|snap">
+            android:layout_height="wrap_content">
 
-            <LinearLayout
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/search_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:theme="@style/ToolbarTheme"
+                app:layout_scrollFlags="scroll|enterAlways|snap">
 
-                <EditText
-                    android:id="@+id/search_edit_text"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/search_text"
-                    android:imeOptions="actionSearch"
-                    android:inputType="text"
-                    android:maxLines="1"
-                    android:textColorHint="@color/colorHint" />
+                    android:orientation="vertical">
 
-                <EditText
-                    android:id="@+id/tag_input"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/new_search_tag"
-                    android:imeOptions="actionDone"
-                    android:inputType="text"
-                    android:maxLines="1"
-                    android:textColorHint="@color/colorHint" />
-
-                <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/search_chip_group"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:animateLayoutChanges="true">
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/search_first_chip"
-                        android:layout_width="wrap_content"
+                    <EditText
+                        android:id="@+id/search_edit_text"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="First Chip"
-                        app:closeIconVisible="true"
-                        android:transitionName="sharedChip"/>
-                </com.google.android.material.chip.ChipGroup>
+                        android:hint="@string/search_text"
+                        android:imeOptions="actionSearch"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:textColorHint="@color/colorHint" />
 
-            </LinearLayout>
-        </androidx.appcompat.widget.Toolbar>
+                    <EditText
+                        android:id="@+id/tag_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/new_search_tag"
+                        android:imeOptions="actionDone"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:textColorHint="@color/colorHint" />
 
-    </com.google.android.material.appbar.AppBarLayout>
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/search_chip_group"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:animateLayoutChanges="true">
 
-    <LinearLayout
-        android:id="@+id/search_linear_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/search_first_chip"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="First Chip"
+                            android:transitionName="sharedChip"
+                            app:closeIconVisible="true" />
+                    </com.google.android.material.chip.ChipGroup>
 
-    </LinearLayout>
+                </LinearLayout>
+            </androidx.appcompat.widget.Toolbar>
 
+        </com.google.android.material.appbar.AppBarLayout>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        <LinearLayout
+            android:id="@+id/search_linear_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        </LinearLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <include layout="@layout/navigation_view" />
+
+</androidx.drawerlayout.widget.DrawerLayout>

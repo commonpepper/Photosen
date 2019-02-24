@@ -3,7 +3,6 @@ package com.commonpepper.photosen.ui.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -16,15 +15,15 @@ import com.commonpepper.photosen.ui.fragments.SearchListFragment;
 import com.commonpepper.photosen.ui.viewmodels.SearchActivityViewModel;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProviders;
 
-public class SearchActivity extends AppCompatActivity {
+public class SearchActivity extends AbstractNavActivity {
     public static final String TAG_SEARCHTAG = "search_tag";
     private static final String TAG_RECREATED = "rotated_tag";
 
@@ -46,10 +45,16 @@ public class SearchActivity extends AppCompatActivity {
         chipGroup = findViewById(R.id.search_chip_group);
         firstChip = findViewById(R.id.search_first_chip);
         inputTag = findViewById(R.id.tag_input);
+        drawerLayout = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        navigationView.getMenu().findItem(R.id.drawer_search).setCheckable(true);
+        navigationView.getMenu().findItem(R.id.drawer_search).setChecked(true);
+        navigationView.setNavigationItemSelectedListener(this);
 
         Intent intent = getIntent();
         String firstTag = intent.getStringExtra(TAG_SEARCHTAG);

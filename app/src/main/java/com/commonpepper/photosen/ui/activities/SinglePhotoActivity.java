@@ -16,21 +16,20 @@ import com.commonpepper.photosen.Photosen;
 import com.commonpepper.photosen.R;
 import com.commonpepper.photosen.network.DownloadService;
 import com.commonpepper.photosen.network.model.Photo;
-import com.commonpepper.photosen.network.model.PhotoDetails;
 import com.commonpepper.photosen.network.model.PhotoSizes;
 import com.commonpepper.photosen.ui.fragments.PhotoDetailsFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
-public class SinglePhotoActivity extends AppCompatActivity {
+public class SinglePhotoActivity extends AbstractNavActivity {
     private static final String TAG = SinglePhotoActivity.class.getSimpleName();
 
     public static final String PHOTO_TAG = "PARCELABLE_PHOTO";
@@ -48,9 +47,14 @@ public class SinglePhotoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_single_photo);
 
         Toolbar toolbar = findViewById(R.id.single_image_toolbar);
+        drawerLayout = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        navigationView.setNavigationItemSelectedListener(this);
 
         photo = getIntent().getParcelableExtra(PHOTO_TAG);
 
