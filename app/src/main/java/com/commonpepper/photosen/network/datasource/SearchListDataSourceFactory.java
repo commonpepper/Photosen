@@ -27,7 +27,7 @@ public class SearchListDataSourceFactory extends AbstractListDataSourceFactory<P
             @Override
             public void loadFirst(@NonNull LoadInitialParams<Integer> params, @NonNull LoadInitialCallback<Integer, Photo> callback) throws IOException {
                 Response<SearchPhotos> response = Photosen.getFlickrApi().searchPhotos(query, tags,1, Photosen.PAGE_SIZE).execute();
-                if (response.isSuccessful() && response.code() == 200 && response.body() != null) {
+                if (response.isSuccessful() && response.code() == 200 && response.body() != null && response.body().getStat().equals("ok")) {
                     callback.onResult(response.body().getPhotos().getPhoto(), null, 2);
                     networkState.postValue(NetworkState.SUCCESS);
                 } else {
@@ -38,7 +38,7 @@ public class SearchListDataSourceFactory extends AbstractListDataSourceFactory<P
             @Override
             public void loadNext(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, Photo> callback) throws IOException {
                 Response<SearchPhotos> response = Photosen.getFlickrApi().searchPhotos(query, tags, params.key, Photosen.PAGE_SIZE).execute();
-                if (response.isSuccessful() && response.code() == 200 && response.body() != null) {
+                if (response.isSuccessful() && response.code() == 200 && response.body() != null && response.body().getStat().equals("ok")) {
                     callback.onResult(response.body().getPhotos().getPhoto(), params.key + 1);
                     networkState.postValue(NetworkState.SUCCESS);
                 } else {

@@ -2,9 +2,8 @@
     <string name="app_name">Photosen</string>
     <string name="something_went_wrong">Oops! Something went wrong.</string>
     <string name="try_again">Try again</string>
-    <string name="popular">Popular</string>
     <string name="open_in_browser">Open in browser</string>
-    <string name="search_hint">Search for photos</string>
+    <string name="search_text">Search text</string>
     <string name="search">Search</string>
     <string name="set_as_wallpaper">Set as wallpaper</string>
     <string name="download">Download</string>
@@ -19,6 +18,7 @@
     <string name="please_wait_for_current_download">Please wait for current download</string>
     <string name="tags">Tags:</string>
     <string name="new_search_tag">New search tag</string>
+    <string name="popular">Popular</string>
     <plurals name="x_pixels">
         <item quantity="zero">%1$d pixels</item>
         <item quantity="one">%1$d pixel</item>

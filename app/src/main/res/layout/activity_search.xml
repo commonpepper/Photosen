@@ -27,27 +27,21 @@
                     android:id="@+id/search_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/search_hint"
+                    android:hint="@string/search_text"
                     android:imeOptions="actionSearch"
                     android:inputType="text"
                     android:maxLines="1"
                     android:textColorHint="@color/colorHint" />
 
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                <EditText
+                    android:id="@+id/tag_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:hint="@string/new_search_tag">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/tag_input"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:imeOptions="actionSearch"
-                        android:inputType="text" />
-
-                </com.google.android.material.textfield.TextInputLayout>
+                    android:hint="@string/new_search_tag"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textColorHint="@color/colorHint" />
 
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/search_chip_group"
