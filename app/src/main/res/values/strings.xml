@@ -19,6 +19,7 @@
     <string name="tags">Tags:</string>
     <string name="new_search_tag">New search tag</string>
     <string name="popular">Popular</string>
+    <string name="now">now</string>
     <plurals name="x_pixels">
         <item quantity="zero">%1$d pixels</item>
         <item quantity="one">%1$d pixel</item>

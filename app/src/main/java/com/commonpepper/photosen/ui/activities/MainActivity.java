@@ -65,9 +65,13 @@ public class MainActivity extends AppCompatActivity {
         mPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mPagerAdapter);
 
+        PhotoListFragment popularNowPhotoFragment = PhotoListFragment.newInstance(null);
+        mPagerAdapter.addFragment(popularNowPhotoFragment, getString(R.string.popular) + " " + getString(R.string.now));
+
         DateFormat dateFormatApi = new SimpleDateFormat("yyyy-MM-dd");
         DateFormat dateFormatTitle = new SimpleDateFormat("dd.MM");
         final Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -1);
         for (int i = 0; i < 7; i++) {
             cal.add(Calendar.DATE, -1);
             PhotoListFragment latestPhotoFragment = PhotoListFragment.newInstance(dateFormatApi.format(cal.getTime()));
