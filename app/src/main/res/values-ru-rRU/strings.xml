@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Photosen</string>
+    <string name="something_went_wrong">Ой! Что-то пошло не так.</string>
+    <string name="try_again">Попробовать снова</string>
+    <string name="open_in_browser">Открыть в браузере</string>
+    <string name="search_text">Поисковый запрос</string>
+    <string name="search">Поиск</string>
+    <string name="set_as_wallpaper">Установить обои</string>
+    <string name="download">Скачать</string>
+    <string name="no_permisson">Невозможно скачать файл без разрешения</string>
+    <string name="downloading_image">Скачиваем изображение…</string>
+    <string name="downloading_wallpaper">Скачиваем обои…</string>
+    <string name="download_error">Ошибка скачивания</string>
+    <string name="download_complete">Скачивание завершено</string>
+    <string name="click_here_to_open">Нажмите здесь, чтобы открыть</string>
+    <string name="open_file_with">Открыть файл с помощью</string>
+    <string name="download_started">Скачивание запущено</string>
+    <string name="please_wait_for_current_download">Пожалуйста дождитесь окончания текущей загрузки</string>
+    <string name="tags">Теги:</string>
+    <string name="new_search_tag">Поиск по тегу</string>
+    <string name="popular">Популярные</string>
+    <string name="now">сейчас</string>
+    <plurals name="x_pixels">
+        <item quantity="one">%1$d пиксель</item>
+        <item quantity="few">%1$d пикселей</item>
+        <item quantity="many">%1$d пикселей</item>
+        <item quantity="other">%1$d пикселей</item>
+    </plurals>
+    <plurals name="x_views">
+        <item quantity="one">%1$d просмотр</item>
+        <item quantity="few">%1$d просмотров</item>
+        <item quantity="many">%1$d просмотров</item>
+        <item quantity="other">%1$d просмотров</item>
+    </plurals>
+</resources>
