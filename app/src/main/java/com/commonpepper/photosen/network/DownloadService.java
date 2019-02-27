@@ -7,9 +7,11 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.WallpaperManager;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 
 import com.commonpepper.photosen.Photosen;
@@ -115,8 +117,6 @@ public class DownloadService extends IntentService {
                 c.disconnect();
             }
 
-            completeNotification(path, null);
-
             Uri uri = FileProvider.getUriForFile(this, Photosen.PACKAGE_NAME + ".fileprovider", new File(path));
             sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri));
             if (aciton == Aciton.WALLPAPER) {
@@ -124,18 +124,18 @@ public class DownloadService extends IntentService {
                     Intent wallpaperIntent = WallpaperManager.getInstance(this).getCropAndSetWallpaperIntent(uri);
                     wallpaperIntent.setDataAndType(uri, "image/*");
                     wallpaperIntent.putExtra("mimeType", "image/*");
-                    startActivity(wallpaperIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-                } catch (Exception e) {
-                    Intent wallpaperIntent = new Intent(Intent.ACTION_ATTACH_DATA);
-                    wallpaperIntent.setDataAndType(uri, "image/*");
-                    wallpaperIntent.putExtra("mimeType", "image/*");
-                    wallpaperIntent.addCategory(Intent.CATEGORY_DEFAULT);
                     wallpaperIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     wallpaperIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                     wallpaperIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-                    startActivity(Intent.createChooser(wallpaperIntent, getString(R.string.set_as_wallpaper)));
+                    startActivity(wallpaperIntent);
+                } catch (IllegalArgumentException e) {
+                    //Looks like a bug, so use bitmap instead
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                    WallpaperManager.getInstance(this).setBitmap(bitmap);
                 }
             }
+
+            completeNotification(path, null);
         } catch (IOException e) {
             completeNotification(null, e);
         } finally {
