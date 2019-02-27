@@ -25,6 +25,7 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/single_image_nested_sc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="none"
@@ -86,6 +87,8 @@
             android:layout_margin="10dp"
             android:src="@drawable/download"
             android:tint="@color/colorWhite"
+            app:layout_anchor="@+id/single_image_nested_sc"
+            app:layout_anchorGravity="bottom|right|end"
             app:layout_behavior="com.commonpepper.photosen.ScrollFABBehavior" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

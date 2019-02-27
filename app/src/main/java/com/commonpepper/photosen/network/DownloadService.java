@@ -117,12 +117,24 @@ public class DownloadService extends IntentService {
 
             completeNotification(path, null);
 
+            Uri uri = FileProvider.getUriForFile(this, Photosen.PACKAGE_NAME + ".fileprovider", new File(path));
+            sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri));
             if (aciton == Aciton.WALLPAPER) {
-                Uri uri = FileProvider.getUriForFile(this, Photosen.PACKAGE_NAME + ".fileprovider", new File(path));
-                Intent wallpaperIntent = WallpaperManager.getInstance(this).getCropAndSetWallpaperIntent(uri);
-                wallpaperIntent.setDataAndType(uri, "image/*");
-                wallpaperIntent.putExtra("mimeType", "image/*");
-                startActivity(wallpaperIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                try {
+                    Intent wallpaperIntent = WallpaperManager.getInstance(this).getCropAndSetWallpaperIntent(uri);
+                    wallpaperIntent.setDataAndType(uri, "image/*");
+                    wallpaperIntent.putExtra("mimeType", "image/*");
+                    startActivity(wallpaperIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                } catch (Exception e) {
+                    Intent wallpaperIntent = new Intent(Intent.ACTION_ATTACH_DATA);
+                    wallpaperIntent.setDataAndType(uri, "image/*");
+                    wallpaperIntent.putExtra("mimeType", "image/*");
+                    wallpaperIntent.addCategory(Intent.CATEGORY_DEFAULT);
+                    wallpaperIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    wallpaperIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    wallpaperIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                    startActivity(Intent.createChooser(wallpaperIntent, getString(R.string.set_as_wallpaper)));
+                }
             }
         } catch (IOException e) {
             completeNotification(null, e);
