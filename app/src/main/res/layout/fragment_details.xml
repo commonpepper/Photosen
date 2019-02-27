@@ -161,17 +161,23 @@
             android:id="@+id/tags_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:layout_marginStart="15dp"
-            android:text="@string/tags"/>
+            android:layout_marginTop="5dp"
+            android:text="@string/tags" />
 
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/details_chip_group"
+        <com.google.android.flexbox.FlexboxLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp">
+            app:justifyContent="space_between"
+            app:alignContent="space_between"
+            app:alignItems="center">
 
-        </com.google.android.material.chip.ChipGroup>
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/details_chip_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp" />
+        </com.google.android.flexbox.FlexboxLayout>
 
 
     </LinearLayout>

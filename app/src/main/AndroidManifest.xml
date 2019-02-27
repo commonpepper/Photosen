@@ -32,6 +32,8 @@
             android:windowSoftInputMode="stateAlwaysHidden"
             android:launchMode="singleTop"/>
         <activity android:name=".ui.activities.SinglePhotoActivity" />
+        <activity android:name=".ui.activities.AboutActivity"
+            android:launchMode="singleTop"/>
 
         <service android:name=".network.DownloadService" />
 

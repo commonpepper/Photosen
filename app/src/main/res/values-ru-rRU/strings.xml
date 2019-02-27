@@ -33,4 +33,5 @@
         <item quantity="many">%1$d просмотров</item>
         <item quantity="other">%1$d просмотров</item>
     </plurals>
+    <string name="about">О приложении</string>
 </resources>
