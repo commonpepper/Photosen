@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,13 +19,17 @@ import com.commonpepper.photosen.network.model.Photo;
 import com.commonpepper.photosen.network.model.PhotoDetails;
 import com.commonpepper.photosen.network.model.PhotoSizes;
 import com.commonpepper.photosen.ui.activities.SearchActivity;
-import com.commonpepper.photosen.ui.activities.SinglePhotoActivity;
 import com.commonpepper.photosen.ui.viewmodels.PhotoDetailsViewModelFactory;
+import com.google.android.flexbox.AlignItems;
+import com.google.android.flexbox.FlexDirection;
+import com.google.android.flexbox.FlexboxLayout;
+import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
-import com.google.android.material.chip.ChipGroup;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -54,7 +59,7 @@ public class PhotoDetailsFragment extends Fragment {
     private TextView textViewHeigth;
     private TextView textViewDate;
     private Photo photo;
-    private ChipGroup chipGroup;
+    private FlexboxLayout flexbox, flexboxLast;
     private TextView tagsLabel;
     private PhotoDetails details;
     private MutableLiveData<PhotoSizes> photoSizes = new MutableLiveData<>();
@@ -100,7 +105,8 @@ public class PhotoDetailsFragment extends Fragment {
         textViewWidth = view.findViewById(R.id.single_image_width);
         textViewHeigth = view.findViewById(R.id.single_image_height);
         textViewDate = view.findViewById(R.id.single_image_date);
-        chipGroup = view.findViewById(R.id.details_chip_group);
+        flexbox = view.findViewById(R.id.flexbox);
+        flexboxLast = view.findViewById(R.id.flexboxLast);
         tagsLabel = view.findViewById(R.id.tags_label);
 
         showRunning();
@@ -165,20 +171,24 @@ public class PhotoDetailsFragment extends Fragment {
         if (tags.isEmpty()) {
             tagsLabel.setVisibility(View.GONE);
         }
+
+        List<Chip> chips = new ArrayList<>();
         for (PhotoDetails.PhotoBean.TagsBean.TagBean tag : tags) {
             Chip chip = new Chip(getContext());
             chip.setTransitionName("sharedChip");
             chip.setText(tag.getRaw());
-            chip.setLayoutDirection(View.LAYOUT_DIRECTION_LOCALE);
-            chipGroup.addView(chip);
             chip.setOnClickListener(v -> {
                 Intent intent = new Intent(PhotoDetailsFragment.this.getContext(), SearchActivity.class);
                 intent.putExtra(SearchActivity.TAG_SEARCHTAG, tag.getRaw());
-                Bundle options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity)PhotoDetailsFragment.this.getContext(),
+                Bundle options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) PhotoDetailsFragment.this.getContext(),
                         chip, "sharedChip").toBundle();
                 ActivityCompat.startActivity(PhotoDetailsFragment.this.getContext(), intent, options);
             });
+
+            chips.add(chip);
         }
+
+        simpleBinPack(chips);
     }
 
     private void showFailed() {
@@ -191,5 +201,41 @@ public class PhotoDetailsFragment extends Fragment {
 
     public LiveData<PhotoSizes> getLiveSizes() {
         return photoSizes;
+    }
+
+    private void simpleBinPack(List<Chip> chips) {
+        List<List<Chip>> containers = new ArrayList<>();
+        List<Integer> freeSpace = new ArrayList<>();
+
+        Collections.sort(chips, (x, y) -> -(Integer.compare(x.getChipDrawable().getIntrinsicWidth(),
+                y.getChipDrawable().getIntrinsicWidth())));
+
+        for (Chip chip : chips) {
+            int chipWidth = chip.getChipDrawable().getIntrinsicWidth();
+            int resultingContainer = -1;
+            for (int i = 0; i < containers.size(); i++) {
+                if (chipWidth < freeSpace.get(i)) {
+                    resultingContainer = i;
+                }
+            }
+            if (resultingContainer != -1) {
+                containers.get(resultingContainer).add(chip);
+                freeSpace.set(resultingContainer, freeSpace.get(resultingContainer) - chipWidth);
+            } else {
+                ArrayList<Chip> newContainer = new ArrayList<>();
+                newContainer.add(chip);
+                containers.add(newContainer);
+                freeSpace.add(getContext().getResources().getDisplayMetrics().widthPixels - chipWidth);
+            }
+        }
+
+        for (int i =0; i < containers.size() - 1; i++) {
+            for (Chip chip : containers.get(i)) {
+                flexbox.addView(chip);
+            }
+        }
+        for (Chip chip : containers.get(containers.size() - 1)) {
+            flexboxLast.addView(chip);
+        }
     }
 }
