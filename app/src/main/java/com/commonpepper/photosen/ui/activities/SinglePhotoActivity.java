@@ -126,6 +126,8 @@ public class SinglePhotoActivity extends AbstractNavActivity {
 
         if (id == R.id.single_image_open_in_browser) {
             openInBrowser(PHOTOS_URL + photo.getOwner() + "/" + photo.getId());
+        } else if (id == R.id.single_image_share) {
+            shareUrl(PHOTOS_URL + photo.getOwner() + "/" + photo.getId());
         }
 
         return super.onOptionsItemSelected(item);
@@ -156,6 +158,19 @@ public class SinglePhotoActivity extends AbstractNavActivity {
             if (action != null) downloadPhoto();
         } else {
             Toast.makeText(this, getString(R.string.no_permisson), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void shareUrl(String url) {
+        if(photo != null) {
+            Intent share = new Intent(Intent.ACTION_SEND);
+            share.setType("text/plain");
+            share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+            share.putExtra(Intent.EXTRA_SUBJECT, R.string.flickr_image);
+            share.putExtra(Intent.EXTRA_TEXT, url);
+
+            startActivity(Intent.createChooser(share, getString(R.string.share_with)));
         }
     }
 

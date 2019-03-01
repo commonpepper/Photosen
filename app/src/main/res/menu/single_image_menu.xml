@@ -7,4 +7,10 @@
         android:title="@string/open_in_browser"
         android:icon="@drawable/baseline_open_in_browser_24"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/single_image_share"
+        android:orderInCategory="101"
+        android:title="@string/share"
+        android:icon="@drawable/ic_share_white_24dp"
+        app:showAsAction="ifRoom" />
 </menu>

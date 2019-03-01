@@ -35,4 +35,11 @@
     </plurals>
     <string name="about">О приложении</string>
     <string name="version">Версия</string>
+    <string name="photos_provided_by_flickr_com">Фотографии предоставлены flickr.com</string>
+    <string name="support_development">Поддержать разработку</string>
+    <string name="rate">Оценить</string>
+    <string name="if_you_like_photosen_rate_it_on_play_store">Если вам нравится Photosen, оцените приложение в Google Play</string>
+    <string name="share_with">Поделиться с помощью</string>
+    <string name="flickr_image">Картинка с Flickr</string>
+    <string name="share">Поделиться</string>
 </resources>
