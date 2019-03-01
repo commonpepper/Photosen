@@ -34,4 +34,5 @@
         <item quantity="other">%1$d просмотров</item>
     </plurals>
     <string name="about">О приложении</string>
+    <string name="version">Версия</string>
 </resources>

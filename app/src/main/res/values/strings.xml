@@ -21,6 +21,9 @@
     <string name="popular">Popular</string>
     <string name="now">now</string>
     <string name="about">About</string>
+    <string name="version">Version</string>
+    <string name="github" translatable="false">Github</string>
+    <string name="github_link" translatable="false">github.com/commonpepper/photosen</string>
     <plurals name="x_pixels">
         <item quantity="zero">%1$d pixels</item>
         <item quantity="one">%1$d pixel</item>
