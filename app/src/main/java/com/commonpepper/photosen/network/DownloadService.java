@@ -12,7 +12,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 
 import com.commonpepper.photosen.Photosen;
 import com.commonpepper.photosen.R;
@@ -39,7 +38,7 @@ public class DownloadService extends IntentService {
 
     public enum Aciton {
         DOWNLOAD_ONLY,
-        WALLPAPER;
+        WALLPAPER
     }
 
     public static final String TAG_URL = "url";
@@ -47,7 +46,8 @@ public class DownloadService extends IntentService {
     public static final String TAG_ACTION = "action";
 
     private static final String CHANNEL_ID = "download_channel_id";
-    public static final int NOTIFICATION_ID = 98732517;
+    public static final int FOREGROUND_ID = 98732517;
+    public static final int NOTIFY_ID = 98732518;
 
     private String filename;
     private Aciton aciton;
@@ -73,15 +73,14 @@ public class DownloadService extends IntentService {
         builder = new NotificationCompat.Builder(this, CHANNEL_ID);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && mgr.getNotificationChannel(CHANNEL_ID) == null) {
-
             NotificationChannel c = new NotificationChannel(CHANNEL_ID, "Photosen", NotificationManager.IMPORTANCE_DEFAULT);
 
             mgr.createNotificationChannel(c);
         }
 
-        startForeground(NOTIFICATION_ID, buildForegroundNotification());
+        startForeground(FOREGROUND_ID, buildForegroundNotification());
 
-        String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+        String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
                 .getPath() + File.separator + filename;
 
         try {
@@ -135,10 +134,11 @@ public class DownloadService extends IntentService {
                 }
             }
 
-            completeNotification(path, null);
+            completeNotification(uri, null);
         } catch (IOException e) {
             completeNotification(null, e);
         } finally {
+            mgr.cancel(FOREGROUND_ID); //on some devices stopForeground don't remove notification
             stopForeground(true);
         }
     }
@@ -155,10 +155,10 @@ public class DownloadService extends IntentService {
                 .setSmallIcon(android.R.drawable.stat_sys_download)
                 .setProgress(total, current, false);
 
-        mgr.notify(NOTIFICATION_ID, builder.build());
+        mgr.notify(FOREGROUND_ID, builder.build());
     }
 
-    private void completeNotification(String path, Exception e) {
+    private void completeNotification(Uri uri, Exception e) {
         builder.setAutoCancel(true).setOngoing(false).setWhen(System.currentTimeMillis()).setProgress(0, 0, false);
 
         if (e == null) {
@@ -167,11 +167,11 @@ public class DownloadService extends IntentService {
                     .setSmallIcon(android.R.drawable.stat_sys_download_done);
 
             Intent intent = new Intent(Intent.ACTION_VIEW);
-            Uri pathUri = Uri.parse(path);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             Intent chooser = Intent.createChooser(intent, getString(R.string.open_file_with));
-            intent.setDataAndType(pathUri, "image/*");
-
+            intent.setDataAndType(uri, "image/*");
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
             PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, chooser, PendingIntent.FLAG_CANCEL_CURRENT);
 
             builder.setContentIntent(pendingIntent);
@@ -181,7 +181,7 @@ public class DownloadService extends IntentService {
                     .setSmallIcon(android.R.drawable.stat_notify_error);
         }
 
-        mgr.notify(NOTIFICATION_ID, builder.build());
+        mgr.notify(NOTIFY_ID, builder.build());
     }
 
     private Notification buildForegroundNotification() {
