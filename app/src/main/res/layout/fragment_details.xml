@@ -166,17 +166,11 @@
             android:layout_marginTop="5dp"
             android:text="@string/tags" />
 
-        <com.google.android.flexbox.FlexboxLayout
-            android:id="@+id/flexbox"
+        <LinearLayout
+            android:id="@+id/single_photo_tags_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:flexWrap="wrap"
-            app:justifyContent="space_around"/>
-        <com.google.android.flexbox.FlexboxLayout
-            android:id="@+id/flexboxLast"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:flexWrap="wrap"/>
+            android:orientation="vertical"/>
 
 
     </LinearLayout>

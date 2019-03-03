@@ -22,8 +22,10 @@ import com.commonpepper.photosen.ui.activities.SearchActivity;
 import com.commonpepper.photosen.ui.viewmodels.PhotoDetailsViewModelFactory;
 import com.google.android.flexbox.AlignItems;
 import com.google.android.flexbox.FlexDirection;
+import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayout;
 import com.google.android.flexbox.FlexboxLayoutManager;
+import com.google.android.flexbox.JustifyContent;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
 import com.squareup.picasso.Picasso;
@@ -59,7 +61,7 @@ public class PhotoDetailsFragment extends Fragment {
     private TextView textViewHeigth;
     private TextView textViewDate;
     private Photo photo;
-    private FlexboxLayout flexbox, flexboxLast;
+    private LinearLayout tagsLayout;
     private TextView tagsLabel;
     private PhotoDetails details;
     private MutableLiveData<PhotoSizes> photoSizes = new MutableLiveData<>();
@@ -105,8 +107,7 @@ public class PhotoDetailsFragment extends Fragment {
         textViewWidth = view.findViewById(R.id.single_image_width);
         textViewHeigth = view.findViewById(R.id.single_image_height);
         textViewDate = view.findViewById(R.id.single_image_date);
-        flexbox = view.findViewById(R.id.flexbox);
-        flexboxLast = view.findViewById(R.id.flexboxLast);
+        tagsLayout = view.findViewById(R.id.single_photo_tags_layout);
         tagsLabel = view.findViewById(R.id.tags_label);
 
         showRunning();
@@ -229,13 +230,34 @@ public class PhotoDetailsFragment extends Fragment {
             }
         }
 
-        for (int i =0; i < containers.size() - 1; i++) {
-            for (Chip chip : containers.get(i)) {
+        if (containers.size() > 0) {
+            for (int i = 0; i < containers.size() - 1; i++) {
+//                Log.d("CONTAINER SIZE:", "" + containers.get(i).size());
+                FlexboxLayout flexbox = getNewFlexbox();
+                flexbox.setJustifyContent(JustifyContent.SPACE_AROUND);
+                for (Chip chip : containers.get(i)) {
+                    flexbox.addView(chip);
+                }
+                tagsLayout.addView(flexbox);
+            }
+            //last row
+            FlexboxLayout flexbox = getNewFlexbox();
+            flexbox.setJustifyContent(JustifyContent.FLEX_START);
+            for (Chip chip : containers.get(containers.size() - 1)) {
                 flexbox.addView(chip);
             }
+            tagsLayout.addView(flexbox);
         }
-        for (Chip chip : containers.get(containers.size() - 1)) {
-            flexboxLast.addView(chip);
-        }
+    }
+
+    private FlexboxLayout getNewFlexbox() {
+        FlexboxLayout flexbox = new FlexboxLayout(getContext());
+        FlexboxLayout.LayoutParams params = new FlexboxLayout.LayoutParams(
+                FlexboxLayout.LayoutParams.MATCH_PARENT,
+                FlexboxLayout.LayoutParams.WRAP_CONTENT);
+        params.setLayoutDirection(FlexDirection.ROW);
+        flexbox.setLayoutParams(params);
+        flexbox.setFlexWrap(FlexWrap.NOWRAP);
+        return flexbox;
     }
 }
