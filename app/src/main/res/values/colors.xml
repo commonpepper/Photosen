@@ -7,4 +7,5 @@
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorRed">#990000</color>
     <color name="colorHint">#868686</color>
+    <color name="backgroundPreviewColor">#212121</color>
 </resources>

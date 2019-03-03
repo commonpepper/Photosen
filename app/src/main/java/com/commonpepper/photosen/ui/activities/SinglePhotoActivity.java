@@ -99,6 +99,13 @@ public class SinglePhotoActivity extends AbstractNavActivity {
             photoSizes = x;
             showFAB(fabDownload);
             showFAB(fabSetWallpaper);
+            imageView.setOnClickListener(v -> {
+                List<PhotoSizes.SizesBean.SizeBean> sizes = photoSizes.getSizes().getSize();
+                String url = sizes.get(sizes.size() - 1).getSource();
+                Intent intent = new Intent(SinglePhotoActivity.this, PreviewActivity.class);
+                intent.putExtra(PreviewActivity.TAG_URL, url);
+                startActivity(intent);
+            });
         });
     }
 
@@ -109,9 +116,9 @@ public class SinglePhotoActivity extends AbstractNavActivity {
     }
 
     private void openInBrowser(String url) {
-        Intent i = new Intent(Intent.ACTION_VIEW);
-        i.setData(Uri.parse(url));
-        startActivity(i);
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(url));
+        startActivity(intent);
     }
 
     @Override
