@@ -11,10 +11,12 @@ public class SearchFragmentViewModelFactory implements ViewModelProvider.Factory
 
     private String query;
     private String tags;
+    private String sort;
 
-    public SearchFragmentViewModelFactory(String query, String tags) {
+    public SearchFragmentViewModelFactory(String query, String tags, String sort) {
         this.query = query;
         this.tags = tags;
+        this.sort = sort;
     }
 
     @NonNull
@@ -27,7 +29,7 @@ public class SearchFragmentViewModelFactory implements ViewModelProvider.Factory
 
         @Override
         public SearchListDataSourceFactory createDataSourceFactory() {
-            return new SearchListDataSourceFactory(query, tags);
+            return new SearchListDataSourceFactory(query, tags, sort);
         }
     }
 

@@ -7,8 +7,17 @@ import androidx.lifecycle.ViewModel;
 
 public class SearchActivityViewModel extends ViewModel {
     private Set<String> tags = new HashSet<>();
+    private String queue;
 
     public SearchActivityViewModel() {
+    }
+
+    public void setQueue(String queue) {
+        this.queue = queue;
+    }
+
+    public String getQueue() {
+        return queue;
     }
 
     public Set<String> getTags() {

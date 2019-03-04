@@ -42,4 +42,6 @@
     <string name="share_with">Поделиться с помощью</string>
     <string name="flickr_image">Картинка с Flickr</string>
     <string name="share">Поделиться</string>
+    <string name="latest">Latest</string>
+    <string name="most_viewed">Most viewed</string>
 </resources>

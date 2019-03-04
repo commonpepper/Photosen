@@ -31,6 +31,8 @@
     <string name="share_with">Share with</string>
     <string name="flickr_image">Flickr image</string>
     <string name="share">Share</string>
+    <string name="latest">Latest</string>
+    <string name="most_viewed">Most viewed</string>
     <plurals name="x_pixels">
         <item quantity="zero">%1$d pixels</item>
         <item quantity="one">%1$d pixel</item>

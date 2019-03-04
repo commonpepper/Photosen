@@ -80,7 +80,7 @@ public class DownloadService extends IntentService {
 
         startForeground(FOREGROUND_ID, buildForegroundNotification());
 
-        String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+        String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
                 .getPath() + File.separator + filename;
 
         try {

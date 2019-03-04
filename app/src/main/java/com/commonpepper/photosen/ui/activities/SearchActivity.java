@@ -11,17 +11,20 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.commonpepper.photosen.R;
+import com.commonpepper.photosen.ui.adapters.MyPagerAdapter;
 import com.commonpepper.photosen.ui.fragments.SearchListFragment;
 import com.commonpepper.photosen.ui.viewmodels.SearchActivityViewModel;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.viewpager.widget.ViewPager;
 
 public class SearchActivity extends AbstractNavActivity {
     public static final String TAG_SEARCHTAG = "search_tag";
@@ -31,8 +34,9 @@ public class SearchActivity extends AbstractNavActivity {
     private ChipGroup chipGroup;
     private Chip firstChip;
     private EditText inputTag;
-
-    private Set<String> tags = new HashSet<>();
+    private ViewPager viewPager;
+    private MyPagerAdapter mPagerAdapter;
+    private TabLayout tabLayout;
     private SearchActivityViewModel viewModel;
 
     @Override
@@ -40,6 +44,8 @@ public class SearchActivity extends AbstractNavActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+        viewPager = findViewById(R.id.view_pager);
+        tabLayout = findViewById(R.id.tab_layout);
         searchText = findViewById(R.id.search_edit_text);
         Toolbar toolbar = findViewById(R.id.search_toolbar);
         chipGroup = findViewById(R.id.search_chip_group);
@@ -56,17 +62,26 @@ public class SearchActivity extends AbstractNavActivity {
         navigationView.getMenu().findItem(R.id.drawer_search).setChecked(true);
         navigationView.setNavigationItemSelectedListener(this);
 
+        mPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(mPagerAdapter);
+        tabLayout.setupWithViewPager(viewPager);
+
         Intent intent = getIntent();
         String firstTag = intent.getStringExtra(TAG_SEARCHTAG);
         boolean recreated = false;
         if (savedInstanceState != null) recreated = savedInstanceState.getBoolean(TAG_RECREATED);
         viewModel = ViewModelProviders.of(this).get(SearchActivityViewModel.class);
+
         if (viewModel.getTags().size() > 0 || firstTag == null || recreated) {
             for (String tag : viewModel.getTags()) {
                 addNewChip(tag);
             }
             chipGroup.removeView(firstChip);
-            if (!recreated) getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+            if (!recreated) {
+                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+            } else {
+                doSearch();
+            }
         } else {
             viewModel.getTags().add(firstTag);
             firstChip.setText(firstTag);
@@ -75,6 +90,7 @@ public class SearchActivity extends AbstractNavActivity {
         }
 
         searchText.setOnEditorActionListener((v, actionId, event) -> {
+            viewModel.setQueue(searchText.getText().toString());
             doSearch();
             return true;
         });
@@ -85,7 +101,7 @@ public class SearchActivity extends AbstractNavActivity {
                             && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
                 if (event == null || !event.isShiftPressed()) {
                     String newTag = inputTag.getText().toString();
-                    if (newTag.length() > 0 && !tags.contains(newTag)) {
+                    if (newTag.length() > 0 && !viewModel.getTags().contains(newTag)) {
                         addNewChip(newTag);
                         viewModel.getTags().add(newTag);
                         inputTag.setText("");
@@ -132,14 +148,17 @@ public class SearchActivity extends AbstractNavActivity {
     }
 
     private void doSearch() {
-        String query = searchText.getText().toString();
-        if (query.length() == 0) query = null;
+        String query = viewModel.getQueue();
+        if (query != null && query.length() == 0) query = null;
 
         String tagsExtra = viewModel.tagsToString();
         if (query != null || tagsExtra != null) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.search_linear_layout, SearchListFragment.newInstance(query, tagsExtra))
-                    .commit();
+            tabLayout.setVisibility(View.VISIBLE);
+            SearchListFragment fragmentMostViewed = SearchListFragment.newInstance(query, tagsExtra, "interestingness-desc");
+            SearchListFragment fragmentLatest = SearchListFragment.newInstance(query, tagsExtra, "date-posted-desc");
+            mPagerAdapter.clear();
+            mPagerAdapter.addFragment(fragmentMostViewed, getString(R.string.most_viewed));
+            mPagerAdapter.addFragment(fragmentLatest, getString(R.string.latest));
 
             View view = this.getCurrentFocus();
             if (view == null) view = new View(this);
