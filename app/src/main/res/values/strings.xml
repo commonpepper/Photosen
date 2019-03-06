@@ -33,6 +33,9 @@
     <string name="share">Share</string>
     <string name="latest">Latest</string>
     <string name="most_viewed">Most viewed</string>
+    <string name="apply">Apply</string>
+    <string name="error">Error</string>
+    <string name="crop_wallpaper">Crop wallpaper</string>
     <plurals name="x_pixels">
         <item quantity="zero">%1$d pixels</item>
         <item quantity="one">%1$d pixel</item>

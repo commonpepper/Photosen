@@ -44,4 +44,7 @@
     <string name="share">Поделиться</string>
     <string name="latest">Последние</string>
     <string name="most_viewed">Популярные</string>
+    <string name="apply">Применить</string>
+    <string name="error">Ошибка</string>
+    <string name="crop_wallpaper">Установить обои</string>
 </resources>
