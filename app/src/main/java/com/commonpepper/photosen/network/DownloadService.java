@@ -120,23 +120,21 @@ public class DownloadService extends IntentService {
             Uri uri = FileProvider.getUriForFile(this, Photosen.PACKAGE_NAME + ".fileprovider", new File(path));
             sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri));
             if (aciton == Aciton.WALLPAPER) {
-//                try {
-//                    Intent wallpaperIntent = WallpaperManager.getInstance(this).getCropAndSetWallpaperIntent(uri);
-//                    wallpaperIntent.setDataAndType(uri, "image/*");
-//                    wallpaperIntent.putExtra("mimeType", "image/*");
-//                    wallpaperIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                    wallpaperIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-//                    wallpaperIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-//                    startActivity(wallpaperIntent);
-//                } catch (IllegalArgumentException e) {
-                    //can't crop and set
-                    //Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                    //WallpaperManager.getInstance(this).setBitmap(bitmap);
+                try {
+                    Intent wallpaperIntent = WallpaperManager.getInstance(this).getCropAndSetWallpaperIntent(uri);
+                    wallpaperIntent.setDataAndType(uri, "image/*");
+                    wallpaperIntent.putExtra("mimeType", "image/*");
+                    wallpaperIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    wallpaperIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    wallpaperIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                    startActivity(wallpaperIntent);
+                } catch (IllegalArgumentException e) {
+                    //can't crop and set with default methods
                     Intent myCrop = new Intent(this, CropActivity.class);
                     myCrop.putExtra(CropActivity.TAG_URISTR, uri.toString());
                     myCrop.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(myCrop);
-//                }
+                }
             }
 
             completeNotification(uri, null);

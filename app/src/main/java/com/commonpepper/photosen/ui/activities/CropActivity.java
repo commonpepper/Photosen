@@ -38,9 +38,6 @@ public class CropActivity extends AppCompatActivity {
 
         int width = WallpaperManager.getInstance(this).getDesiredMinimumWidth();
         int height = WallpaperManager.getInstance(this).getDesiredMinimumHeight();
-//        String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-//                .getPath() + File.separator + "wallpaper.jpg";
-//        wallpaperUri = FileProvider.getUriForFile(this, Photosen.PACKAGE_NAME + ".fileprovider", new File(path));
 
         String uriStr = getIntent().getStringExtra(TAG_URISTR);
         Uri sourceUri = Uri.parse(uriStr);
