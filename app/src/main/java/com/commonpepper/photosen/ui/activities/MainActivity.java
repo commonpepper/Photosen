@@ -10,6 +10,7 @@ import com.commonpepper.photosen.ui.adapters.MyPagerAdapter;
 import com.commonpepper.photosen.ui.fragments.PhotoListFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
