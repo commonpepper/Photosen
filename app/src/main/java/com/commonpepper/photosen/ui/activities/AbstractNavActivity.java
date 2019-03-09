@@ -26,6 +26,9 @@ public class AbstractNavActivity extends AppCompatActivity implements Navigation
         } else if (id == R.id.drawer_about) {
             Intent intent = new Intent(this, AboutActivity.class);
             startActivity(intent);
+        } else if (id == R.id.drawer_categories) {
+            Intent intent = new Intent(this, CategoriesActivity.class);
+            startActivity(intent);
         }
 
         if (drawerLayout != null) drawerLayout.closeDrawers();

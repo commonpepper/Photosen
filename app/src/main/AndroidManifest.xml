@@ -36,6 +36,8 @@
             android:launchMode="singleTop"/>
         <activity android:name=".ui.activities.PreviewActivity" />
         <activity android:name=".ui.activities.CropActivity" />
+        <activity android:name=".ui.activities.CategoriesActivity"
+            android:launchMode="singleTop"/>
 
         <service android:name=".network.DownloadService" />
 

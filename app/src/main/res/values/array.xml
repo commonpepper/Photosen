@@ -11,4 +11,54 @@
         <item name="primary200" type="color">#b39ddb</item>
         <item name="primary100" type="color">#d1c4e9</item>
     </array>
+    <string-array name="categories">
+        <item>sunset</item>
+        <item>beach</item>
+        <item>water</item>
+        <item>sky</item>
+        <item>flower</item>
+        <item>nature</item>
+        <item>blue</item>
+        <item>night</item>
+        <item>white</item>
+        <item>tree</item>
+        <item>green</item>
+        <item>flowers</item>
+        <item>portrait</item>
+        <item>light</item>
+        <item>snow</item>
+        <item>dog</item>
+        <item>sun</item>
+        <item>clouds</item>
+        <item>cat</item>
+        <item>park</item>
+        <item>winter</item>
+        <item>landscape</item>
+        <item>street</item>
+        <item>summer</item>
+        <item>sea</item>
+        <item>city</item>
+        <item>trees</item>
+        <item>yellow</item>
+        <item>lake</item>
+        <item>christmas</item>
+        <item>people</item>
+        <item>bridge</item>
+        <item>family</item>
+        <item>bird</item>
+        <item>river</item>
+        <item>pink</item>
+        <item>house</item>
+        <item>car</item>
+        <item>food</item>
+        <item>art</item>
+        <item>old</item>
+        <item>macro</item>
+        <item>music</item>
+        <item>new</item>
+        <item>moon</item>
+        <item>orange</item>
+        <item>garden</item>
+        <item>blackandwhite</item>
+    </string-array>
 </resources>

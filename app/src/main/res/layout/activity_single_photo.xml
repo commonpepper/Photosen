@@ -77,7 +77,7 @@
             android:tint="@color/colorWhite"
             app:layout_anchor="@id/fab_download"
             app:layout_anchorGravity="top"
-            app:layout_behavior="com.commonpepper.photosen.ScrollFABBehavior" />
+            app:layout_behavior="com.commonpepper.photosen.ui.ScrollFABBehavior" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_download"
@@ -90,7 +90,7 @@
             android:tint="@color/colorWhite"
             app:layout_anchor="@+id/single_image_nested_sc"
             app:layout_anchorGravity="bottom|right|end"
-            app:layout_behavior="com.commonpepper.photosen.ScrollFABBehavior" />
+            app:layout_behavior="com.commonpepper.photosen.ui.ScrollFABBehavior" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

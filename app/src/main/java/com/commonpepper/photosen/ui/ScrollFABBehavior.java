@@ -1,10 +1,11 @@
-package com.commonpepper.photosen;
+package com.commonpepper.photosen.ui;
 
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.commonpepper.photosen.R;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
