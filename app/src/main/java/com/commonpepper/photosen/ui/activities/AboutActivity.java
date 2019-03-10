@@ -42,7 +42,11 @@ public class AboutActivity extends AbstractNavActivity {
                 findViewById(R.id.layout_about_version),
                 findViewById(R.id.layout_about_github),
                 findViewById(R.id.layout_about_flickr),
-                findViewById(R.id.layout_about_rate)
+                findViewById(R.id.layout_about_rate),
+                findViewById(R.id.layout_about_retrofit),
+                findViewById(R.id.layout_about_picasso),
+                findViewById(R.id.layout_about_photoview),
+                findViewById(R.id.layout_about_image_cropper)
         };
         for (LinearLayout r : containers) {
             r.setOnClickListener(clickListener);
@@ -76,6 +80,18 @@ public class AboutActivity extends AbstractNavActivity {
                     startActivity(new Intent(Intent.ACTION_VIEW,
                             Uri.parse("http://play.google.com/store/apps/details?id=" + Photosen.PACKAGE_NAME)));
                 }
+                break;
+            case R.id.layout_about_retrofit:
+                openUrl("https://github.com/square/retrofit");
+                break;
+            case R.id.layout_about_picasso:
+                openUrl("https://github.com/square/picasso");
+                break;
+            case R.id.layout_about_photoview:
+                openUrl("https://github.com/chrisbanes/PhotoView");
+                break;
+            case R.id.layout_about_image_cropper:
+                openUrl("https://github.com/ArthurHub/Android-Image-Cropper");
                 break;
         }
     });

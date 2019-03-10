@@ -37,6 +37,15 @@
     <string name="error">Error</string>
     <string name="crop_wallpaper">Crop wallpaper</string>
     <string name="categories">Categories</string>
+    <string name="libraries">Libraries</string>
+    <string name="retrofit" translatable="false">Retrofit</string>
+    <string name="retrofit_desc" translatable="false">Type-safe HTTP client for Android and Java by Square, Inc.</string>
+    <string name="picasso" translatable="false">Picasso</string>
+    <string name="picasso_desc" translatable="false">A powerful image downloading and caching library for Android</string>
+    <string name="photoview" translatable="false">PhotoView</string>
+    <string name="photoview_desc" translatable="false">Implementation of ImageView for Android that supports zooming, by various touch gestures.</string>
+    <string name="android_image_cropper" translatable="false">Android Image Cropper</string>
+    <string name="image_cropper_desc" translatable="false">Image Cropping Library for Android, optimized for Camera / Gallery.</string>
     <plurals name="x_pixels">
         <item quantity="zero">%1$d pixels</item>
         <item quantity="one">%1$d pixel</item>
