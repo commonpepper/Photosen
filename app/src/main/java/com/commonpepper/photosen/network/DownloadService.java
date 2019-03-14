@@ -16,6 +16,7 @@ import android.provider.MediaStore;
 import com.commonpepper.photosen.Photosen;
 import com.commonpepper.photosen.R;
 import com.commonpepper.photosen.ui.activities.CropActivity;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -35,7 +36,6 @@ public class DownloadService extends IntentService {
     public static boolean isRunning = false;
 
     private NotificationManager mgr;
-    private NotificationCompat.Builder builder;
 
     public enum Aciton {
         DOWNLOAD_ONLY,
@@ -53,6 +53,8 @@ public class DownloadService extends IntentService {
     private String filename;
     private Aciton aciton;
 
+    private FirebaseAnalytics firebaseAnalytics;
+
     public DownloadService() {
         super("PhotosenDownloadService");
     }
@@ -61,20 +63,24 @@ public class DownloadService extends IntentService {
     public void onCreate() {
         isRunning = true;
         super.onCreate();
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
     }
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
+        firebaseAnalytics.logEvent("Download_start", null);
         String urlToDownload = intent.getStringExtra(TAG_URL);
 
         filename = intent.getStringExtra(TAG_FILENAME);
         aciton = (Aciton) intent.getSerializableExtra(TAG_ACTION);
 
         mgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        builder = new NotificationCompat.Builder(this, CHANNEL_ID);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && mgr.getNotificationChannel(CHANNEL_ID) == null) {
             NotificationChannel c = new NotificationChannel(CHANNEL_ID, "Photosen", NotificationManager.IMPORTANCE_DEFAULT);
+
+            c.setSound(null, null);
+            c.enableVibration(false);
 
             mgr.createNotificationChannel(c);
         }
@@ -128,12 +134,14 @@ public class DownloadService extends IntentService {
                     wallpaperIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                     wallpaperIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                     startActivity(wallpaperIntent);
+                    firebaseAnalytics.logEvent("Crop_and_set_wallpaper_intent", null);
                 } catch (IllegalArgumentException e) {
                     //can't crop and set with default methods
                     Intent myCrop = new Intent(this, CropActivity.class);
                     myCrop.putExtra(CropActivity.TAG_URISTR, uri.toString());
                     myCrop.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(myCrop);
+                    firebaseAnalytics.logEvent("My_crop", null);
                 }
             }
 
@@ -153,6 +161,8 @@ public class DownloadService extends IntentService {
     }
 
     private void progressNotification(int total, int current) {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID);
+        builder.setOnlyAlertOnce(true);
         builder.setContentTitle(getActionString())
                 .setContentText(filename)
                 .setSmallIcon(android.R.drawable.stat_sys_download)
@@ -162,6 +172,7 @@ public class DownloadService extends IntentService {
     }
 
     private void completeNotification(Uri uri, Exception e) {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID);
         builder.setAutoCancel(true).setOngoing(false).setWhen(System.currentTimeMillis()).setProgress(0, 0, false);
 
         if (e == null) {
@@ -188,6 +199,7 @@ public class DownloadService extends IntentService {
     }
 
     private Notification buildForegroundNotification() {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID);
         builder.setOngoing(true)
                 .setContentTitle(getActionString())
                 .setContentText(filename)

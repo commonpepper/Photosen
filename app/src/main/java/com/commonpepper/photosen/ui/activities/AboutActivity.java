@@ -46,7 +46,8 @@ public class AboutActivity extends AbstractNavActivity {
                 findViewById(R.id.layout_about_retrofit),
                 findViewById(R.id.layout_about_picasso),
                 findViewById(R.id.layout_about_photoview),
-                findViewById(R.id.layout_about_image_cropper)
+                findViewById(R.id.layout_about_image_cropper),
+                findViewById(R.id.layout_about_taptargetview)
         };
         for (LinearLayout r : containers) {
             r.setOnClickListener(clickListener);
@@ -92,6 +93,9 @@ public class AboutActivity extends AbstractNavActivity {
                 break;
             case R.id.layout_about_image_cropper:
                 openUrl("https://github.com/ArthurHub/Android-Image-Cropper");
+                break;
+            case R.id.layout_about_taptargetview:
+                openUrl("https://github.com/KeepSafe/TapTargetView");
                 break;
         }
     });

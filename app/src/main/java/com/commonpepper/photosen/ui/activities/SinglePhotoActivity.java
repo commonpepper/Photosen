@@ -1,6 +1,7 @@
 package com.commonpepper.photosen.ui.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,6 +19,9 @@ import com.commonpepper.photosen.network.DownloadService;
 import com.commonpepper.photosen.network.model.Photo;
 import com.commonpepper.photosen.network.model.PhotoSizes;
 import com.commonpepper.photosen.ui.fragments.PhotoDetailsFragment;
+import com.getkeepsafe.taptargetview.TapTarget;
+import com.getkeepsafe.taptargetview.TapTargetSequence;
+import com.getkeepsafe.taptargetview.TapTargetView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.squareup.picasso.Picasso;
@@ -34,6 +38,8 @@ public class SinglePhotoActivity extends AbstractNavActivity {
 
     public static final String PHOTO_TAG = "PARCELABLE_PHOTO";
     public static final String PHOTOS_URL = "https://www.flickr.com/photos/";
+
+    private static final String PREFERENCE_FIRST_LAUNCH = "SINGLE_PHOTO_FIRST_LAUNCH";
 
     private Photo photo;
 
@@ -99,6 +105,19 @@ public class SinglePhotoActivity extends AbstractNavActivity {
             photoSizes = x;
             showFAB(fabDownload);
             showFAB(fabSetWallpaper);
+
+            SharedPreferences prefs = getSharedPreferences(Photosen.PREFERENCES, MODE_PRIVATE);
+            boolean firstLaunch = prefs.getBoolean(PREFERENCE_FIRST_LAUNCH, true);
+            if (firstLaunch) {
+                new TapTargetSequence(this).targets(
+                        TapTarget.forView(fabDownload, getString(R.string.download_fab_hint))
+                                .tintTarget(false),
+                        TapTarget.forView(fabSetWallpaper, getString(R.string.set_as_wallpaper_fab_hint))
+                                .tintTarget(false)
+                ).continueOnCancel(true).start();
+                prefs.edit().putBoolean(PREFERENCE_FIRST_LAUNCH, false).apply();
+            }
+
             imageView.setOnClickListener(v -> {
                 List<PhotoSizes.SizesBean.SizeBean> sizes = photoSizes.getSizes().getSize();
                 String url = sizes.get(sizes.size() - 1).getSource();
@@ -149,7 +168,8 @@ public class SinglePhotoActivity extends AbstractNavActivity {
             intent.putExtra(DownloadService.TAG_URL, url);
             String[] urlSplit = url.split("\\.");
             String format = urlSplit[urlSplit.length - 1];
-            if (!format.equals("jpg") && !format.equals("gif") && !format.equals("png")) format = "jpg";
+            if (!format.equals("jpg") && !format.equals("gif") && !format.equals("png"))
+                format = "jpg";
             intent.putExtra(DownloadService.TAG_FILENAME, photo.getId() + "." + format);
             intent.putExtra(DownloadService.TAG_ACTION, action);
             startService(intent);
@@ -169,7 +189,7 @@ public class SinglePhotoActivity extends AbstractNavActivity {
     }
 
     private void shareUrl(String url) {
-        if(photo != null) {
+        if (photo != null) {
             Intent share = new Intent(Intent.ACTION_SEND);
             share.setType("text/plain");
             share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);

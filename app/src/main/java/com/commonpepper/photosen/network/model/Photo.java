@@ -224,6 +224,10 @@ public class Photo implements Parcelable {
     }
 
     public String getUrl_z() {
+        if (url_z == null) {
+            return "https://farm" + getFarm() + ".staticflickr.com/" + getServer()
+                    + "/" + getId() + "_" + getSecret() + ".jpg";
+        }
         return url_z;
     }
 

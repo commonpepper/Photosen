@@ -49,4 +49,6 @@
     <string name="crop_wallpaper">Установить обои</string>
     <string name="categories">Категории</string>
     <string name="libraries">Библиотеки</string>
+    <string name="download_fab_hint">Скачать изображение в папку загрузки</string>
+    <string name="set_as_wallpaper_fab_hint">Скачать и установить обои</string>
 </resources>
