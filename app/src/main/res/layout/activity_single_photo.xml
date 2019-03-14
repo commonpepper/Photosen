@@ -22,12 +22,13 @@
                 android:theme="@style/ToolbarTheme"
                 app:layout_scrollFlags="scroll|enterAlways|snap" />
 
+
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/single_image_nested_sc"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:scrollbars="none"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
