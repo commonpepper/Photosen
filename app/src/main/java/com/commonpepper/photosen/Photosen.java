@@ -8,6 +8,7 @@ import android.os.Build;
 
 import com.commonpepper.photosen.network.KeyFormatInterceptor;
 import com.commonpepper.photosen.network.FlickrApi;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import androidx.core.app.ActivityCompat;
 import okhttp3.OkHttpClient;
@@ -22,9 +23,13 @@ public class Photosen extends Application {
     public static final String PACKAGE_NAME = "com.commonpepper.photosen";
     public static final String PREFERENCES = PACKAGE_NAME + ".PREFERENCES";
 
+    public static FirebaseAnalytics firebaseAnalytics;
+
     @Override
     public void onCreate() {
         super.onCreate();
+
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
     }
 
     public static FlickrApi getFlickrApi() {
@@ -55,5 +60,4 @@ public class Photosen extends Application {
             return true;
         }
     }
-
 }

@@ -53,8 +53,6 @@ public class DownloadService extends IntentService {
     private String filename;
     private Aciton aciton;
 
-    private FirebaseAnalytics firebaseAnalytics;
-
     public DownloadService() {
         super("PhotosenDownloadService");
     }
@@ -63,12 +61,11 @@ public class DownloadService extends IntentService {
     public void onCreate() {
         isRunning = true;
         super.onCreate();
-        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
     }
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        firebaseAnalytics.logEvent("Download_start", null);
+        Photosen.firebaseAnalytics.logEvent("Download_start", null);
         String urlToDownload = intent.getStringExtra(TAG_URL);
 
         filename = intent.getStringExtra(TAG_FILENAME);
@@ -134,14 +131,14 @@ public class DownloadService extends IntentService {
                     wallpaperIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                     wallpaperIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                     startActivity(wallpaperIntent);
-                    firebaseAnalytics.logEvent("Crop_and_set_wallpaper_intent", null);
+                    Photosen.firebaseAnalytics.logEvent("Crop_and_set_wallpaper_intent", null);
                 } catch (IllegalArgumentException e) {
                     //can't crop and set with default methods
                     Intent myCrop = new Intent(this, CropActivity.class);
                     myCrop.putExtra(CropActivity.TAG_URISTR, uri.toString());
                     myCrop.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(myCrop);
-                    firebaseAnalytics.logEvent("My_crop", null);
+                    Photosen.firebaseAnalytics.logEvent("My_crop", null);
                 }
             }
 

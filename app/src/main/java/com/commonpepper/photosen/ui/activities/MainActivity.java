@@ -10,17 +10,13 @@ import com.commonpepper.photosen.ui.adapters.MyPagerAdapter;
 import com.commonpepper.photosen.ui.fragments.PhotoListFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
 
 public class MainActivity extends AbstractNavActivity {
