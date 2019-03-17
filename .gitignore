@@ -13,3 +13,4 @@
 .externalNativeBuild
 /gradle.properties
 google-services.json
+/release_stuff
