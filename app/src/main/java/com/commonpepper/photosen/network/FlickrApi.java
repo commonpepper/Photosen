@@ -11,13 +11,13 @@ import retrofit2.http.Query;
 public interface FlickrApi {
 
     @GET("services/rest/?method=flickr.interestingness.getList" +
-            "&extras=date_taken,url_o,url_z,original_format,icon_server,owner_name,o_dims")
+            "&extras=date_taken,url_o,url_z,original_format,icon_server,owner_name,o_dims,tags")
     Call<SearchPhotos> getRecentPhotos(@Query("date") String date,
                                        @Query("page") int page,
                                        @Query("per_page") int per_page);
 
     @GET("services/rest/?method=flickr.photos.search" +
-            "&extras=date_taken,url_o,url_z,original_format,icon_server,owner_name,o_dims" +
+            "&extras=date_taken,url_o,url_z,original_format,icon_server,owner_name,o_dims,tags" +
             "&tag_mode=all")
     Call<SearchPhotos> searchPhotos(@Query("text") String text,
                                     @Query("tags") String tags,

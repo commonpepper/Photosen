@@ -2,6 +2,10 @@ package com.commonpepper.photosen.network.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
+
+import com.commonpepper.photosen.Photosen;
+import com.commonpepper.photosen.R;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
@@ -42,6 +46,23 @@ public class Photo implements Parcelable {
         }
     }
 
+    public boolean isSexuallyExplicit() {
+        String[] explicit = Photosen.getInstance().getResources().getStringArray(R.array.sexually_explicit_content_words);
+        for (String str : explicit) {
+            if (tags.toLowerCase().contains(str)) {
+                Log.d("EXPLICIT tags:", tags.toLowerCase() + " CONTAINS " + str);
+                return true;
+            }
+        }
+        for (String str : explicit) {
+            if (title.toLowerCase().contains(str)) {
+                Log.d("EXPLICIT title:", title.toLowerCase() + " CONTAINS " + str);
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * id : 47038014201
      * owner : 126497846@N03
@@ -63,6 +84,7 @@ public class Photo implements Parcelable {
      * url_z : https://farm8.staticflickr.com/7845/47038014201_a2e6e6012f_z.jpg
      * height_z : 427
      * width_z : 640
+     * + tags
      */
 
     private String id;
@@ -86,6 +108,15 @@ public class Photo implements Parcelable {
     private int height_z;
     private int width_z;
     private String owner_name;
+    private String tags;
+
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
+    }
 
     public String getId() {
         return id;
@@ -287,6 +318,7 @@ public class Photo implements Parcelable {
         dest.writeInt(this.height_z);
         dest.writeInt(this.width_z);
         dest.writeString(this.owner_name);
+        dest.writeString(this.tags);
     }
 
     public Photo() {
@@ -314,6 +346,7 @@ public class Photo implements Parcelable {
         this.height_z = in.readInt();
         this.width_z = in.readInt();
         this.owner_name = in.readString();
+        this.tags = in.readString();
     }
 
     public static final Creator<Photo> CREATOR = new Creator<Photo>() {

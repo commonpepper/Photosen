@@ -61,4 +61,18 @@
         <item>garden</item>
         <item>blackandwhite</item>
     </string-array>
+    <string-array name="sexually_explicit_content_words">
+        <item>xxx</item>
+        <item>porn</item>
+        <item>nude</item>
+        <item>naked</item>
+        <item>erotic</item>
+        <item>fuck</item>
+        <item>dick</item>
+        <item>penis</item>
+        <item>vagina</item>
+        <item>tits</item>
+        <item>sexual</item>
+        <item>sexy</item>
+    </string-array>
 </resources>

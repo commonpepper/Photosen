@@ -120,15 +120,19 @@ public class PhotoAdapter extends PagedListAdapter<Photo, RecyclerView.ViewHolde
             gd.setColor(color);
             colors.recycle();
 
-            Picasso.get().load(photo.getUrl_z()).placeholder(gd).into(mImageView);
-
-            mImageView.setOnClickListener(v -> {
-                Intent intent = new Intent(mImageView.getContext(), SinglePhotoActivity.class);
-                intent.putExtra(SinglePhotoActivity.PHOTO_TAG, photo);
-                Bundle options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity)mImageView.getContext(),
-                        mImageView, "sharedImageView").toBundle();
-                ActivityCompat.startActivity(mImageView.getContext(), intent, options);
-            });
+            if (!photo.isSexuallyExplicit()) {
+                Picasso.get().load(photo.getUrl_z()).placeholder(gd).into(mImageView);
+                mImageView.setOnClickListener(v -> {
+                    Intent intent = new Intent(mImageView.getContext(), SinglePhotoActivity.class);
+                    intent.putExtra(SinglePhotoActivity.PHOTO_TAG, photo);
+                    Bundle options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity)mImageView.getContext(),
+                            mImageView, "sharedImageView").toBundle();
+                    ActivityCompat.startActivity(mImageView.getContext(), intent, options);
+                });
+            } else {
+                mImageView.setImageDrawable(mImageView.getResources().getDrawable(R.drawable.explicit_content));
+                mImageView.setOnClickListener(v -> {});
+            }
         }
     }
 

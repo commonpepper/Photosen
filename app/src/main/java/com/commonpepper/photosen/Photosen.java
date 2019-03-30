@@ -24,12 +24,17 @@ public class Photosen extends Application {
     public static final String PREFERENCES = PACKAGE_NAME + ".PREFERENCES";
 
     public static FirebaseAnalytics firebaseAnalytics;
+    public static Photosen instance;
 
     @Override
     public void onCreate() {
         super.onCreate();
-
+        instance = this;
         firebaseAnalytics = FirebaseAnalytics.getInstance(this);
+    }
+
+    public static Photosen getInstance() {
+        return instance;
     }
 
     public static FlickrApi getFlickrApi() {
