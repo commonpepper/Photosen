@@ -10,6 +10,7 @@ import com.commonpepper.photosen.ui.adapters.MyPagerAdapter;
 import com.commonpepper.photosen.ui.fragments.PhotoListFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
+import com.vorlonsoft.android.rate.AppRate;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -63,6 +64,15 @@ public class MainActivity extends AbstractNavActivity {
         }
 
         mTabLayout.setupWithViewPager(mViewPager);
+
+        AppRate.with(this)
+                .setThemeResId(R.style.DialogTheme)
+                .setInstallDays((byte) 0)                  // default is 10, 0 means install day, 10 means app is launched 10 or more days later than installation
+                .setLaunchTimes((byte) 3)                  // default is 10, 3 means app is launched 3 or more times
+                .setRemindInterval((byte) 1)               // default is 1, 1 means app is launched 1 or more days after neutral button clicked
+                .setRemindLaunchesNumber((byte) 0)         // default is 0, 1 means app is launched 1 or more times after neutral button clicked
+                .monitor();                                // Monitors the app launch times
+        AppRate.showRateDialogIfMeetsConditions(this); // Shows the Rate Dialog when conditions are met
     }
 
     @Override
