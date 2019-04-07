@@ -47,7 +47,8 @@ public class AboutActivity extends AbstractNavActivity {
                 findViewById(R.id.layout_about_picasso),
                 findViewById(R.id.layout_about_photoview),
                 findViewById(R.id.layout_about_image_cropper),
-                findViewById(R.id.layout_about_taptargetview)
+                findViewById(R.id.layout_about_taptargetview),
+                findViewById(R.id.layout_about_androidrate)
         };
         for (LinearLayout r : containers) {
             r.setOnClickListener(clickListener);
@@ -96,6 +97,9 @@ public class AboutActivity extends AbstractNavActivity {
                 break;
             case R.id.layout_about_taptargetview:
                 openUrl("https://github.com/KeepSafe/TapTargetView");
+                break;
+            case R.id.layout_about_androidrate:
+                openUrl("https://github.com/Vorlonsoft/AndroidRate");
                 break;
         }
     });

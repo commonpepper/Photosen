@@ -46,10 +46,12 @@
     <string name="photoview_desc" translatable="false">Implementation of ImageView for Android that supports zooming, by various touch gestures.</string>
     <string name="android_image_cropper" translatable="false">Android Image Cropper</string>
     <string name="image_cropper_desc" translatable="false">Image Cropping Library for Android, optimized for Camera / Gallery.</string>
+    <string name="taptargetview" translatable="false">TapTargetView</string>
+    <string name="taptargetview_desc" translatable="false">An implementation of tap targets from the Material Design guidelines for feature discovery</string>
+    <string name="androidrate_desc" translatable="false">Rate app dialog library</string>
+    <string name="androidrate" translatable="false">AndroidRate</string>
     <string name="download_fab_hint">Download image to default folder</string>
     <string name="set_as_wallpaper_fab_hint">Download and set as wallpaper</string>
-    <string name="taptargetview">TapTargetView</string>
-    <string name="taptargetview_desc">An implementation of tap targets from the Material Design guidelines for feature discovery</string>
     <plurals name="x_pixels">
         <item quantity="zero">%1$d pixels</item>
         <item quantity="one">%1$d pixel</item>
