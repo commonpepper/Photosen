@@ -38,7 +38,7 @@
     <string name="photos_provided_by_flickr_com">Фотографии предоставлены flickr.com</string>
     <string name="support_development">Поддержать разработку</string>
     <string name="rate">Оценить</string>
-    <string name="if_you_like_photosen_rate_it_on_play_store">Если вам нравится Photosen, оцените приложение в Google Play</string>
+    <string name="if_you_like_photosen_rate_it_on_play_store">Спасибо за то, что используете приложение! Если вам нравится Photosen, пожалуйста, оцените нас в Google Play.</string>
     <string name="share_with">Поделиться с помощью</string>
     <string name="flickr_image">Картинка с Flickr</string>
     <string name="share">Поделиться</string>
@@ -51,4 +51,5 @@
     <string name="libraries">Библиотеки</string>
     <string name="download_fab_hint">Скачать изображение в папку загрузки</string>
     <string name="set_as_wallpaper_fab_hint">Скачать и установить обои</string>
+    <string name="relevant">Релевантные</string>
 </resources>

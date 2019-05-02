@@ -13,6 +13,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+
 import com.commonpepper.photosen.Photosen;
 import com.commonpepper.photosen.R;
 import com.commonpepper.photosen.network.DownloadService;
@@ -21,17 +26,11 @@ import com.commonpepper.photosen.network.model.PhotoSizes;
 import com.commonpepper.photosen.ui.fragments.PhotoDetailsFragment;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetSequence;
-import com.getkeepsafe.taptargetview.TapTargetView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 public class SinglePhotoActivity extends AbstractNavActivity {
     private static final String TAG = SinglePhotoActivity.class.getSimpleName();

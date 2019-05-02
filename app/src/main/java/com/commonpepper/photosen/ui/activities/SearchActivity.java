@@ -154,9 +154,11 @@ public class SearchActivity extends AbstractNavActivity {
         String tagsExtra = viewModel.tagsToString();
         if (query != null || tagsExtra != null) {
             tabLayout.setVisibility(View.VISIBLE);
-            SearchListFragment fragmentMostViewed = SearchListFragment.newInstance(query, tagsExtra, "relevance");
+            SearchListFragment fragmentRelevant = SearchListFragment.newInstance(query, tagsExtra, "relevance");
+            SearchListFragment fragmentMostViewed = SearchListFragment.newInstance(query, tagsExtra, "interestingness-desc");
             SearchListFragment fragmentLatest = SearchListFragment.newInstance(query, tagsExtra, "date-posted-desc");
             mPagerAdapter.clear();
+            mPagerAdapter.addFragment(fragmentRelevant, getString(R.string.relevant));
             mPagerAdapter.addFragment(fragmentMostViewed, getString(R.string.most_viewed));
             mPagerAdapter.addFragment(fragmentLatest, getString(R.string.latest));
 

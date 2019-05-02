@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,27 +11,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import com.commonpepper.photosen.R;
-import com.commonpepper.photosen.network.NetworkState;
-import com.commonpepper.photosen.network.model.Photo;
-import com.commonpepper.photosen.network.model.PhotoDetails;
-import com.commonpepper.photosen.network.model.PhotoSizes;
-import com.commonpepper.photosen.ui.activities.SearchActivity;
-import com.commonpepper.photosen.ui.viewmodels.PhotoDetailsViewModelFactory;
-import com.google.android.flexbox.AlignItems;
-import com.google.android.flexbox.FlexDirection;
-import com.google.android.flexbox.FlexWrap;
-import com.google.android.flexbox.FlexboxLayout;
-import com.google.android.flexbox.FlexboxLayoutManager;
-import com.google.android.flexbox.JustifyContent;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.chip.Chip;
-import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -42,6 +20,25 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProviders;
+
+import com.commonpepper.photosen.R;
+import com.commonpepper.photosen.network.NetworkState;
+import com.commonpepper.photosen.network.model.Photo;
+import com.commonpepper.photosen.network.model.PhotoDetails;
+import com.commonpepper.photosen.network.model.PhotoSizes;
+import com.commonpepper.photosen.ui.activities.SearchActivity;
+import com.commonpepper.photosen.ui.viewmodels.PhotoDetailsViewModelFactory;
+import com.google.android.flexbox.FlexDirection;
+import com.google.android.flexbox.FlexWrap;
+import com.google.android.flexbox.FlexboxLayout;
+import com.google.android.flexbox.JustifyContent;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.chip.Chip;
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class PhotoDetailsFragment extends Fragment {
     private static final String TAG_PHOTO = "photo";

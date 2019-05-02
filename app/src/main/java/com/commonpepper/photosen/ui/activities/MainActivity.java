@@ -5,6 +5,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.viewpager.widget.ViewPager;
+
 import com.commonpepper.photosen.R;
 import com.commonpepper.photosen.ui.adapters.MyPagerAdapter;
 import com.commonpepper.photosen.ui.fragments.PhotoListFragment;
@@ -15,10 +19,6 @@ import com.vorlonsoft.android.rate.AppRate;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.viewpager.widget.ViewPager;
 
 public class MainActivity extends AbstractNavActivity {
 
@@ -66,6 +66,7 @@ public class MainActivity extends AbstractNavActivity {
         mTabLayout.setupWithViewPager(mViewPager);
 
         AppRate.with(this)
+                .setMessage(R.string.if_you_like_photosen_rate_it_on_play_store)
                 .setThemeResId(R.style.DialogTheme)
                 .setInstallDays((byte) 0)                  // default is 10, 0 means install day, 10 means app is launched 10 or more days later than installation
                 .setLaunchTimes((byte) 3)                  // default is 10, 3 means app is launched 3 or more times

@@ -27,7 +27,7 @@
     <string name="photos_provided_by_flickr_com">Photos provided by flickr.com</string>
     <string name="support_development">Support development</string>
     <string name="rate">Rate</string>
-    <string name="if_you_like_photosen_rate_it_on_play_store">If you like Photosen, rate it on Google Play</string>
+    <string name="if_you_like_photosen_rate_it_on_play_store">Thanks for using this app! If you like Photosen, please, rate it on Google Play.</string>
     <string name="share_with">Share with</string>
     <string name="flickr_image">Flickr image</string>
     <string name="share">Share</string>
@@ -52,6 +52,7 @@
     <string name="androidrate" translatable="false">AndroidRate</string>
     <string name="download_fab_hint">Download image to default folder</string>
     <string name="set_as_wallpaper_fab_hint">Download and set as wallpaper</string>
+    <string name="relevant">Relevant</string>
     <plurals name="x_pixels">
         <item quantity="zero">%1$d pixels</item>
         <item quantity="one">%1$d pixel</item>
