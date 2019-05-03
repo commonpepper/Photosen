@@ -48,6 +48,7 @@ dependencies {
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
     implementation 'com.getkeepsafe.taptargetview:taptargetview:1.12.0'
     implementation 'com.vorlonsoft:androidrate:1.2.1'
+    implementation 'com.github.AppIntro:AppIntro:5.1.0'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.1'

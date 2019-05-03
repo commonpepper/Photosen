@@ -52,4 +52,15 @@
     <string name="download_fab_hint">Скачать изображение в папку загрузки</string>
     <string name="set_as_wallpaper_fab_hint">Скачать и установить обои</string>
     <string name="relevant">Релевантные</string>
+    <string name="welcome">Добро пожаловать!</string>
+    <string name="welcome_desc">Это небольшое вступление продемонстрирует вам основные возможности приложения.</string>
+    <string name="intro_navigation">Основное меню</string>
+    <string name="intro_navigation_desc">Доступно на любом экране приложения слайдом слева.</string>
+    <string name="intro_categories">Категории</string>
+    <string name="intro_categories_desc">Попробуйте самые популярные категории на flickr. Доступны из меню.</string>
+    <string name="intro_search">Поиск</string>
+    <string name="intro_search_desc">Находится в меню и на экране с популярными фото.</string>
+    <string name="intro_rate_the_app">Оценить приложение!</string>
+    <string name="intro_support_development">Поддержите разработку!</string>
+    <string name="intro_support_desc">Photosen полностью бесплатен и не содержит рекламы, поэтому ваш отзыв - это очень важно для меня. Оценить приложение можно в любое время, выбрав пункт в меню \"О программе\". Спасибо!</string>
 </resources>

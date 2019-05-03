@@ -53,6 +53,19 @@
     <string name="download_fab_hint">Download image to default folder</string>
     <string name="set_as_wallpaper_fab_hint">Download and set as wallpaper</string>
     <string name="relevant">Relevant</string>
+    <string name="appintro" translatable="false">AppIntro</string>
+    <string name="make_a_cool_intro_for_your_android_app" translatable="false">Make a cool intro for your Android app.</string>
+    <string name="welcome">Welcome!</string>
+    <string name="welcome_desc">This short intro will provide you throw main functionality of the app.</string>
+    <string name="intro_navigation">Navigation menu</string>
+    <string name="intro_navigation_desc">It is available by sliding from the left of any app screen except this one.</string>
+    <string name="intro_categories">Categories</string>
+    <string name="intro_categories_desc">Try most popular categories of images, available from the menu.</string>
+    <string name="intro_search">Search</string>
+    <string name="intro_search_desc">It is available from the menu and \"Popular\" screen.</string>
+    <string name="intro_rate_the_app">Rate the app!</string>
+    <string name="intro_support_development">Support development!</string>
+    <string name="intro_support_desc">Photosen is completly free and doesn\'t show ads, so your review is very-very important for me. You can do it later by clicking \"About\" in the menu. Thank you!</string>
     <plurals name="x_pixels">
         <item quantity="zero">%1$d pixels</item>
         <item quantity="one">%1$d pixel</item>

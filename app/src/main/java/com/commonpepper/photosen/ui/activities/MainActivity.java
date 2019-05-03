@@ -1,14 +1,12 @@
 package com.commonpepper.photosen.ui.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.viewpager.widget.ViewPager;
-
+import com.commonpepper.photosen.Photosen;
 import com.commonpepper.photosen.R;
 import com.commonpepper.photosen.ui.adapters.MyPagerAdapter;
 import com.commonpepper.photosen.ui.fragments.PhotoListFragment;
@@ -20,16 +18,46 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.viewpager.widget.ViewPager;
+
 public class MainActivity extends AbstractNavActivity {
 
     private Toolbar mToolbar;
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
     private MyPagerAdapter mPagerAdapter;
+    private static final String PREFERENCE_FIRST_LAUNCH = "MAIN_FIRST_LAUNCH";
+
+    private static final int FRAGMENTS_NUM = 7;
+    private PhotoListFragment[] photoListFragments = new PhotoListFragment[FRAGMENTS_NUM];
+
+    /**
+     * Used when IntroActivity closes
+     * @param intent
+     */
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (intent.getBooleanExtra(IntroActivity.SCROLL_TO_TOP, false)) {
+            photoListFragments[0].scrollToTop();
+            photoListFragments[1].scrollToTop();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences prefs = getSharedPreferences(Photosen.PREFERENCES, MODE_PRIVATE);
+        boolean firstLaunch = prefs.getBoolean(PREFERENCE_FIRST_LAUNCH, true);
+        if (firstLaunch) {
+            Intent intent = new Intent(this, IntroActivity.class);
+            startActivity(intent);
+//            prefs.edit().putBoolean(PREFERENCE_FIRST_LAUNCH, false).apply();
+        }
+
         setContentView(R.layout.activity_main);
 
         mToolbar = findViewById(R.id.toolbar);
@@ -49,17 +77,17 @@ public class MainActivity extends AbstractNavActivity {
         mPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mPagerAdapter);
 
-        PhotoListFragment popularNowPhotoFragment = PhotoListFragment.newInstance(null);
-        mPagerAdapter.addFragment(popularNowPhotoFragment, getString(R.string.popular) + " " + getString(R.string.now));
+        photoListFragments[0] = PhotoListFragment.newInstance(null);
+        mPagerAdapter.addFragment(photoListFragments[0], getString(R.string.popular) + " " + getString(R.string.now));
 
         DateFormat dateFormatApi = new SimpleDateFormat("yyyy-MM-dd");
         DateFormat dateFormatTitle = new SimpleDateFormat("dd.MM");
         final Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, -1);
-        for (int i = 0; i < 7; i++) {
+        for (int i = 1; i < FRAGMENTS_NUM; i++) {
             cal.add(Calendar.DATE, -1);
-            PhotoListFragment latestPhotoFragment = PhotoListFragment.newInstance(dateFormatApi.format(cal.getTime()));
-            mPagerAdapter.addFragment(latestPhotoFragment, getString(R.string.popular) + " "
+            photoListFragments[i] = PhotoListFragment.newInstance(dateFormatApi.format(cal.getTime()));
+            mPagerAdapter.addFragment(photoListFragments[i], getString(R.string.popular) + " "
                     + dateFormatTitle.format(cal.getTime()));
         }
 
@@ -69,7 +97,7 @@ public class MainActivity extends AbstractNavActivity {
                 .setMessage(R.string.if_you_like_photosen_rate_it_on_play_store)
                 .setThemeResId(R.style.DialogTheme)
                 .setInstallDays((byte) 0)                  // default is 10, 0 means install day, 10 means app is launched 10 or more days later than installation
-                .setLaunchTimes((byte) 3)                  // default is 10, 3 means app is launched 3 or more times
+                .setLaunchTimes((byte) 4)                  // default is 10, 3 means app is launched 3 or more times
                 .setRemindInterval((byte) 1)               // default is 1, 1 means app is launched 1 or more days after neutral button clicked
                 .setRemindLaunchesNumber((byte) 0)         // default is 0, 1 means app is launched 1 or more times after neutral button clicked
                 .monitor();                                // Monitors the app launch times
