@@ -20,6 +20,7 @@ public class Photosen extends Application {
     public static final String API_URL = "https://api.flickr.com/";
 
     public static final int PAGE_SIZE = 30;
+    public static final int PREFETCH_DISTANCE = 5;
     public static final String PACKAGE_NAME = "com.commonpepper.photosen";
     public static final String PREFERENCES = PACKAGE_NAME + ".PREFERENCES";
 

@@ -23,7 +23,7 @@ public abstract class AbstractListFragmentViewModel<T> extends ViewModel {
         PagedList.Config config = new PagedList.Config.Builder()
                 .setEnablePlaceholders(false)
                 .setPageSize(Photosen.PAGE_SIZE)
-                .setPrefetchDistance(Photosen.PAGE_SIZE)
+                .setPrefetchDistance(Photosen.PREFETCH_DISTANCE)
                 .setInitialLoadSizeHint(Photosen.PAGE_SIZE)
                 .build();
 
@@ -33,7 +33,6 @@ public abstract class AbstractListFragmentViewModel<T> extends ViewModel {
         photosList = new LivePagedListBuilder<>(dataSourceFactory, config)
                 .setFetchExecutor(Executors.newSingleThreadExecutor())
                 .build();
-
     }
 
     public LiveData<NetworkState> getNetworkState() {
