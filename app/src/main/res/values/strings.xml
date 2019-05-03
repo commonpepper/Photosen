@@ -66,6 +66,7 @@
     <string name="intro_rate_the_app">Rate the app!</string>
     <string name="intro_support_development">Support development!</string>
     <string name="intro_support_desc">Photosen is completly free and doesn\'t show ads, so your review is very-very important for me. You can do it later by clicking \"About\" in the menu. Thank you!</string>
+    <string name="introduction">Introduction</string>
     <plurals name="x_pixels">
         <item quantity="zero">%1$d pixels</item>
         <item quantity="one">%1$d pixel</item>

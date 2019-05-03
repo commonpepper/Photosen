@@ -39,6 +39,7 @@ public class AboutActivity extends AbstractNavActivity {
         versionView.setText(BuildConfig.VERSION_NAME);
 
         LinearLayout[] containers = new LinearLayout[]{
+                findViewById(R.id.layout_about_introduction),
                 findViewById(R.id.layout_about_version),
                 findViewById(R.id.layout_about_github),
                 findViewById(R.id.layout_about_flickr),
@@ -65,6 +66,10 @@ public class AboutActivity extends AbstractNavActivity {
 
     private View.OnClickListener clickListener = (view -> {
         switch (view.getId()) {
+            case R.id.layout_about_introduction:
+                Intent intent = new Intent(this, IntroActivity.class);
+                startActivity(intent);
+                break;
             case R.id.layout_about_github:
                 openUrl("https://" + getResources().getString(R.string.github_link));
                 break;
