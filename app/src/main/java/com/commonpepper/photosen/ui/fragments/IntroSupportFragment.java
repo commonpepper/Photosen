@@ -27,6 +27,7 @@ public class IntroSupportFragment extends Fragment {
 
         Button rate = view.findViewById(R.id.intro_rate_btn);
         rate.setOnClickListener(v -> {
+            Photosen.firebaseAnalytics.logEvent("INTRO_RATE", null);
             Uri uri = Uri.parse("market://details?id=" + Photosen.PACKAGE_NAME);
             Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
             goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |

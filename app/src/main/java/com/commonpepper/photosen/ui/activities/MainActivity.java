@@ -55,7 +55,7 @@ public class MainActivity extends AbstractNavActivity {
         if (firstLaunch) {
             Intent intent = new Intent(this, IntroActivity.class);
             startActivity(intent);
-//            prefs.edit().putBoolean(PREFERENCE_FIRST_LAUNCH, false).apply();
+            prefs.edit().putBoolean(PREFERENCE_FIRST_LAUNCH, false).apply();
         }
 
         setContentView(R.layout.activity_main);

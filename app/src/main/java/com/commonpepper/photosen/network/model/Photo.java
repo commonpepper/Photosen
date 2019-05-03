@@ -38,7 +38,10 @@ public class Photo implements Parcelable {
 
     public String getIconUrl() {
         if (Integer.parseInt(iconserver) > 0) {
-            return "http://farm" + iconfarm + ".staticflickr.com/"
+            Log.d("Avatar:", "https://farm" + iconfarm + ".staticflickr.com/"
+                    + iconserver + "/buddyicons/"
+                    + owner + ".jpg");
+            return "https://farm" + iconfarm + ".staticflickr.com/"
                     + iconserver + "/buddyicons/"
                     + owner + ".jpg";
         } else {

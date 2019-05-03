@@ -77,6 +77,7 @@ public class AboutActivity extends AbstractNavActivity {
                 openUrl("https://flickr.com");
                 break;
             case R.id.layout_about_rate:
+                Photosen.firebaseAnalytics.logEvent("ABOUT_RATE", null);
                 Uri uri = Uri.parse("market://details?id=" + Photosen.PACKAGE_NAME);
                 Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
                 goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |

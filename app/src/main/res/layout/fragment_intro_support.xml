@@ -9,7 +9,7 @@
     android:background="#010C33">
 
     <TextView
-        android:paddingTop="80dp"
+        android:layout_weight="25"
         android:textSize="28sp"
         android:textColor="@color/colorWhite"
         android:textStyle="bold"
@@ -20,14 +20,16 @@
         />
 
     <ImageView
-        android:padding="20dp"
+        android:layout_weight="25"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:src="@drawable/android_smile"/>
 
     <TextView
-        android:padding="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_weight="25"
         android:textSize="16sp"
         android:textColor="@color/colorWhite"
         android:layout_width="match_parent"
@@ -36,6 +38,7 @@
         />
 
     <Button
+        android:layout_marginBottom="100dp"
         android:id="@+id/intro_rate_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

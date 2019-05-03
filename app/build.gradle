@@ -8,8 +8,8 @@ android {
         applicationId "com.commonpepper.photosen"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 3
-        versionName "1.1"
+        versionCode 4
+        versionName "2.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "APP_KEY", MY_APP_KEY)
         buildConfigField("String", "APP_SECRET", MY_APP_SECRET)

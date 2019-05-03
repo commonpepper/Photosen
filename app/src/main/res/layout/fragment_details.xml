@@ -19,10 +19,12 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/single_image_username_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:background="?attr/selectableItemBackground">
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="40dp"
@@ -46,6 +48,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="80"
+                android:textColor="@color/colorAccent"
                 tools:text="username" />
 
         </LinearLayout>

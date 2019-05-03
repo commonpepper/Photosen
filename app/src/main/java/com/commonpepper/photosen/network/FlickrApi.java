@@ -31,4 +31,10 @@ public interface FlickrApi {
 
     @GET("services/rest/?method=flickr.photos.getSizes")
     Call<PhotoSizes> getPhotoSizes(@Query("photo_id") String photo_id);
+
+    @GET("services/rest/?method=flickr.people.getPublicPhotos" +
+            "&extras=date_taken,url_o,url_z,original_format,icon_server,owner_name,o_dims,tags")
+    Call<SearchPhotos> getUserPhotos(@Query("user_id") String user_id,
+                                     @Query("page") int page,
+                                     @Query("per_page") int per_page);
 }

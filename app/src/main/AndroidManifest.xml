@@ -39,6 +39,7 @@
         <activity android:name=".ui.activities.CategoriesActivity"
             android:launchMode="singleTop"/>
         <activity android:name=".ui.activities.IntroActivity"/>
+        <activity android:name=".ui.activities.UserActivity"/>
 
         <service android:name=".network.DownloadService" />
 
