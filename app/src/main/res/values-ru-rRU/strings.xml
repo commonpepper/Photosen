@@ -64,4 +64,5 @@
     <string name="intro_support_development">Поддержите разработку!</string>
     <string name="intro_support_desc">Photosen полностью бесплатен и не содержит рекламы, поэтому ваш отзыв - это очень важно для меня. Оценить приложение можно в любое время, выбрав пункт в меню \"О программе\". Спасибо!</string>
     <string name="introduction">Введение</string>
+    <string name="load_comments">Показать комментарии</string>
 </resources>

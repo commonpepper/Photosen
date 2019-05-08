@@ -45,7 +45,9 @@ public class AbstractListFragment extends Fragment {
     }
 
     public void scrollToTop() {
-        mRecyclerView.scrollToPosition(0);
+        if (mRecyclerView != null) {
+            mRecyclerView.scrollToPosition(0);
+        }
     }
 }
 

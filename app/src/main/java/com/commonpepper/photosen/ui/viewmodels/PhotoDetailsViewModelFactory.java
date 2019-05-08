@@ -72,7 +72,7 @@ public class PhotoDetailsViewModelFactory implements ViewModelProvider.Factory {
             Photosen.getFlickrApi().getPhotoInfo(photo_id, secret).enqueue(new Callback<PhotoDetails>() {
                 @Override
                 public void onResponse(Call<PhotoDetails> call, Response<PhotoDetails> response) {
-                    if (response.isSuccessful() && response.code() == 200 && response.body() != null) {
+                    if (response.isSuccessful() && response.code() == 200 && response.body() != null && response.body().getStat() != null && response.body().getStat().equals("ok")) {
                         photoDetails.postValue(response.body());
                         networkStateDetails.postValue(NetworkState.SUCCESS);
                     } else {
@@ -90,7 +90,7 @@ public class PhotoDetailsViewModelFactory implements ViewModelProvider.Factory {
             Photosen.getFlickrApi().getPhotoSizes(photo_id).enqueue(new Callback<PhotoSizes>() {
                 @Override
                 public void onResponse(Call<PhotoSizes> call, Response<PhotoSizes> response) {
-                    if (response.isSuccessful() && response.code() == 200 && response.body() != null) {
+                    if (response.isSuccessful() && response.code() == 200 && response.body() != null && response.body().getStat() != null && response.body().getStat().equals("ok")) {
                         photoSizes.postValue(response.body());
                         networkStateSizes.postValue(NetworkState.SUCCESS);
                     } else {

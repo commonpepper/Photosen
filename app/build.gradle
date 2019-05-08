@@ -8,8 +8,8 @@ android {
         applicationId "com.commonpepper.photosen"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 4
-        versionName "2.0"
+        versionCode 6
+        versionName "2.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "APP_KEY", MY_APP_KEY)
         buildConfigField("String", "APP_SECRET", MY_APP_SECRET)
@@ -18,6 +18,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            manifestPlaceholders = [enableCrashReporting:"true"]
+        }
+        debug {
+            manifestPlaceholders = [enableCrashReporting:"false"]
         }
     }
     compileOptions {

@@ -8,9 +8,13 @@ import android.os.Build;
 
 import com.commonpepper.photosen.network.KeyFormatInterceptor;
 import com.commonpepper.photosen.network.FlickrApi;
+import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.core.CrashlyticsCore;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import androidx.core.app.ActivityCompat;
+
+import io.fabric.sdk.android.Fabric;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -32,6 +36,14 @@ public class Photosen extends Application {
         super.onCreate();
         instance = this;
         firebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        configureCrashReporting();
+    }
+
+    private void configureCrashReporting() {
+        CrashlyticsCore crashlyticsCore = new CrashlyticsCore.Builder()
+                .disabled(BuildConfig.DEBUG)
+                .build();
+        Fabric.with(this, new Crashlytics.Builder().core(crashlyticsCore).build());
     }
 
     public static Photosen getInstance() {

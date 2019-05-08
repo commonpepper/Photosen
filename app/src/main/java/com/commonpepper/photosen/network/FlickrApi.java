@@ -1,5 +1,6 @@
 package com.commonpepper.photosen.network;
 
+import com.commonpepper.photosen.network.model.Comments;
 import com.commonpepper.photosen.network.model.PhotoDetails;
 import com.commonpepper.photosen.network.model.PhotoSizes;
 import com.commonpepper.photosen.network.model.SearchPhotos;
@@ -37,4 +38,7 @@ public interface FlickrApi {
     Call<SearchPhotos> getUserPhotos(@Query("user_id") String user_id,
                                      @Query("page") int page,
                                      @Query("per_page") int per_page);
+
+    @GET("services/rest/?method=flickr.photos.comments.getList")
+    Call<Comments> getComments(@Query("photo_id") String photo_id);
 }

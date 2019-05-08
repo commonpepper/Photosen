@@ -17,12 +17,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.fragment.app.Fragment;
 
 import com.commonpepper.photosen.Photosen;
 import com.commonpepper.photosen.R;
 import com.commonpepper.photosen.network.DownloadService;
 import com.commonpepper.photosen.network.model.Photo;
 import com.commonpepper.photosen.network.model.PhotoSizes;
+import com.commonpepper.photosen.ui.fragments.CommentsFragment;
 import com.commonpepper.photosen.ui.fragments.PhotoDetailsFragment;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetSequence;
@@ -44,7 +46,6 @@ public class SinglePhotoActivity extends AbstractNavActivity {
 
     private DownloadService.Aciton action;
     private PhotoDetailsFragment detailsFragment;
-    private PhotoSizes photoSizes;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -91,17 +92,45 @@ public class SinglePhotoActivity extends AbstractNavActivity {
 
         Picasso.get().load(photo.getUrl_z()).into(imageView);
 
-        if (getSupportFragmentManager().getFragments().size() == 0) {
+//        OLD VERSION:
+//        if (getSupportFragmentManager().getFragments().size() == 0) {
+//            detailsFragment = PhotoDetailsFragment.newInstance(photo);
+//            getSupportFragmentManager().beginTransaction()
+//                    .add(R.id.single_image_details_layout, detailsFragment)
+//                    .commit();
+//        } else {
+//            detailsFragment = (PhotoDetailsFragment) getSupportFragmentManager().getFragments().get(0);
+//        }
+
+//        LET'S GET FRAGMENT LINKS IN CASE OF SCREEN ROTATION
+        CommentsFragment commentsFragment;
+        boolean detailsFlag = false;
+        boolean commentsFlag = false;
+        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+            if (fragment instanceof PhotoDetailsFragment) {
+                detailsFragment = (PhotoDetailsFragment) fragment;
+                detailsFlag = true;
+            }
+            if (fragment instanceof CommentsFragment) {
+                commentsFragment = (CommentsFragment) fragment;
+                commentsFlag = true;
+            }
+        }
+        if (!detailsFlag) {
             detailsFragment = PhotoDetailsFragment.newInstance(photo);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.single_image_details_layout, detailsFragment)
                     .commit();
-        } else {
-            detailsFragment = (PhotoDetailsFragment) getSupportFragmentManager().getFragments().get(0);
         }
+        if (!commentsFlag) {
+            commentsFragment = CommentsFragment.newInstance(photo.getId());
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.single_image_comments_layout, commentsFragment)
+                    .commit();
+        }
+//        END OF RESTORING FRAGMENT LINKS
 
         detailsFragment.getLiveSizes().observe(this, x -> {
-            photoSizes = x;
             showFAB(fabDownload);
             showFAB(fabSetWallpaper);
 
@@ -118,7 +147,7 @@ public class SinglePhotoActivity extends AbstractNavActivity {
             }
 
             imageView.setOnClickListener(v -> {
-                List<PhotoSizes.SizesBean.SizeBean> sizes = photoSizes.getSizes().getSize();
+                List<PhotoSizes.SizesBean.SizeBean> sizes = x.getSizes().getSize();
                 String url = sizes.get(sizes.size() - 1).getSource();
                 Intent intent = new Intent(SinglePhotoActivity.this, PreviewActivity.class);
                 intent.putExtra(PreviewActivity.TAG_URL, url);
@@ -162,16 +191,18 @@ public class SinglePhotoActivity extends AbstractNavActivity {
         if (!DownloadService.isRunning) {
             Toast.makeText(this, getString(R.string.download_started), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, DownloadService.class);
-            List<PhotoSizes.SizesBean.SizeBean> sizes = photoSizes.getSizes().getSize();
-            String url = sizes.get(sizes.size() - 1).getSource();
-            intent.putExtra(DownloadService.TAG_URL, url);
-            String[] urlSplit = url.split("\\.");
-            String format = urlSplit[urlSplit.length - 1];
-            if (!format.equals("jpg") && !format.equals("gif") && !format.equals("png"))
-                format = "jpg";
-            intent.putExtra(DownloadService.TAG_FILENAME, photo.getId() + "." + format);
-            intent.putExtra(DownloadService.TAG_ACTION, action);
-            startService(intent);
+            if (detailsFragment.getLiveSizes().getValue() != null) { //shouldn't be null, when fabs are visible, but check just in case
+                List<PhotoSizes.SizesBean.SizeBean> sizes = detailsFragment.getLiveSizes().getValue().getSizes().getSize();
+                String url = sizes.get(sizes.size() - 1).getSource();
+                intent.putExtra(DownloadService.TAG_URL, url);
+                String[] urlSplit = url.split("\\.");
+                String format = urlSplit[urlSplit.length - 1];
+                if (!format.equals("jpg") && !format.equals("gif") && !format.equals("png"))
+                    format = "jpg";
+                intent.putExtra(DownloadService.TAG_FILENAME, photo.getId() + "." + format);
+                intent.putExtra(DownloadService.TAG_ACTION, action);
+                startService(intent);
+            }
         } else {
             Toast.makeText(this, getString(R.string.please_wait_for_current_download), Toast.LENGTH_SHORT).show();
         }

@@ -63,6 +63,14 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/single_image_comments_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                </LinearLayout>
+
             </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>
