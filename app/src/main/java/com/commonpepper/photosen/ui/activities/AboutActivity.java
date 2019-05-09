@@ -50,7 +50,8 @@ public class AboutActivity extends AbstractNavActivity {
                 findViewById(R.id.layout_about_image_cropper),
                 findViewById(R.id.layout_about_taptargetview),
                 findViewById(R.id.layout_about_androidrate),
-                findViewById(R.id.layout_about_appintro)
+                findViewById(R.id.layout_about_appintro),
+                findViewById(R.id.layout_about_expandable)
         };
         for (LinearLayout r : containers) {
             r.setOnClickListener(clickListener);
@@ -110,6 +111,9 @@ public class AboutActivity extends AbstractNavActivity {
                 break;
             case R.id.layout_about_appintro:
                 openUrl("https://github.com/AppIntro/AppIntro");
+                break;
+            case R.id.layout_about_expandable:
+                openUrl("https://github.com/cachapa/ExpandableLayout");
                 break;
         }
     });
