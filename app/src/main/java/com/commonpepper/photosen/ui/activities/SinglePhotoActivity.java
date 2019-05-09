@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 
 import com.commonpepper.photosen.Photosen;
@@ -66,6 +67,7 @@ public class SinglePhotoActivity extends AbstractNavActivity {
 
         TextView title = findViewById(R.id.single_photo_title);
         ImageView imageView = findViewById(R.id.single_photo_image_view);
+        NestedScrollView nestedScrollView = findViewById(R.id.single_image_nested_sc);
 
         FloatingActionButton fabDownload = findViewById(R.id.fab_download);
         FloatingActionButton fabSetWallpaper = findViewById(R.id.fab_wallpaper);
@@ -103,7 +105,7 @@ public class SinglePhotoActivity extends AbstractNavActivity {
 //        }
 
 //        LET'S GET FRAGMENT LINKS IN CASE OF SCREEN ROTATION
-        CommentsFragment commentsFragment;
+        CommentsFragment commentsFragment = null;
         boolean detailsFlag = false;
         boolean commentsFlag = false;
         for (Fragment fragment : getSupportFragmentManager().getFragments()) {
@@ -129,6 +131,7 @@ public class SinglePhotoActivity extends AbstractNavActivity {
                     .commit();
         }
 //        END OF RESTORING FRAGMENT LINKS
+        commentsFragment.setNestedScrollView(nestedScrollView);
 
         detailsFragment.getLiveSizes().observe(this, x -> {
             showFAB(fabDownload);

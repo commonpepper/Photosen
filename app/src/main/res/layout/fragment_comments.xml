@@ -15,23 +15,38 @@
         android:text="@string/load_comments"
         app:icon="@drawable/ic_comment_white_24dp" />
 
-    <include
-        android:id="@+id/comments_progress_layout"
-        layout="@layout/item_extra"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/hide_comments_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/hide_comments"
+        app:icon="@drawable/ic_comment_white_24dp" />
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/comments_card_view"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
+
+    <net.cachapa.expandablelayout.ExpandableLayout
+        android:id="@+id/expandable_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardUseCompatPadding="true">
+        app:el_duration="1000"
+        app:el_expanded="false"
+        app:el_parallax="0.5">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/comments_recycler"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="300dp" />
-    </com.google.android.material.card.MaterialCardView>
+            android:layout_height="wrap_content">
+
+            <include
+                android:id="@+id/comments_progress_layout"
+                layout="@layout/item_extra"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/comments_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:scrollbars="vertical" />
+        </RelativeLayout>
+    </net.cachapa.expandablelayout.ExpandableLayout>
 </LinearLayout>

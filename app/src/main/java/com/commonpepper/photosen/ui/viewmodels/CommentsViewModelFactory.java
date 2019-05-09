@@ -34,6 +34,7 @@ public class CommentsViewModelFactory implements ViewModelProvider.Factory {
     public class CommentsViewModel extends ViewModel {
         private MutableLiveData<Comments> comments = new MutableLiveData<>();
         private MutableLiveData<NetworkState> networkState = new MutableLiveData<>();
+        public boolean hiden = true;
 
         public CommentsViewModel() {
         }
