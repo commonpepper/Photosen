@@ -63,6 +63,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
     @Override
     public int getItemCount() {
+        if (comments == null || comments.getComments() == null || comments.getComments().getComment() == null) return 0;
         return comments.getComments().getComment().size();
     }
 
