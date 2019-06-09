@@ -16,6 +16,8 @@ import androidx.appcompat.app.AppCompatActivity;
 public class PreviewActivity extends AppCompatActivity {
     public static final String TAG_URL = "tag_url";
 
+    private static final int MAX_WIDTH_PIXELS = 5000;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +35,7 @@ public class PreviewActivity extends AppCompatActivity {
 
         String url = getIntent().getStringExtra(TAG_URL);
         if (url != null) {
-            Picasso.get().load(url).into(photoView, new Callback() {
+            Picasso.get().load(url).resize(MAX_WIDTH_PIXELS, 0).onlyScaleDown().into(photoView, new Callback() {
                 @Override
                 public void onSuccess() {
                     progressBar.setVisibility(View.GONE);
