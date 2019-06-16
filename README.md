@@ -2,8 +2,9 @@
 
 **[Photosen]** is powered by [Flickr.com](https://flickr.com/) API
 
+Best Flickr app for viewing and downloading images.
 Free, beautiful wallpapers.
-Enjoy new photos by the world’s most generous community of photographers every day.
+Enjoy new photos by the worldâ€™s most generous community of photographers every day.
 
 * Browse over tens of billions of photos
 * New wallpapers everyday
