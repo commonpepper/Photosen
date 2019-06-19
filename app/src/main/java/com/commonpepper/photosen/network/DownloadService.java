@@ -65,7 +65,7 @@ public class DownloadService extends IntentService {
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        Photosen.firebaseAnalytics.logEvent("Download_start", null);
+        Photosen.getFirebaseAnalytics().logEvent("Download_start", null);
         String urlToDownload = intent.getStringExtra(TAG_URL);
 
         filename = intent.getStringExtra(TAG_FILENAME);
@@ -131,14 +131,14 @@ public class DownloadService extends IntentService {
                     wallpaperIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                     wallpaperIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                     startActivity(wallpaperIntent);
-                    Photosen.firebaseAnalytics.logEvent("Crop_and_set_wallpaper_intent", null);
+                    Photosen.getFirebaseAnalytics().logEvent("Crop_and_set_wallpaper_intent", null);
                 } catch (IllegalArgumentException e) {
                     //can't crop and set with default methods
                     Intent myCrop = new Intent(this, CropActivity.class);
                     myCrop.putExtra(CropActivity.TAG_URISTR, uri.toString());
                     myCrop.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(myCrop);
-                    Photosen.firebaseAnalytics.logEvent("My_crop", null);
+                    Photosen.getFirebaseAnalytics().logEvent("My_crop", null);
                 }
             }
 

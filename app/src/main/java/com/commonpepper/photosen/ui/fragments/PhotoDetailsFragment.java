@@ -2,7 +2,6 @@ package com.commonpepper.photosen.ui.fragments;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +13,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.fragment.app.Fragment;
@@ -22,32 +20,25 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.commonpepper.photosen.Photosen;
 import com.commonpepper.photosen.R;
 import com.commonpepper.photosen.network.NetworkState;
-import com.commonpepper.photosen.network.model.Photo;
-import com.commonpepper.photosen.network.model.PhotoDetails;
-import com.commonpepper.photosen.network.model.PhotoSizes;
+import com.commonpepper.photosen.model.Photo;
+import com.commonpepper.photosen.model.PhotoDetails;
+import com.commonpepper.photosen.model.PhotoSizes;
 import com.commonpepper.photosen.ui.activities.SearchActivity;
-import com.commonpepper.photosen.ui.activities.SinglePhotoActivity;
 import com.commonpepper.photosen.ui.activities.UserActivity;
 import com.commonpepper.photosen.ui.viewmodels.PhotoDetailsViewModelFactory;
-import com.getkeepsafe.taptargetview.TapTarget;
-import com.getkeepsafe.taptargetview.TapTargetView;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayout;
 import com.google.android.flexbox.JustifyContent;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import static android.content.Context.MODE_PRIVATE;
 
 public class PhotoDetailsFragment extends Fragment {
     private static final String TAG_PHOTO = "photo";

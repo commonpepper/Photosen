@@ -18,7 +18,7 @@ import androidx.core.app.ActivityOptionsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.commonpepper.photosen.R;
-import com.commonpepper.photosen.network.model.Comments;
+import com.commonpepper.photosen.model.Comments;
 import com.commonpepper.photosen.ui.activities.UserActivity;
 import com.squareup.picasso.Picasso;
 

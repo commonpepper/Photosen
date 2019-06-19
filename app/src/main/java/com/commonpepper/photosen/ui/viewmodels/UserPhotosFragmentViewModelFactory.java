@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.commonpepper.photosen.network.datasource.UserPhotosListDataSourceFactory;
-import com.commonpepper.photosen.network.model.Photo;
+import com.commonpepper.photosen.model.Photo;
 
 public class UserPhotosFragmentViewModelFactory implements ViewModelProvider.Factory {
 

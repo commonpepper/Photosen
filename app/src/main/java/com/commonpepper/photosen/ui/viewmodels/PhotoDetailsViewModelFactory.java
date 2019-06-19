@@ -4,8 +4,8 @@ import android.util.Log;
 
 import com.commonpepper.photosen.Photosen;
 import com.commonpepper.photosen.network.NetworkState;
-import com.commonpepper.photosen.network.model.PhotoDetails;
-import com.commonpepper.photosen.network.model.PhotoSizes;
+import com.commonpepper.photosen.model.PhotoDetails;
+import com.commonpepper.photosen.model.PhotoSizes;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;

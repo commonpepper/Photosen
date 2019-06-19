@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-public class AbstractNavActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public abstract class AbstractNavActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     protected DrawerLayout drawerLayout;
 
     @Override
@@ -28,6 +28,9 @@ public class AbstractNavActivity extends AppCompatActivity implements Navigation
             startActivity(intent);
         } else if (id == R.id.drawer_categories) {
             Intent intent = new Intent(this, CategoriesActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.drawer_history) {
+            Intent intent = new Intent(this, HistoryActivity.class);
             startActivity(intent);
         }
 

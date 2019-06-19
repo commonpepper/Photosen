@@ -16,12 +16,10 @@ import android.widget.TextView;
 import com.commonpepper.photosen.R;
 import com.commonpepper.photosen.network.NetworkState;
 import com.commonpepper.photosen.network.datasource.AbstractListDataSource;
-import com.commonpepper.photosen.network.model.Photo;
+import com.commonpepper.photosen.model.Photo;
 import com.commonpepper.photosen.ui.activities.SinglePhotoActivity;
 import com.google.android.material.button.MaterialButton;
 import com.squareup.picasso.Picasso;
-
-import java.util.Random;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;

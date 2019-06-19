@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.commonpepper.photosen.Photosen;
 import com.commonpepper.photosen.network.NetworkState;
-import com.commonpepper.photosen.network.model.Comments;
+import com.commonpepper.photosen.model.Comments;
 
 import retrofit2.Call;
 import retrofit2.Callback;

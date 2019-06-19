@@ -2,8 +2,8 @@ package com.commonpepper.photosen.network.datasource;
 
 import com.commonpepper.photosen.Photosen;
 import com.commonpepper.photosen.network.NetworkState;
-import com.commonpepper.photosen.network.model.Photo;
-import com.commonpepper.photosen.network.model.SearchPhotos;
+import com.commonpepper.photosen.model.Photo;
+import com.commonpepper.photosen.model.SearchPhotos;
 
 import java.io.IOException;
 

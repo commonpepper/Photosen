@@ -1,9 +1,9 @@
 package com.commonpepper.photosen.network;
 
-import com.commonpepper.photosen.network.model.Comments;
-import com.commonpepper.photosen.network.model.PhotoDetails;
-import com.commonpepper.photosen.network.model.PhotoSizes;
-import com.commonpepper.photosen.network.model.SearchPhotos;
+import com.commonpepper.photosen.model.Comments;
+import com.commonpepper.photosen.model.PhotoDetails;
+import com.commonpepper.photosen.model.PhotoSizes;
+import com.commonpepper.photosen.model.SearchPhotos;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

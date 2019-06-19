@@ -66,4 +66,7 @@
     <string name="introduction">Введение</string>
     <string name="load_comments">Показать комментарии</string>
     <string name="hide_comments">Скрыть комментарии</string>
+    <string name="history">История</string>
+    <string name="clear_history">Очистить историю</string>
+    <string name="clear_confirm">Вы действительно хотите очистить историю?</string>
 </resources>

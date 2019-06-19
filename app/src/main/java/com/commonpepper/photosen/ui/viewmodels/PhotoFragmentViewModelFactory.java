@@ -1,7 +1,7 @@
 package com.commonpepper.photosen.ui.viewmodels;
 
 import com.commonpepper.photosen.network.datasource.PhotoListDataSourceFactory;
-import com.commonpepper.photosen.network.model.Photo;
+import com.commonpepper.photosen.model.Photo;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;

@@ -22,9 +22,10 @@ import androidx.fragment.app.Fragment;
 
 import com.commonpepper.photosen.Photosen;
 import com.commonpepper.photosen.R;
+import com.commonpepper.photosen.database.HistoryDao;
 import com.commonpepper.photosen.network.DownloadService;
-import com.commonpepper.photosen.network.model.Photo;
-import com.commonpepper.photosen.network.model.PhotoSizes;
+import com.commonpepper.photosen.model.Photo;
+import com.commonpepper.photosen.model.PhotoSizes;
 import com.commonpepper.photosen.ui.fragments.CommentsFragment;
 import com.commonpepper.photosen.ui.fragments.PhotoDetailsFragment;
 import com.getkeepsafe.taptargetview.TapTarget;
@@ -34,11 +35,13 @@ import com.google.android.material.navigation.NavigationView;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+import java.util.concurrent.Executors;
 
 public class SinglePhotoActivity extends AbstractNavActivity {
     private static final String TAG = SinglePhotoActivity.class.getSimpleName();
 
     public static final String PHOTO_TAG = "PARCELABLE_PHOTO";
+    public static final String SAVE_HISTORY_TAG = "SAVE_HISTORY";
     public static final String PHOTOS_URL = "https://www.flickr.com/photos/";
 
     private static final String PREFERENCE_FIRST_LAUNCH = "SINGLE_PHOTO_FIRST_LAUNCH";
@@ -64,6 +67,16 @@ public class SinglePhotoActivity extends AbstractNavActivity {
         navigationView.setNavigationItemSelectedListener(this);
 
         photo = getIntent().getParcelableExtra(PHOTO_TAG);
+        boolean saveHistory = getIntent().getBooleanExtra(SAVE_HISTORY_TAG, true);
+
+        HistoryDao historyDao = Photosen.getInstance().getDatabase().getHistoryDao();
+
+        if (saveHistory) {
+            Executors.newSingleThreadExecutor().execute(() -> {
+                photo.setTime(System.currentTimeMillis());
+                historyDao.insert(photo);
+            });
+        }
 
         TextView title = findViewById(R.id.single_photo_title);
         ImageView imageView = findViewById(R.id.single_photo_image_view);

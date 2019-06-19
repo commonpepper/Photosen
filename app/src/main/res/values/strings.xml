@@ -71,6 +71,9 @@
     <string name="hide_comments">Hide comments</string>
     <string name="expandablelayout" translatable="false">ExpandableLayout</string>
     <string name="an_expandable_layout_container_for_android" translatable="false">An expandable layout container for Android</string>
+    <string name="history">History</string>
+    <string name="clear_history">Clear history</string>
+    <string name="clear_confirm">Do you really want to clear the history?</string>
     <plurals name="x_pixels">
         <item quantity="zero">%1$d pixels</item>
         <item quantity="one">%1$d pixel</item>

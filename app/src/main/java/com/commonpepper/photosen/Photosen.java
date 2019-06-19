@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
 import android.os.Build;
 
+import com.commonpepper.photosen.database.PhotosenDatabase;
 import com.commonpepper.photosen.network.KeyFormatInterceptor;
 import com.commonpepper.photosen.network.FlickrApi;
 import com.crashlytics.android.Crashlytics;
@@ -13,6 +14,7 @@ import com.crashlytics.android.core.CrashlyticsCore;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import androidx.core.app.ActivityCompat;
+import androidx.room.Room;
 
 import io.fabric.sdk.android.Fabric;
 import okhttp3.OkHttpClient;
@@ -28,8 +30,9 @@ public class Photosen extends Application {
     public static final String PACKAGE_NAME = "com.commonpepper.photosen";
     public static final String PREFERENCES = PACKAGE_NAME + ".PREFERENCES";
 
-    public static FirebaseAnalytics firebaseAnalytics;
-    public static Photosen instance;
+    private static FirebaseAnalytics firebaseAnalytics;
+    private static Photosen instance;
+    private PhotosenDatabase database;
 
     @Override
     public void onCreate() {
@@ -37,6 +40,9 @@ public class Photosen extends Application {
         instance = this;
         firebaseAnalytics = FirebaseAnalytics.getInstance(this);
         configureCrashReporting();
+
+        database = Room.databaseBuilder(this, PhotosenDatabase.class, "photosen_database")
+                .build();
     }
 
     private void configureCrashReporting() {
@@ -48,6 +54,14 @@ public class Photosen extends Application {
 
     public static Photosen getInstance() {
         return instance;
+    }
+
+    public PhotosenDatabase getDatabase() {
+        return database;
+    }
+
+    public static FirebaseAnalytics getFirebaseAnalytics() {
+        return firebaseAnalytics;
     }
 
     public static FlickrApi getFlickrApi() {
