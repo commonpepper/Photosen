@@ -16,6 +16,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "APP_KEY", MY_APP_KEY)
         buildConfigField("String", "APP_SECRET", MY_APP_SECRET)
+        resConfigs "en", "ru"
     }
     buildTypes {
         release {
