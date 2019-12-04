@@ -14,19 +14,20 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-
 import com.commonpepper.photosen.R
+import com.commonpepper.photosen.R.layout
+import com.commonpepper.photosen.model.Comments
 import com.commonpepper.photosen.network.NetworkState
 import com.commonpepper.photosen.ui.adapters.CommentsAdapter
 import com.commonpepper.photosen.ui.viewmodels.CommentsViewModelFactory
-
+import com.commonpepper.photosen.ui.viewmodels.CommentsViewModelFactory.CommentsViewModel
 import net.cachapa.expandablelayout.ExpandableLayout
-
+import net.cachapa.expandablelayout.ExpandableLayout.OnExpansionUpdateListener
+import net.cachapa.expandablelayout.ExpandableLayout.State
 import java.lang.ref.WeakReference
 
-class CommentsFragment : Fragment(), ExpandableLayout.OnExpansionUpdateListener {
-
-    private var mViewModel: CommentsViewModelFactory.CommentsViewModel? = null
+class CommentsFragment : Fragment(), OnExpansionUpdateListener {
+    private var mViewModel: CommentsViewModel? = null
     private var showComments: Button? = null
     private var refreshButton: Button? = null
     private var errorTextView: TextView? = null
@@ -34,32 +35,40 @@ class CommentsFragment : Fragment(), ExpandableLayout.OnExpansionUpdateListener 
     private var progressLayout: LinearLayout? = null
     private var recyclerView: RecyclerView? = null
     private var expandableLayout: ExpandableLayout? = null
-    private var nestedScrollView: WeakReference<NestedScrollView>? = null
+    private var nestedScrollView: WeakReference<NestedScrollView?>? = null
     private var hideComments: Button? = null
+
+    companion object {
+        const val TAG_PHOTO_ID = "PHOTO_ID"
+        fun newInstance(photo_id: String?): CommentsFragment {
+            val newFragment = CommentsFragment()
+            val args = Bundle()
+            args.putString(TAG_PHOTO_ID, photo_id)
+            newFragment.arguments = args
+            return newFragment
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val args = arguments
-        val photo_id = args!!.getString(TAG_PHOTO_ID)
-        val factory = CommentsViewModelFactory(photo_id!!)
-
-        mViewModel = ViewModelProviders.of(this, factory).get(CommentsViewModelFactory.CommentsViewModel::class.java)
+        val photo_id = args!!.getString(TAG_PHOTO_ID)!!
+        val factory = CommentsViewModelFactory(photo_id)
+        mViewModel = ViewModelProviders.of(this, factory).get(CommentsViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_comments, container, false)
-
-        showComments = view.findViewById(R.id.show_comments_button)
-        hideComments = view.findViewById(R.id.hide_comments_button)
-        progressLayout = view.findViewById(R.id.comments_progress_layout)
-        progressBar = view.findViewById(R.id.item_last_progressBar)
-        errorTextView = view.findViewById(R.id.item_last_error_textView)
-        refreshButton = view.findViewById(R.id.item_last_refreshButton)
+        val view: View = inflater.inflate(layout.fragment_comments, container, false)
+        showComments = view.findViewById<Button?>(R.id.show_comments_button)
+        hideComments = view.findViewById<Button?>(R.id.hide_comments_button)
+        progressLayout = view.findViewById<LinearLayout?>(R.id.comments_progress_layout)
+        progressBar = view.findViewById<ProgressBar?>(R.id.item_last_progressBar)
+        errorTextView = view.findViewById<TextView?>(R.id.item_last_error_textView)
+        refreshButton = view.findViewById<Button?>(R.id.item_last_refreshButton)
         recyclerView = view.findViewById(R.id.comments_recycler)
         expandableLayout = view.findViewById(R.id.expandable_layout)
-
-        refreshButton!!.setOnClickListener { v -> mViewModel!!.loadComments() }
-        showComments!!.setOnClickListener { v ->
+        refreshButton!!.setOnClickListener { v: View? -> mViewModel!!.loadComments() }
+        showComments!!.setOnClickListener { v: View? ->
             mViewModel!!.hiden = false
             showComments!!.visibility = View.GONE
             hideComments!!.visibility = View.VISIBLE
@@ -69,14 +78,13 @@ class CommentsFragment : Fragment(), ExpandableLayout.OnExpansionUpdateListener 
             }
             expandableLayout!!.setOnExpansionUpdateListener(this)
         }
-        hideComments!!.setOnClickListener { v ->
+        hideComments!!.setOnClickListener { v: View? ->
             mViewModel!!.hiden = true
             showComments!!.visibility = View.VISIBLE
             hideComments!!.visibility = View.GONE
             expandableLayout!!.collapse()
         }
-
-        mViewModel!!.getNetworkState().observe(this, Observer { networkState ->
+        mViewModel!!.getNetworkState().observe(this, Observer { networkState: NetworkState ->
             if (networkState == NetworkState.FAILED) {
                 progressLayout!!.visibility = View.VISIBLE
                 progressBar!!.visibility = View.GONE
@@ -91,15 +99,16 @@ class CommentsFragment : Fragment(), ExpandableLayout.OnExpansionUpdateListener 
                 refreshButton!!.visibility = View.GONE
             }
         })
-
-        mViewModel!!.getComments().observe(this, Observer { comments ->
+        mViewModel!!.getComments().observe(this, Observer { comments: Comments? ->
             val adapter = CommentsAdapter(comments)
             adapter.setHasStableIds(true)
             val llm = LinearLayoutManager(context)
             llm.orientation = RecyclerView.VERTICAL
             recyclerView!!.layoutManager = llm
-            //            recyclerView.setItemViewCacheSize(10);
-            //            recyclerView.setDrawingCacheEnabled(true);
+//            recyclerView.setItemViewCacheSize(10);
+//            recyclerView.setDrawingCacheEnabled(true);
+
+
             recyclerView!!.adapter = adapter
         })
 
@@ -113,31 +122,19 @@ class CommentsFragment : Fragment(), ExpandableLayout.OnExpansionUpdateListener 
             hideComments!!.visibility = View.VISIBLE
             expandableLayout!!.expand()
         }
-
         return view
     }
 
-    fun setNestedScrollView(nestedScrollView: NestedScrollView) {
+    fun setNestedScrollView(nestedScrollView: NestedScrollView?) {
         this.nestedScrollView = WeakReference(nestedScrollView)
     }
 
     override fun onExpansionUpdate(expansionFraction: Float, state: Int) {
-        if (state == ExpandableLayout.State.EXPANDING && nestedScrollView!!.get() != null) {
-            //            Log.d("ExpandableLayout:", "expansionFraction = " + expansionFraction);
+        if (state == State.EXPANDING && nestedScrollView!!.get() != null) {
+//            Log.d("ExpandableLayout:", "expansionFraction = " + expansionFraction);
+
             val nestedScroll = nestedScrollView!!.get()
-            nestedScroll?.fullScroll(View.FOCUS_DOWN)
-        }
-    }
-
-    companion object {
-        val TAG_PHOTO_ID = "PHOTO_ID"
-
-        fun newInstance(photo_id: String): CommentsFragment {
-            val newFragment = CommentsFragment()
-            val args = Bundle()
-            args.putString(TAG_PHOTO_ID, photo_id)
-            newFragment.arguments = args
-            return newFragment
+            nestedScroll!!.fullScroll(View.FOCUS_DOWN)
         }
     }
 }

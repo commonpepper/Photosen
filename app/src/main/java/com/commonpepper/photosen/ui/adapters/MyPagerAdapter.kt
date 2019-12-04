@@ -6,10 +6,9 @@ import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.viewpager.widget.PagerAdapter
 import java.util.*
 
-class MyPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
-    private val fragments = ArrayList<Fragment>()
-    private val titles = ArrayList<String>()
-
+class MyPagerAdapter(fm: FragmentManager?) : FragmentStatePagerAdapter(fm!!) {
+    private val fragments: MutableList<Fragment> = ArrayList()
+    private val titles: MutableList<String> = ArrayList()
     fun addFragment(fragment: Fragment, title: String) {
         fragments.add(fragment)
         titles.add(title)
@@ -17,7 +16,6 @@ class MyPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
     }
 
     fun clear() {
-
         for (fragment in fragments) {
             if (fragment.fragmentManager != null) {
                 fragment.fragmentManager!!.beginTransaction().remove(fragment).commit()

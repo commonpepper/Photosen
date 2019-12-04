@@ -10,6 +10,7 @@ import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.commonpepper.photosen.R
+import com.commonpepper.photosen.R.layout
 import com.commonpepper.photosen.model.Photo
 import com.commonpepper.photosen.network.NetworkState
 import com.commonpepper.photosen.ui.adapters.PhotoAdapter
@@ -19,20 +20,15 @@ open class AbstractListFragment : Fragment() {
     protected var mViewModel: AbstractListFragmentViewModel<*>? = null
     protected var mRecyclerView: RecyclerView? = null
     protected var mPhotoAdapter = PhotoAdapter()
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_images, container, false)
+        val view: View = inflater.inflate(layout.fragment_images, container, false)
         mRecyclerView = view.findViewById(R.id.fragment_images_recyclerView)
-
-        mViewModel!!.photosList.observe(this, Observer<PagedList<*>> { pagedList -> mPhotoAdapter.submitList(pagedList as PagedList<Photo>?) })
-
-        mViewModel!!.networkState.observe(this, Observer<NetworkState> { networkState -> mPhotoAdapter.setNetworkState(networkState) })
-
+        mViewModel!!.photosList.observe(this, Observer { pagedList: PagedList<*> -> mPhotoAdapter.submitList(pagedList as PagedList<Photo?>) })
+        mViewModel!!.networkState.observe(this, Observer { networkState: NetworkState -> mPhotoAdapter.setNetworkState(networkState) })
         val llm = LinearLayoutManager(context)
         llm.orientation = RecyclerView.VERTICAL
         mRecyclerView!!.layoutManager = llm
         mRecyclerView!!.adapter = mPhotoAdapter
-
         return view
     }
 
@@ -42,4 +38,3 @@ open class AbstractListFragment : Fragment() {
         }
     }
 }
-

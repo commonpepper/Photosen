@@ -11,48 +11,44 @@ import android.widget.ImageView
 import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityOptionsCompat
 import androidx.paging.PagedListAdapter
-import androidx.recyclerview.widget.RecyclerView
-import com.commonpepper.photosen.R
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.commonpepper.photosen.R.*
 import com.commonpepper.photosen.model.Photo
 import com.commonpepper.photosen.ui.activities.SinglePhotoActivity
 import com.squareup.picasso.Picasso
 
-class HistoryAdapter : PagedListAdapter<Photo, RecyclerView.ViewHolder>(Photo.DIFF_CALLBACK) {
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val layoutInflater = LayoutInflater.from(parent.context)
-        return PhotoItemViewHolder(layoutInflater.inflate(R.layout.item_image, parent, false))
+class HistoryAdapter : PagedListAdapter<Photo?, ViewHolder>(Photo.DIFF_CALLBACK) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val layoutInflater: LayoutInflater = LayoutInflater.from(parent.context)
+        return PhotoItemViewHolder(layoutInflater.inflate(layout.item_image, parent, false))
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as PhotoItemViewHolder).bind(getItem(position)!!)
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        (holder as PhotoItemViewHolder).bind(getItem(position))
     }
 
-    private inner class PhotoItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-        private val mImageView: ImageView = itemView.findViewById(R.id.item_image_imageView)
-
-        fun bind(photo: Photo) {
+    private inner class PhotoItemViewHolder(itemView: View) : ViewHolder(itemView) {
+        private val mImageView: ImageView = itemView.findViewById(id.item_image_imageView)
+        fun bind(photo: Photo?) {
             val gd = GradientDrawable()
-            gd.setSize(photo.width_z, photo.height_z)
+            gd.setSize(photo!!.width_z!!, photo.height_z!!)
             gd.shape = GradientDrawable.RECTANGLE
-            val colors = mImageView.resources.obtainTypedArray(R.array.scroll_colors)
+            val colors = mImageView.resources.obtainTypedArray(array.scroll_colors)
             val index = (Math.random() * colors.length()).toInt()
             val color = colors.getColor(index, Color.BLACK)
             gd.setColor(color)
             colors.recycle()
-
             Picasso.get().load(photo.url_z).placeholder(gd).into(mImageView)
-            mImageView.setOnClickListener { v ->
+            mImageView.setOnClickListener {
                 val intent = Intent(mImageView.context, SinglePhotoActivity::class.java)
                 intent.putExtra(SinglePhotoActivity.PHOTO_TAG, photo)
                 intent.putExtra(SinglePhotoActivity.SAVE_HISTORY_TAG, false)
-                val options = ActivityOptionsCompat.makeSceneTransitionAnimation(mImageView.context as Activity,
+                val options = ActivityOptionsCompat.makeSceneTransitionAnimation((mImageView.context as Activity),
                         mImageView, "sharedImageView").toBundle()
                 ActivityCompat.startActivity(mImageView.context, intent, options)
             }
-
         }
+
     }
 
     companion object {

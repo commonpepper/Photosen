@@ -1,23 +1,21 @@
 package com.commonpepper.photosen.network.datasource
 
-import androidx.paging.PageKeyedDataSource
 import com.commonpepper.photosen.Photosen
-import com.commonpepper.photosen.network.NetworkState
+import com.commonpepper.photosen.Photosen.Companion.flickrApi
 import com.commonpepper.photosen.model.Photo
 import com.commonpepper.photosen.model.SearchPhotos
-
-import java.io.IOException
+import com.commonpepper.photosen.network.NetworkState
 import retrofit2.Response
+import java.io.IOException
 
-class SearchListDataSourceFactory(private val query: String, private val tags: String, private val sort: String) : AbstractListDataSourceFactory<Photo>() {
-
-    override fun create(): AbstractListDataSource<Photo> {
-        val dataSource = object : AbstractListDataSource<Photo>() {
+class SearchListDataSourceFactory(private val query: String, private val tags: String, private val sort: String) : AbstractListDataSourceFactory<Photo?>() {
+    override fun create(): AbstractListDataSource<Photo?> {
+        val dataSource: AbstractListDataSource<Photo?> = object : AbstractListDataSource<Photo?>() {
             @Throws(IOException::class)
-            override fun loadFirst(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, Photo>) {
-                val response = Photosen.flickrApi.searchPhotos(query, tags, sort, 1, Photosen.PAGE_SIZE).execute()
-                if (response.isSuccessful && response.code() == 200 && response.body() != null && response.body()!!.stat != null && response.body()!!.stat == "ok") {
-                    callback.onResult(response.body()!!.photos.photo, null, 2)
+            override fun loadFirst(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, Photo?>) {
+                val response: Response<SearchPhotos?> = flickrApi.searchPhotos(query, tags, sort, 1, Photosen.PAGE_SIZE).execute()
+                if (response.isSuccessful && response.code() == 200 && response.body()?.stat == "ok") {
+                    callback.onResult(response.body()!!.photos!!.photo!!, null, 2)
                     networkState.postValue(NetworkState.SUCCESS)
                 } else {
                     networkState.postValue(NetworkState.FAILED)
@@ -25,10 +23,10 @@ class SearchListDataSourceFactory(private val query: String, private val tags: S
             }
 
             @Throws(IOException::class)
-            override fun loadNext(params: LoadParams<Int>, callback: LoadCallback<Int, Photo>) {
-                val response = Photosen.flickrApi.searchPhotos(query, tags, sort, params.key, Photosen.PAGE_SIZE).execute()
-                if (response.isSuccessful && response.code() == 200 && response.body() != null && response.body()!!.stat != null && response.body()!!.stat == "ok") {
-                    callback.onResult(response.body()!!.photos.photo, params.key + 1)
+            override fun loadNext(params: LoadParams<Int>, callback: LoadCallback<Int, Photo?>) {
+                val response: Response<SearchPhotos?> = flickrApi.searchPhotos(query, tags, sort, params.key, Photosen.PAGE_SIZE).execute()
+                if (response.isSuccessful && response.code() == 200 && response.body()?.stat == "ok") {
+                    callback.onResult(response.body()!!.photos!!.photo!!, params.key + 1)
                     networkState.postValue(NetworkState.SUCCESS)
                 } else {
                     networkState.postValue(NetworkState.FAILED)
@@ -38,4 +36,5 @@ class SearchListDataSourceFactory(private val query: String, private val tags: S
         liveDataSource.postValue(dataSource)
         return dataSource
     }
+
 }
