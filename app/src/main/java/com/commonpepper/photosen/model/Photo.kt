@@ -29,8 +29,8 @@ data class Photo(
         var url_o: String?,
         var height_o: Int?,
         var width_o: Int?,
-        var height_z: Int?,
-        var width_z: Int?,
+        var height_z: Int = 0,
+        var width_z: Int = 0,
         var owner_name: String?,
         var tags: String?,
         @PrimaryKey(autoGenerate = true)

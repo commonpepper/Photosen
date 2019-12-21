@@ -31,7 +31,7 @@ class HistoryAdapter : PagedListAdapter<Photo?, ViewHolder>(Photo.DIFF_CALLBACK)
         private val mImageView: ImageView = itemView.findViewById(id.item_image_imageView)
         fun bind(photo: Photo?) {
             val gd = GradientDrawable()
-            gd.setSize(photo!!.width_z!!, photo.height_z!!)
+            gd.setSize(photo!!.width_z, photo.height_z)
             gd.shape = GradientDrawable.RECTANGLE
             val colors = mImageView.resources.obtainTypedArray(array.scroll_colors)
             val index = (Math.random() * colors.length()).toInt()
