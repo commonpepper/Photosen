@@ -1,0 +1,93 @@
+<resources>
+    <string name="app_name" translatable="false">Photosen</string>
+    <string name="something_went_wrong">ऊप्स! कुछ गलत हो गया।</string>
+    <string name="try_again">पुनः प्रयास करें</string>
+    <string name="open_in_browser">ब्राउज़र में खोलें</string>
+    <string name="search_text">पाठ खोजें</string>
+    <string name="search">खोज</string>
+    <string name="set_as_wallpaper">वॉलपेपर के रूप में सेट करें</string>
+    <string name="download">डाउनलोड</string>
+    <string name="no_permisson">बिना अनुमति के फ़ाइल डाउनलोड नहीं कर सकता</string>
+    <string name="downloading_image">छवि डाउनलोड हो रही है …</string>
+    <string name="downloading_wallpaper">वॉलपेपर डाउनलोड हो रहा है …</string>
+    <string name="download_error">डाउनलोड त्रुटि</string>
+    <string name="download_complete">डाउनलोड सम्पन्न हुआ</string>
+    <string name="click_here_to_open">खोलने के लिए यहां क्लिक करें</string>
+    <string name="open_file_with">के साथ फ़ाइल खोलें</string>
+    <string name="download_started">डाउनलोड शुरू किया</string>
+    <string name="please_wait_for_current_download">कृपया वर्तमान डाउनलोड की प्रतीक्षा करें</string>
+    <string name="tags">टैग:</string>
+    <string name="new_search_tag">नया खोज टैग</string>
+    <string name="popular">लोकप्रिय</string>
+    <string name="now">अभी</string>
+    <string name="about">के बारे में</string>
+    <string name="version">संस्करण</string>
+    <string name="github" translatable="false">Github</string>
+    <string name="github_link" translatable="false">github.com/commonpepper/photosen</string>
+    <string name="photos_provided_by_flickr_com">तस्वीरें flickr.com द्वारा प्रदान की गई हैं</string>
+    <string name="support_development">विकास का समर्थन करें</string>
+    <string name="rate">मूल्यांकन करें</string>
+    <string name="if_you_like_photosen_rate_it_on_play_store">इस एप्लिकेशन का उपयोग करने के लिए धन्यवाद! अगर आपको Photosen पसंद है, तो कृपया इसे Google Play पर रेट करें।</string>
+    <string name="share_with">के साथ शेयर करें</string>
+    <string name="flickr_image">फ़्लिकर छवि</string>
+    <string name="share">शेयर</string>
+    <string name="latest">नवीनतम</string>
+    <string name="most_viewed">सबसे ज्यादा देखा गया</string>
+    <string name="apply">लागू</string>
+    <string name="error">त्रुटि</string>
+    <string name="crop_wallpaper">फसल वॉलपेपर</string>
+    <string name="categories">श्रेणियाँ</string>
+    <string name="libraries">पुस्तकालय</string>
+    <string name="retrofit" translatable="false">Retrofit</string>
+    <string name="retrofit_desc" translatable="false">Type-safe HTTP client for Android and Java by Square, Inc.</string>
+    <string name="picasso" translatable="false">Picasso</string>
+    <string name="picasso_desc" translatable="false">A powerful image downloading and caching library for Android</string>
+    <string name="photoview" translatable="false">PhotoView</string>
+    <string name="photoview_desc" translatable="false">Implementation of ImageView for Android that supports zooming, by various touch gestures.</string>
+    <string name="android_image_cropper" translatable="false">Android Image Cropper</string>
+    <string name="image_cropper_desc" translatable="false">Image Cropping Library for Android, optimized for Camera / Gallery.</string>
+    <string name="taptargetview" translatable="false">TapTargetView</string>
+    <string name="taptargetview_desc" translatable="false">An implementation of tap targets from the Material Design guidelines for feature discovery</string>
+    <string name="androidrate_desc" translatable="false">Rate app dialog library</string>
+    <string name="androidrate" translatable="false">AndroidRate</string>
+    <string name="download_fab_hint">डिफ़ॉल्ट फ़ोल्डर में छवि डाउनलोड करें</string>
+    <string name="set_as_wallpaper_fab_hint">डाउनलोड करें और वॉलपेपर के रूप में सेट करें</string>
+    <string name="relevant">से मिलता जुलता</string>
+    <string name="appintro" translatable="false">AppIntro</string>
+    <string name="make_a_cool_intro_for_your_android_app" translatable="false">Make a cool intro for your Android app.</string>
+    <string name="welcome">स्वागत हे!</string>
+    <string name="welcome_desc">यह लघु परिचय आपको ऐप की मुख्य कार्यक्षमता प्रदान करेगा।</string>
+    <string name="intro_navigation">संचालन सूची</string>
+    <string name="intro_navigation_desc">यह इस एक को छोड़कर किसी भी ऐप स्क्रीन के बाईं ओर से स्लाइड करके उपलब्ध है।</string>
+    <string name="intro_categories">श्रेणियाँ</string>
+    <string name="intro_categories_desc">मेनू से उपलब्ध छवियों की सबसे लोकप्रिय श्रेणियों का प्रयास करें।</string>
+    <string name="intro_search">खोज</string>
+    <string name="intro_search_desc">यह मेनू और \ "लोकप्रिय \" स्क्रीन से उपलब्ध है।</string>
+    <string name="intro_rate_the_app">एप्लिकेशन की श्रेणी बताओ!</string>
+    <string name="intro_support_development">विकास का समर्थन करें!</string>
+    <string name="intro_support_desc">फोटोसेन पूरी तरह से स्वतंत्र है और यह विज्ञापन प्रदर्शित नहीं करता है, इसलिए आपकी समीक्षा मेरे लिए बहुत महत्वपूर्ण है। आप इसे बाद में मेनू में \ "About \" पर क्लिक करके कर सकते हैं। धन्यवाद!</string>
+    <string name="introduction">परिचय</string>
+    <string name="load_comments">टिप्पणियां दिखाएं</string>
+    <string name="hide_comments">टिप्पणियाँ छिपाएँ</string>
+    <string name="expandablelayout" translatable="false">ExpandableLayout</string>
+    <string name="an_expandable_layout_container_for_android" translatable="false">An expandable layout container for Android</string>
+    <string name="history">इतिहास</string>
+    <string name="clear_history">इतिहास मिटा दें</string>
+    <string name="clear_confirm">क्या आप वास्तव में इतिहास को साफ़ करना चाहते हैं?</string>
+    <plurals name="x_pixels">
+        <item quantity="zero">%1$d pixels</item>
+        <item quantity="one">%1$d pixel</item>
+        <item quantity="two">%1$d pixels</item>
+        <item quantity="few">%1$d pixels</item>
+        <item quantity="many">%1$d pixels</item>
+        <item quantity="other">%1$d pixels</item>
+    </plurals>
+    <plurals name="x_views">
+        <item quantity="zero">%1$d views</item>
+        <item quantity="one">%1$d view</item>
+        <item quantity="two">%1$d views</item>
+        <item quantity="few">%1$d views</item>
+        <item quantity="many">%1$d views</item>
+        <item quantity="other">%1$d views</item>
+    </plurals>
+</resources>
