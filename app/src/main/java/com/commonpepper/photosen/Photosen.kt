@@ -29,6 +29,7 @@ class Photosen : Application() {
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         configureCrashReporting()
         database = Room.databaseBuilder(this, PhotosenDatabase::class.java, "photosen_database")
+                .fallbackToDestructiveMigration()
                 .build()
     }
 
