@@ -33,8 +33,6 @@ open class AbstractListFragment : Fragment() {
     }
 
     fun scrollToTop() {
-        if (mRecyclerView != null) {
-            mRecyclerView!!.scrollToPosition(0)
-        }
+        mRecyclerView?.scrollToPosition(0)
     }
 }

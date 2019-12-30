@@ -3,6 +3,7 @@ package com.commonpepper.photosen.ui.activities
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.View.OnClickListener
@@ -10,8 +11,8 @@ import android.view.WindowManager.LayoutParams
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager
 import com.commonpepper.photosen.R.*
@@ -22,8 +23,10 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
+import kotlinx.android.synthetic.main.activity_search.*
 
 class SearchActivity : AbstractNavActivity() {
+    override val abstractDrawerLayout: DrawerLayout get() = drawerLayout
     private var searchText: EditText? = null
     private var chipGroup: ChipGroup? = null
     private var firstChip: Chip? = null
@@ -35,15 +38,14 @@ class SearchActivity : AbstractNavActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(layout.activity_search)
-        viewPager = findViewById<ViewPager?>(id.view_pager)
-        tabLayout = findViewById<TabLayout?>(id.tab_layout)
+        viewPager = findViewById<ViewPager?>(id.viewPager)
+        tabLayout = findViewById<TabLayout?>(id.tabLayout)
         searchText = findViewById<EditText?>(id.search_edit_text)
         val toolbar: Toolbar = findViewById(id.search_toolbar)
         chipGroup = findViewById<ChipGroup?>(id.search_chip_group)
         firstChip = findViewById<Chip?>(id.search_first_chip)
         inputTag = findViewById<EditText?>(id.tag_input)
-        drawerLayout = findViewById(id.drawer_layout)
-        val navigationView: NavigationView = findViewById(id.nav_view)
+        val navigationView: NavigationView = findViewById(id.navigationView)
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
@@ -74,16 +76,16 @@ class SearchActivity : AbstractNavActivity() {
             firstChip!!.setOnCloseIconClickListener(onChipClickListener)
             doSearch()
         }
-        searchText!!.setOnEditorActionListener { v: TextView?, actionId: Int, event: KeyEvent? ->
-            viewModel!!.queue = searchText!!.text.toString()
+        searchText!!.setOnEditorActionListener { _, _, _ ->
+            viewModel!!.query = searchText!!.text.toString()
             doSearch()
             true
         }
-        inputTag!!.setOnEditorActionListener { v: TextView?, actionId: Int, event: KeyEvent? ->
+        inputTag!!.setOnEditorActionListener { _, actionId: Int, event: KeyEvent? ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH || actionId == EditorInfo.IME_ACTION_DONE || event != null && event.action == KeyEvent.ACTION_DOWN && event.keyCode == KeyEvent.KEYCODE_ENTER) {
                 if (event == null || !event.isShiftPressed) {
                     val newTag = inputTag!!.text.toString()
-                    if (newTag.length > 0 && !viewModel!!.tags.contains(newTag)) {
+                    if (newTag.isNotEmpty() && !viewModel!!.tags.contains(newTag)) {
                         addNewChip(newTag)
                         viewModel!!.tags.add(newTag)
                         inputTag!!.setText("")
@@ -119,26 +121,28 @@ class SearchActivity : AbstractNavActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (searchText!!.text.toString().length > 0) {
+        if (searchText!!.text.toString().isNotEmpty()) {
             window.setSoftInputMode(LayoutParams.SOFT_INPUT_STATE_HIDDEN)
         }
     }
 
     private fun doSearch() {
-        var query = viewModel!!.queue
-        if (query != null && query.length == 0) query = null
-        val tagsExtra = viewModel!!.tagsToString()
-        if (query != null || tagsExtra != null) {
+        var query = viewModel!!.query
+        if (query != null && query.isEmpty()) query = null
+        val tagsExtra = viewModel!!.tags.joinToString(",")
+        Log.d("ASD", tagsExtra)
+        if (query != null || tagsExtra.isNotEmpty()) {
             tabLayout!!.visibility = View.VISIBLE
             val fragmentRelevant = newInstance(query, tagsExtra, "relevance")
             val fragmentMostViewed = newInstance(query, tagsExtra, "interestingness-desc")
             val fragmentLatest = newInstance(query, tagsExtra, "date-posted-desc")
-            mPagerAdapter!!.clear()
-            mPagerAdapter!!.addFragment(fragmentRelevant, getString(string.relevant))
-            mPagerAdapter!!.addFragment(fragmentMostViewed, getString(string.most_viewed))
-            mPagerAdapter!!.addFragment(fragmentLatest, getString(string.latest))
-            var view = this.currentFocus
-            if (view == null) view = View(this)
+            mPagerAdapter?.apply {
+                clear()
+                addFragment(fragmentRelevant, getString(string.relevant))
+                addFragment(fragmentMostViewed, getString(string.most_viewed))
+                addFragment(fragmentLatest, getString(string.latest))
+            }
+            val view = this.currentFocus ?: View(this)
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(view.windowToken, 0)
         }
@@ -151,6 +155,6 @@ class SearchActivity : AbstractNavActivity() {
 
     companion object {
         const val TAG_SEARCHTAG = "search_tag"
-        private const val TAG_RECREATED = "rotated_tag"
+        const val TAG_RECREATED = "rotated_tag"
     }
 }

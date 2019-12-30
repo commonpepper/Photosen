@@ -7,32 +7,32 @@ import android.os.Bundle
 import android.view.View
 import android.view.View.OnClickListener
 import android.widget.LinearLayout
-import android.widget.TextView
-import androidx.appcompat.widget.Toolbar
+import androidx.drawerlayout.widget.DrawerLayout
 import com.commonpepper.photosen.BuildConfig
 import com.commonpepper.photosen.Photosen
 import com.commonpepper.photosen.Photosen.Companion.firebaseAnalytics
 import com.commonpepper.photosen.R.*
-import com.google.android.material.navigation.NavigationView
+import kotlinx.android.synthetic.main.activity_about.*
+import kotlinx.android.synthetic.main.navigation_view.*
 
 class AboutActivity : AbstractNavActivity() {
+    override val abstractDrawerLayout: DrawerLayout get() = drawerLayout
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(layout.activity_about)
-        val toolbar: Toolbar = findViewById(id.about_toolbar)
-        drawerLayout = findViewById(id.drawer_layout)
-        val navigationView: NavigationView = findViewById(id.nav_view)
-        val versionView: TextView = findViewById(id.version_view)
-        setSupportActionBar(toolbar)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.setDisplayShowHomeEnabled(true)
-        supportActionBar!!.title = getString(string.about)
-        navigationView.menu.findItem(id.drawer_about).isCheckable = true
-        navigationView.menu.findItem(id.drawer_about).isChecked = true
-        navigationView.setNavigationItemSelectedListener(this)
+        setSupportActionBar(aboutToolbar)
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
+            title = getString(string.about)
+        }
+        navigationView.menu.findItem(id.drawer_about).apply {
+            isCheckable = true
+            isChecked = true
+        }
         versionView.text = BuildConfig.VERSION_NAME
-        val containers = arrayOf(
-                findViewById(id.layout_about_introduction),
+        listOf(findViewById(id.layout_about_introduction),
                 findViewById(id.layout_about_version),
                 findViewById(id.layout_about_github),
                 findViewById(id.layout_about_flickr),
@@ -45,11 +45,9 @@ class AboutActivity : AbstractNavActivity() {
                 findViewById(id.layout_about_androidrate),
                 findViewById(id.layout_about_appintro),
                 findViewById<LinearLayout>(id.layout_about_expandable)
-        )
-        for (r in containers) {
-            r.setOnClickListener(clickListener)
-        }
+        ).forEach { it.setOnClickListener(clickListener) }
     }
+
 
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
@@ -65,7 +63,7 @@ class AboutActivity : AbstractNavActivity() {
             id.layout_about_github -> openUrl("https://" + resources.getString(string.github_link))
             id.layout_about_flickr -> openUrl("https://flickr.com")
             id.layout_about_rate -> {
-                firebaseAnalytics!!.logEvent("ABOUT_RATE", null)
+                firebaseAnalytics.logEvent("ABOUT_RATE", null)
                 val uri: Uri? = Uri.parse("market://details?id=" + Photosen.PACKAGE_NAME)
                 val goToMarket = Intent(Intent.ACTION_VIEW, uri)
                 goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY or

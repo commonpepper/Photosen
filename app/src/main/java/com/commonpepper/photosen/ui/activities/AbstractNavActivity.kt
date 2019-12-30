@@ -8,7 +8,7 @@ import com.commonpepper.photosen.R
 import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener
 
 abstract class AbstractNavActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
-    protected var drawerLayout: DrawerLayout? = null
+    abstract val abstractDrawerLayout: DrawerLayout
     override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
         when (menuItem.itemId) {
             R.id.drawer_search -> {
@@ -32,7 +32,7 @@ abstract class AbstractNavActivity : AppCompatActivity(), OnNavigationItemSelect
                 startActivity(intent)
             }
         }
-        if (drawerLayout != null) drawerLayout!!.closeDrawers()
+        abstractDrawerLayout.closeDrawers()
         return true
     }
 }

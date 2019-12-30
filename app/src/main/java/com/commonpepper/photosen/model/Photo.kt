@@ -60,7 +60,7 @@ data class Photo(
 
     val isSexuallyExplicit: Boolean
         get() {
-            val explicit: Array<String> = instance!!.resources.getStringArray(array.sexually_explicit_content_words)
+            val explicit: Array<String> = instance.resources.getStringArray(array.sexually_explicit_content_words)
             for (str in explicit) {
                 if (tags?.toLowerCase()?.contains(str) == true) {
                     Log.d("EXPLICIT tags:", tags!!.toLowerCase() + " CONTAINS " + str)

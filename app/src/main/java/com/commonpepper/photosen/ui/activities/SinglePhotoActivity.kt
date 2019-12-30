@@ -16,6 +16,7 @@ import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout.LayoutParams
 import androidx.core.widget.NestedScrollView
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import com.commonpepper.photosen.Photosen
 import com.commonpepper.photosen.Photosen.Companion.instance
@@ -36,9 +37,11 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton.Behavior
 import com.google.android.material.navigation.NavigationView
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_single_photo.*
 import java.util.concurrent.Executors
 
 class SinglePhotoActivity : AbstractNavActivity() {
+    override val abstractDrawerLayout: DrawerLayout get() = drawerLayout
     private var photo: Photo? = null
     private var action: Aciton? = null
     private var detailsFragment: PhotoDetailsFragment? = null
@@ -46,15 +49,14 @@ class SinglePhotoActivity : AbstractNavActivity() {
         super.onCreate(savedInstanceState)
         setContentView(layout.activity_single_photo)
         val toolbar: Toolbar = findViewById(id.single_image_toolbar)
-        drawerLayout = findViewById(id.drawer_layout)
-        val navigationView: NavigationView = findViewById(id.nav_view)
+        val navigationView: NavigationView = findViewById(id.navigationView)
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
         navigationView.setNavigationItemSelectedListener(this)
         photo = intent.getParcelableExtra(PHOTO_TAG)
         val saveHistory = intent.getBooleanExtra(SAVE_HISTORY_TAG, true)
-        val historyDao = instance!!.database!!.historyDao
+        val historyDao = instance.database.historyDao
         if (saveHistory) {
             Executors.newSingleThreadExecutor().execute {
                 photo!!.time = System.currentTimeMillis()
@@ -68,13 +70,13 @@ class SinglePhotoActivity : AbstractNavActivity() {
         val fabSetWallpaper: FloatingActionButton = findViewById(id.fab_wallpaper)
         hideFAB(fabDownload)
         hideFAB(fabSetWallpaper)
-        fabDownload.setOnClickListener { v: View? ->
+        fabDownload.setOnClickListener {
             action = Aciton.DOWNLOAD_ONLY
             if (isStoragePermissionGranted(this@SinglePhotoActivity)) {
                 downloadPhoto()
             }
         }
-        fabSetWallpaper.setOnClickListener { v: View? ->
+        fabSetWallpaper.setOnClickListener {
             action = Aciton.WALLPAPER
             if (isStoragePermissionGranted(this@SinglePhotoActivity)) {
                 downloadPhoto()
@@ -143,7 +145,7 @@ class SinglePhotoActivity : AbstractNavActivity() {
                 ).continueOnCancel(true).start()
                 prefs.edit().putBoolean(PREFERENCE_FIRST_LAUNCH, false).apply()
             }
-            imageView.setOnClickListener { v: View? ->
+            imageView.setOnClickListener {
                 val sizes = x.sizes!!.size
                 val url = sizes!![sizes.size - 1].source
                 val intent = Intent(this@SinglePhotoActivity, PreviewActivity::class.java)

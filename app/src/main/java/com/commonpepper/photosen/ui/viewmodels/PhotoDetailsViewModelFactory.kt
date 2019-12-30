@@ -20,19 +20,19 @@ class PhotoDetailsViewModelFactory(private val photo_id: String, private val sec
     }
 
     inner class PhotoDetailsViewModel : ViewModel() {
-        private val photoDetails = MutableLiveData<PhotoDetails>()
-        private val photoSizes = MutableLiveData<PhotoSizes>()
-        private val networkStateDetails = MutableLiveData<NetworkState>()
-        private val networkStateSizes = MutableLiveData<NetworkState>()
-        private val networkState = MutableLiveData<NetworkState>()
-        private val observerDetails = Observer { x: NetworkState ->
+        val photoDetails = MutableLiveData<PhotoDetails>()
+        val photoSizes = MutableLiveData<PhotoSizes>()
+        val networkStateDetails = MutableLiveData<NetworkState>()
+        val networkStateSizes = MutableLiveData<NetworkState>()
+        val networkState = MutableLiveData<NetworkState>()
+        val observerDetails = Observer { x: NetworkState ->
             if (x == NetworkState.SUCCESS && networkStateSizes.value == NetworkState.SUCCESS) {
                 networkState.postValue(NetworkState.SUCCESS)
             } else if (x == NetworkState.FAILED) {
                 networkState.postValue(NetworkState.FAILED)
             }
         }
-        private val observerSizes = Observer { x: NetworkState ->
+        val observerSizes = Observer { x: NetworkState ->
             if (x == NetworkState.SUCCESS && networkStateDetails.value == NetworkState.SUCCESS) {
                 networkState.postValue(NetworkState.SUCCESS)
             } else if (x == NetworkState.FAILED) {
@@ -85,18 +85,6 @@ class PhotoDetailsViewModelFactory(private val photo_id: String, private val sec
         override fun onCleared() {
             networkStateDetails.removeObserver(observerDetails)
             networkStateSizes.removeObserver(observerSizes)
-        }
-
-        fun getPhotoDetails(): LiveData<PhotoDetails?> {
-            return photoDetails
-        }
-
-        fun getNetworkState(): LiveData<NetworkState> {
-            return networkState
-        }
-
-        fun getPhotoSizes(): LiveData<PhotoSizes> {
-            return photoSizes
         }
     }
 

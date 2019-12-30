@@ -2,21 +2,23 @@ package com.commonpepper.photosen.ui.activities
 
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.commonpepper.photosen.R.*
 import com.commonpepper.photosen.ui.adapters.CategoriesAdapter
-import com.google.android.material.navigation.NavigationView
+import kotlinx.android.synthetic.main.activity_categories.*
+import kotlinx.android.synthetic.main.navigation_view.*
 
 class CategoriesActivity : AbstractNavActivity() {
+    override val abstractDrawerLayout: DrawerLayout get() = drawerLayout
+
     internal var mToolbar: Toolbar? = null
     internal var mRecyclerView: RecyclerView? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(layout.activity_categories)
         mToolbar = findViewById<Toolbar?>(id.toolbar)
-        drawerLayout = findViewById(id.drawer_layout)
-        val navigationView: NavigationView = findViewById(id.nav_view)
         mRecyclerView = findViewById<RecyclerView?>(id.categories_recycler)
         setSupportActionBar(mToolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)

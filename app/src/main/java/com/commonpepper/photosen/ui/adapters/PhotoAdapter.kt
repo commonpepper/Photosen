@@ -12,6 +12,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityOptionsCompat
+import androidx.core.content.ContextCompat
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.commonpepper.photosen.R.*
@@ -98,8 +99,8 @@ class PhotoAdapter : PagedListAdapter<Photo?, ViewHolder>(Photo.DIFF_CALLBACK) {
                     ActivityCompat.startActivity(mImageView.context, intent, options)
                 }
             } else {
-                mImageView.setImageDrawable(mImageView.resources.getDrawable(drawable.explicit_content))
-                mImageView.setOnClickListener { v: View? -> }
+                mImageView.setImageDrawable(ContextCompat.getDrawable(mImageView.context, drawable.explicit_content))
+                mImageView.setOnClickListener { }
             }
         }
 

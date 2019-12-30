@@ -25,7 +25,7 @@ class HistoryActivityViewModel : ViewModel() {
                 .setPrefetchDistance(Photosen.PREFETCH_DISTANCE)
                 .setInitialLoadSizeHint(Photosen.PAGE_SIZE)
                 .build()
-        dataSourceFactory = instance!!.database!!.historyDao.paged
+        dataSourceFactory = instance.database.historyDao.paged
         photosList = LivePagedListBuilder(dataSourceFactory, config)
                 .setFetchExecutor(Executors.newSingleThreadExecutor())
                 .build()

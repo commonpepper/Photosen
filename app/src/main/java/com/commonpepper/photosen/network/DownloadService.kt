@@ -4,10 +4,13 @@ import android.R.drawable
 import android.app.*
 import android.content.Context
 import android.content.Intent
+import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
 import android.os.Environment
+import android.provider.MediaStore
+import android.util.Log
 import androidx.core.app.NotificationCompat.Builder
 import androidx.core.content.FileProvider
 import com.commonpepper.photosen.Photosen
@@ -17,6 +20,7 @@ import com.commonpepper.photosen.ui.activities.CropActivity
 import java.io.*
 import java.net.HttpURLConnection
 import java.net.URL
+
 
 class DownloadService : IntentService("PhotosenDownloadService") {
     private var mgr: NotificationManager? = null
@@ -31,7 +35,7 @@ class DownloadService : IntentService("PhotosenDownloadService") {
     }
 
     override fun onHandleIntent(intent: Intent?) {
-        firebaseAnalytics!!.logEvent("Download_start", null)
+        firebaseAnalytics.logEvent("Download_start", null)
         val urlToDownload: String? = intent!!.getStringExtra(TAG_URL)
         filename = intent.getStringExtra(TAG_FILENAME)
         aciton = intent.getSerializableExtra(TAG_ACTION) as Aciton
@@ -58,7 +62,7 @@ class DownloadService : IntentService("PhotosenDownloadService") {
             try {
                 val `in`: InputStream = c.inputStream
                 val buffer = ByteArray(8192)
-                var len = 0
+                var len: Int
                 var sum = 0
                 while (`in`.read(buffer).also { len = it } >= 0) {
                     out.write(buffer, 0, len)
@@ -72,7 +76,16 @@ class DownloadService : IntentService("PhotosenDownloadService") {
                 c.disconnect()
             }
             val uri: Uri = FileProvider.getUriForFile(this, Photosen.PACKAGE_NAME + ".fileprovider", File(path))
+
+            //Different ways of scan image work on different devices
             sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri))
+            MediaScannerConnection.scanFile(applicationContext, arrayOf(path), arrayOf("image/*")) { _, _->}
+//            if (VERSION.SDK_INT >= VERSION_CODES.Q) {
+//                MediaStore.setIncludePending(uri)
+//            } else {
+//                MediaStore.Images.Media.insertImage(contentResolver, path, filename, "")
+//            }
+
             if (aciton == Aciton.WALLPAPER) {
                 try {
                     val wallpaperIntent: Intent = WallpaperManager.getInstance(this).getCropAndSetWallpaperIntent(uri)
@@ -82,7 +95,7 @@ class DownloadService : IntentService("PhotosenDownloadService") {
                     wallpaperIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                     wallpaperIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
                     startActivity(wallpaperIntent)
-                    firebaseAnalytics!!.logEvent("Crop_and_set_wallpaper_intent", null)
+                    firebaseAnalytics.logEvent("Crop_and_set_wallpaper_intent", null)
                 } catch (e: IllegalArgumentException) {
                     //can't crop and set with default methods
 
@@ -90,7 +103,7 @@ class DownloadService : IntentService("PhotosenDownloadService") {
                     myCrop.putExtra(CropActivity.TAG_URISTR, uri.toString())
                     myCrop.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                     startActivity(myCrop)
-                    firebaseAnalytics!!.logEvent("My_crop", null)
+                    firebaseAnalytics.logEvent("My_crop", null)
                 }
             }
             completeNotification(uri, null)
@@ -134,6 +147,7 @@ class DownloadService : IntentService("PhotosenDownloadService") {
             val pendingIntent: PendingIntent? = PendingIntent.getActivity(this, 0, chooser, PendingIntent.FLAG_CANCEL_CURRENT)
             builder.setContentIntent(pendingIntent)
         } else {
+            Log.d(TAG, e.message!!)
             builder.setContentTitle(getString(string.download_error))
                     .setContentText(e.message)
                     .setSmallIcon(drawable.stat_notify_error)

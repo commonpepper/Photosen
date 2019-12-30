@@ -31,8 +31,6 @@ class CommentsAdapter(private val comments: Comments?) : Adapter<CommentsAdapter
         val iconUrl = "https://flickr.com/buddyicons/" + comment.author + ".jpg"
         Picasso.get().load(iconUrl).into(holder.avatar)
         holder.username.text = comment.authorname
-//        holder.comment.setText(comment.get_content());
-
 
         if (VERSION.SDK_INT >= VERSION_CODES.N) {
             holder.comment.text = Html.fromHtml(comment.get_content(), Html.FROM_HTML_MODE_COMPACT)

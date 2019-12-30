@@ -88,15 +88,15 @@ class PhotoDetailsFragment : Fragment() {
         tagsLabel = view.findViewById<TextView?>(R.id.tags_label)
         usernameLayout = view.findViewById<LinearLayout?>(R.id.single_image_username_layout)
         showRunning()
-        mViewModel!!.getNetworkState().observe(this, Observer { networkState: NetworkState ->
+        mViewModel!!.networkState.observe(this, Observer { networkState: NetworkState ->
             if (networkState == NetworkState.RUNNING) {
                 showRunning()
             } else if (networkState == NetworkState.FAILED) {
                 showFailed()
             } //else SUCCESS
         })
-        mViewModel!!.getPhotoDetails().observe(this, Observer { photoDetails: PhotoDetails? -> if (photoDetails != null) showSuccess(photoDetails) })
-        mViewModel!!.getPhotoSizes().observe(this, Observer { sizes: PhotoSizes ->
+        mViewModel!!.photoDetails.observe(this, Observer { photoDetails: PhotoDetails? -> if (photoDetails != null) showSuccess(photoDetails) })
+        mViewModel!!.photoSizes.observe(this, Observer { sizes: PhotoSizes ->
             photoSizes.postValue(sizes)
             if (sizes.sizes!!.size!!.isNotEmpty()) {
                 val width = sizes.sizes!!.size!![sizes.sizes!!.size!!.size - 1].width
@@ -122,7 +122,7 @@ class PhotoDetailsFragment : Fragment() {
         detailsLayout!!.visibility = View.VISIBLE
         Picasso.get().load(photo!!.iconUrl).into(imageViewAvatar)
         username!!.text = photoDetails.photo!!.owner!!.username
-        usernameLayout!!.setOnClickListener { v: View? ->
+        usernameLayout!!.setOnClickListener {
             val intent: Intent? = UserActivity.getStartingIntent(activity, photoDetails.photo!!.owner!!.nsid,
                     photoDetails.photo!!.owner!!.username,
                     photo!!.iconUrl)
@@ -148,7 +148,7 @@ class PhotoDetailsFragment : Fragment() {
             val chip = Chip(context)
             chip.transitionName = "sharedChip"
             chip.text = tag.raw
-            chip.setOnClickListener { v: View? ->
+            chip.setOnClickListener {
                 val intent = Intent(this@PhotoDetailsFragment.context, SearchActivity::class.java)
                 intent.putExtra(SearchActivity.TAG_SEARCHTAG, tag.raw)
                 val options = ActivityOptionsCompat.makeSceneTransitionAnimation((this@PhotoDetailsFragment.context as Activity?)!!,

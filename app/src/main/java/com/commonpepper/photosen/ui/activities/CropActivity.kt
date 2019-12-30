@@ -15,27 +15,27 @@ import com.commonpepper.photosen.R
 import com.commonpepper.photosen.R.*
 import com.theartofdev.edmodo.cropper.CropImageView
 import com.theartofdev.edmodo.cropper.CropImageView.CropResult
+import kotlinx.android.synthetic.main.activity_crop.*
 import java.io.IOException
 
 class CropActivity : AppCompatActivity() {
-    private var cropView: CropImageView? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(layout.activity_crop)
-        val toolbar: Toolbar = findViewById(id.toolbar)
-        cropView = findViewById<CropImageView?>(id.cropView)
         setSupportActionBar(toolbar)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.setDisplayShowHomeEnabled(true)
-        supportActionBar!!.setHomeAsUpIndicator(drawable.ic_close_white_24dp)
-        supportActionBar!!.title = getString(string.crop_wallpaper)
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
+            setHomeAsUpIndicator(drawable.ic_close_white_24dp)
+            title = getString(string.crop_wallpaper)
+        }
         val width = WallpaperManager.getInstance(this).desiredMinimumWidth
         val height = WallpaperManager.getInstance(this).desiredMinimumHeight
         val uriStr: String? = intent.getStringExtra(TAG_URISTR)
         val sourceUri: Uri? = Uri.parse(uriStr)
-        cropView!!.setImageUriAsync(sourceUri)
-        cropView!!.setAspectRatio(width, height)
-        cropView!!.setOnCropImageCompleteListener { view: CropImageView?, result: CropResult ->
+        cropView.setImageUriAsync(sourceUri)
+        cropView.setAspectRatio(width, height)
+        cropView.setOnCropImageCompleteListener { _, result: CropResult ->
             if (result.error == null) {
                 try {
                     val bitmap: Bitmap? = result.bitmap

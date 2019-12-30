@@ -20,8 +20,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class Photosen : Application() {
-    var database: PhotosenDatabase? = null
-        private set
+    lateinit var database: PhotosenDatabase
 
     override fun onCreate() {
         super.onCreate()
@@ -46,23 +45,23 @@ class Photosen : Application() {
         const val PREFETCH_DISTANCE = 5
         const val PACKAGE_NAME = "com.commonpepper.photosen"
         const val PREFERENCES = "$PACKAGE_NAME.PREFERENCES"
-        var firebaseAnalytics: FirebaseAnalytics? = null
-            private set
-        var instance: Photosen? = null
-            private set
+        lateinit var firebaseAnalytics: FirebaseAnalytics
+        lateinit var instance: Photosen
 
-        val flickrApi: FlickrApi
-            get() = Retrofit.Builder()
+        val flickrApi: FlickrApi by lazy {
+            Retrofit.Builder()
                     .baseUrl(API_URL)
                     .client(client)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
                     .create(FlickrApi::class.java)
+        }
 
-        private val client: OkHttpClient
-            get() = OkHttpClient.Builder()
+        private val client by lazy {
+            OkHttpClient.Builder()
                     .addInterceptor(KeyFormatInterceptor())
                     .build()
+        }
 
         fun isStoragePermissionGranted(activity: Activity?): Boolean {
             return if (VERSION.SDK_INT >= 23) {

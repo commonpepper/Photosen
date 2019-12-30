@@ -19,7 +19,7 @@ class IntroSupportFragment : Fragment() {
         val view: View = inflater.inflate(layout.fragment_intro_support, container, false)
         val rate: Button = view.findViewById(R.id.intro_rate_btn)
         rate.setOnClickListener {
-            firebaseAnalytics!!.logEvent("INTRO_RATE", null)
+            firebaseAnalytics.logEvent("INTRO_RATE", null)
             val uri: Uri? = Uri.parse("market://details?id=" + Photosen.PACKAGE_NAME)
             val goToMarket = Intent(Intent.ACTION_VIEW, uri)
             goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY or

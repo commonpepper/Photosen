@@ -67,8 +67,8 @@ class CommentsFragment : Fragment(), OnExpansionUpdateListener {
         refreshButton = view.findViewById<Button?>(R.id.item_last_refreshButton)
         recyclerView = view.findViewById(R.id.comments_recycler)
         expandableLayout = view.findViewById(R.id.expandable_layout)
-        refreshButton!!.setOnClickListener { v: View? -> mViewModel!!.loadComments() }
-        showComments!!.setOnClickListener { v: View? ->
+        refreshButton!!.setOnClickListener { mViewModel!!.loadComments() }
+        showComments!!.setOnClickListener {
             mViewModel!!.hiden = false
             showComments!!.visibility = View.GONE
             hideComments!!.visibility = View.VISIBLE
@@ -78,7 +78,7 @@ class CommentsFragment : Fragment(), OnExpansionUpdateListener {
             }
             expandableLayout!!.setOnExpansionUpdateListener(this)
         }
-        hideComments!!.setOnClickListener { v: View? ->
+        hideComments!!.setOnClickListener {
             mViewModel!!.hiden = true
             showComments!!.visibility = View.VISIBLE
             hideComments!!.visibility = View.GONE

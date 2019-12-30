@@ -20,29 +20,37 @@ class IntroActivity : AppIntro() {
         skipButton.setBackgroundResource(outValue.resourceId)
         doneButton.setBackgroundResource(outValue.resourceId)
         val page1 = SliderPage()
-        page1.title = getString(string.welcome)
-        page1.description = getString(string.welcome_desc)
-        page1.imageDrawable = drawable.big_ic_launcher
-        page1.bgColor = color.colorAccent
-        addSlide(AppIntroFragment.newInstance(page1))
+        page1.apply {
+            title = getString(string.welcome)
+            description = getString(string.welcome_desc)
+            imageDrawable = drawable.big_ic_launcher
+            bgColor = color.colorAccent
+            addSlide(AppIntroFragment.newInstance(this))
+        }
         val page2 = SliderPage()
-        page2.title = getString(string.intro_navigation)
-        page2.description = getString(string.intro_navigation_desc)
-        page2.imageDrawable = drawable.menu_screen
-        page2.bgColor = color.colorAccent
-        addSlide(AppIntroFragment.newInstance(page2))
+        page2.apply {
+            title = getString(string.intro_navigation)
+            description = getString(string.intro_navigation_desc)
+            imageDrawable = drawable.menu_screen
+            bgColor = color.colorAccent
+            addSlide(AppIntroFragment.newInstance(this))
+        }
         val page3 = SliderPage()
-        page3.title = getString(string.intro_categories)
-        page3.description = getString(string.intro_categories_desc)
-        page3.imageDrawable = drawable.categories_screen
-        page3.bgColor = color.colorAccent
-        addSlide(AppIntroFragment.newInstance(page3))
+        page3.apply {
+            title = getString(string.intro_categories)
+            description = getString(string.intro_categories_desc)
+            imageDrawable = drawable.categories_screen
+            bgColor = color.colorAccent
+            addSlide(AppIntroFragment.newInstance(this))
+        }
         val page4 = SliderPage()
-        page4.title = getString(string.intro_search)
-        page4.description = getString(string.intro_search_desc)
-        page4.imageDrawable = drawable.search_screen
-        page4.bgColor = color.colorAccent
-        addSlide(AppIntroFragment.newInstance(page4))
+        page4.apply {
+            title = getString(string.intro_search)
+            description = getString(string.intro_search_desc)
+            imageDrawable = drawable.search_screen
+            bgColor = color.colorAccent
+            addSlide(AppIntroFragment.newInstance(this))
+        }
         addSlide(IntroSupportFragment())
     }
 
