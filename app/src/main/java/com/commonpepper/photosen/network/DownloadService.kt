@@ -79,7 +79,7 @@ class DownloadService : IntentService("PhotosenDownloadService") {
 
             //Different ways of scan image work on different devices
             sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri))
-            MediaScannerConnection.scanFile(applicationContext, arrayOf(path), arrayOf("image/*")) { _, _->}
+            MediaScannerConnection.scanFile(applicationContext, arrayOf(path), arrayOf("image/*")) { _, _ -> }
 //            if (VERSION.SDK_INT >= VERSION_CODES.Q) {
 //                MediaStore.setIncludePending(uri)
 //            } else {
@@ -89,11 +89,13 @@ class DownloadService : IntentService("PhotosenDownloadService") {
             if (aciton == Aciton.WALLPAPER) {
                 try {
                     val wallpaperIntent: Intent = WallpaperManager.getInstance(this).getCropAndSetWallpaperIntent(uri)
-                    wallpaperIntent.setDataAndType(uri, "image/*")
-                    wallpaperIntent.putExtra("mimeType", "image/*")
-                    wallpaperIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    wallpaperIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                    wallpaperIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+                    wallpaperIntent.apply {
+                        setDataAndType(uri, "image/*")
+                        putExtra("mimeType", "image/*")
+                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                                or Intent.FLAG_GRANT_READ_URI_PERMISSION
+                                or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+                    }
                     startActivity(wallpaperIntent)
                     firebaseAnalytics.logEvent("Crop_and_set_wallpaper_intent", null)
                 } catch (e: IllegalArgumentException) {
@@ -142,8 +144,7 @@ class DownloadService : IntentService("PhotosenDownloadService") {
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             val chooser: Intent? = Intent.createChooser(intent, getString(string.open_file_with))
             intent.setDataAndType(uri, "image/*")
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
             val pendingIntent: PendingIntent? = PendingIntent.getActivity(this, 0, chooser, PendingIntent.FLAG_CANCEL_CURRENT)
             builder.setContentIntent(pendingIntent)
         } else {

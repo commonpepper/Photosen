@@ -17,7 +17,7 @@
             android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.Toolbar
-                android:id="@+id/search_toolbar"
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:theme="@style/ToolbarTheme"
@@ -29,7 +29,7 @@
                     android:orientation="vertical">
 
                     <EditText
-                        android:id="@+id/search_edit_text"
+                        android:id="@+id/searchText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/search_text"
@@ -39,7 +39,7 @@
                         android:textColorHint="@color/colorHint" />
 
                     <EditText
-                        android:id="@+id/tag_input"
+                        android:id="@+id/tagInput"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/new_search_tag"
@@ -49,7 +49,7 @@
                         android:textColorHint="@color/colorHint" />
 
                     <com.google.android.material.chip.ChipGroup
-                        android:id="@+id/search_chip_group"
+                        android:id="@+id/searchChipGroup"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
@@ -58,7 +58,7 @@
                         android:animateLayoutChanges="true">
 
                         <com.google.android.material.chip.Chip
-                            android:id="@+id/search_first_chip"
+                            android:id="@+id/searchFirstChip"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="First Chip"

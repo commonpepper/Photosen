@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.commonpepper.photosen.R.id
 import com.commonpepper.photosen.R.layout
 import com.commonpepper.photosen.ui.activities.SearchActivity
+import kotlinx.android.synthetic.main.item_category.view.*
 import java.io.IOException
 
 class CategoriesAdapter(private val categories: Array<String>) : Adapter<CategoriesAdapter.CategoriesViewHolder>() {
@@ -26,19 +27,19 @@ class CategoriesAdapter(private val categories: Array<String>) : Adapter<Categor
     }
 
     override fun onBindViewHolder(holder: CategoriesViewHolder, position: Int) {
-        holder.textView.text = categories[position]
+        holder.itemView.categoryText.text = categories[position]
         try {
-            val inputStream = holder.imageView.context.assets.open(categories[position] + ".jpg")
-            holder.imageView.setImageDrawable(Drawable.createFromStream(inputStream, null))
+            val inputStream = holder.itemView.categoryImage.context.assets.open(categories[position] + ".jpg")
+            holder.itemView.categoryImage.setImageDrawable(Drawable.createFromStream(inputStream, null))
         } catch (e: IOException) {
             Log.e(TAG, e.toString())
         }
-        holder.layout.setOnClickListener {
-            val intent = Intent(holder.textView.context, SearchActivity::class.java)
+        holder.itemView.categoryLayout.setOnClickListener {
+            val intent = Intent(holder.itemView.categoryText.context, SearchActivity::class.java)
             intent.putExtra(SearchActivity.TAG_SEARCHTAG, categories[position])
-            val options = ActivityOptionsCompat.makeSceneTransitionAnimation((holder.textView.context as Activity),
-                    holder.textView, "sharedChip").toBundle()
-            ActivityCompat.startActivity(holder.textView.context, intent, options)
+            val options = ActivityOptionsCompat.makeSceneTransitionAnimation((holder.itemView.categoryText.context as Activity),
+                    holder.itemView.categoryText, "sharedChip").toBundle()
+            ActivityCompat.startActivity(holder.itemView.context, intent, options)
         }
     }
 
@@ -46,12 +47,7 @@ class CategoriesAdapter(private val categories: Array<String>) : Adapter<Categor
         return categories.size
     }
 
-    class CategoriesViewHolder(view: View) : ViewHolder(view) {
-        var textView: TextView = view.findViewById(id.category_text)
-        var imageView: ImageView = view.findViewById(id.category_image)
-        var layout: RelativeLayout = view.findViewById(id.category_layout)
-
-    }
+    class CategoriesViewHolder(view: View) : ViewHolder(view)
 
     companion object {
         private val TAG = CategoriesAdapter::class.java.simpleName

@@ -1,10 +1,8 @@
 package com.commonpepper.photosen.ui.activities
 
 import android.os.Bundle
-import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.commonpepper.photosen.R.*
 import com.commonpepper.photosen.ui.adapters.CategoriesAdapter
 import kotlinx.android.synthetic.main.activity_categories.*
@@ -13,23 +11,23 @@ import kotlinx.android.synthetic.main.navigation_view.*
 class CategoriesActivity : AbstractNavActivity() {
     override val abstractDrawerLayout: DrawerLayout get() = drawerLayout
 
-    internal var mToolbar: Toolbar? = null
-    internal var mRecyclerView: RecyclerView? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(layout.activity_categories)
-        mToolbar = findViewById<Toolbar?>(id.toolbar)
-        mRecyclerView = findViewById<RecyclerView?>(id.categories_recycler)
-        setSupportActionBar(mToolbar)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.setDisplayShowHomeEnabled(true)
-        supportActionBar!!.title = getString(string.categories)
-        navigationView.menu.findItem(id.drawer_categories).isCheckable = true
-        navigationView.menu.findItem(id.drawer_categories).isChecked = true
+        setSupportActionBar(toolbar)
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
+            title = getString(string.categories)
+        }
+        navigationView.menu.findItem(id.drawer_categories).apply {
+            isCheckable = true
+            isChecked = true
+        }
         navigationView.setNavigationItemSelectedListener(this)
-        mRecyclerView!!.setHasFixedSize(true)
-        mRecyclerView!!.layoutManager = GridLayoutManager(this, 2)
-        mRecyclerView!!.adapter = CategoriesAdapter(resources.getStringArray(array.categories))
+        recyclerCategories.setHasFixedSize(true)
+        recyclerCategories.layoutManager = GridLayoutManager(this, 2)
+        recyclerCategories.adapter = CategoriesAdapter(resources.getStringArray(array.categories))
     }
 
     override fun onSupportNavigateUp(): Boolean {

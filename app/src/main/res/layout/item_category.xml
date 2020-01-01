@@ -5,16 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="1dp"
-    android:id="@+id/category_layout">
+    android:id="@+id/categoryLayout">
 
     <ImageView
-        android:id="@+id/category_image"
+        android:id="@+id/categoryImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"/>
     <TextView
-        android:id="@+id/category_text"
+        android:id="@+id/categoryText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAlignment="center"

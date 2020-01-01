@@ -1,12 +1,10 @@
 package com.commonpepper.photosen.ui.activities
 
 import android.R.string
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog.Builder
-import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -20,8 +18,8 @@ import com.commonpepper.photosen.R.layout
 import com.commonpepper.photosen.model.Photo
 import com.commonpepper.photosen.ui.adapters.HistoryAdapter
 import com.commonpepper.photosen.ui.viewmodels.HistoryActivityViewModel
-import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_history.*
+import kotlinx.android.synthetic.main.navigation_view.*
 import java.util.concurrent.Executors
 
 class HistoryActivity : AbstractNavActivity() {
@@ -30,17 +28,19 @@ class HistoryActivity : AbstractNavActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(layout.activity_history)
-        val toolbar: Toolbar = findViewById(id.about_toolbar)
-        val navigationView: NavigationView = findViewById(id.navigationView)
         setSupportActionBar(toolbar)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.setDisplayShowHomeEnabled(true)
-        supportActionBar!!.title = getString(R.string.history)
-        navigationView.menu.findItem(id.drawer_history).isCheckable = true
-        navigationView.menu.findItem(id.drawer_history).isChecked = true
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
+            title = getString(R.string.history)
+        }
+        navigationView.menu.findItem(id.drawer_history).apply {
+            isCheckable = true
+            isChecked = true
+        }
         navigationView.setNavigationItemSelectedListener(this)
         viewModel = ViewModelProviders.of(this).get(HistoryActivityViewModel::class.java)
-        val recyclerView: RecyclerView = findViewById(id.images_recyclerView)
+        val recyclerView: RecyclerView = findViewById(id.recyclerViewHistory)
         val adapter = HistoryAdapter()
         viewModel!!.photosList.observe(this, Observer { pagedList: PagedList<Photo?> -> adapter.submitList(pagedList) })
         val llm = LinearLayoutManager(this)

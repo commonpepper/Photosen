@@ -21,7 +21,7 @@ class AboutActivity : AbstractNavActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(layout.activity_about)
-        setSupportActionBar(aboutToolbar)
+        setSupportActionBar(toolbar)
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)
@@ -31,6 +31,7 @@ class AboutActivity : AbstractNavActivity() {
             isCheckable = true
             isChecked = true
         }
+        navigationView.setNavigationItemSelectedListener(this)
         versionView.text = BuildConfig.VERSION_NAME
         listOf(findViewById(id.layout_about_introduction),
                 findViewById(id.layout_about_version),

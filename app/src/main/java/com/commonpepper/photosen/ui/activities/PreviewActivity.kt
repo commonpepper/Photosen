@@ -2,13 +2,13 @@ package com.commonpepper.photosen.ui.activities
 
 import android.os.Bundle
 import android.view.View
-import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.commonpepper.photosen.R.*
-import com.github.chrisbanes.photoview.PhotoView
+import com.commonpepper.photosen.R.layout
+import com.commonpepper.photosen.R.string
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_preview.*
 
 class PreviewActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,17 +20,15 @@ class PreviewActivity : AppCompatActivity() {
                 or View.SYSTEM_UI_FLAG_FULLSCREEN
                 or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
         setContentView(layout.activity_preview)
-        val photoView: PhotoView = findViewById(id.preview_image)
-        val progressBar: ProgressBar = findViewById(id.preview_progress)
         val url: String? = intent.getStringExtra(TAG_URL)
         if (url != null) {
-            Picasso.get().load(url).resize(MAX_WIDTH_PIXELS, 0).onlyScaleDown().into(photoView, object : Callback {
+            Picasso.get().load(url).resize(MAX_WIDTH_PIXELS, 0).onlyScaleDown().into(imagePreview, object : Callback {
                 override fun onSuccess() {
-                    progressBar.visibility = View.GONE
+                    progressPreview.visibility = View.GONE
                 }
 
                 override fun onError(e: Exception?) {
-                    progressBar.visibility = View.GONE
+                    progressPreview.visibility = View.GONE
                     Toast.makeText(this@PreviewActivity, getString(string.something_went_wrong), Toast.LENGTH_SHORT).show()
                 }
             })

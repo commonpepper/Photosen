@@ -16,7 +16,7 @@
         android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/about_toolbar"
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/ToolbarTheme"
@@ -25,7 +25,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/images_recyclerView"
+            android:id="@+id/recyclerViewHistory"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="vertical"
