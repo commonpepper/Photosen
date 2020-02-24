@@ -22,8 +22,8 @@ import kotlinx.android.synthetic.main.navigation_view.*
 
 class SearchActivity : AbstractNavActivity() {
     override val abstractDrawerLayout: DrawerLayout get() = drawerLayout
-    private var pagerAdapter: MyPagerAdapter? = null
-    private var viewModel: SearchActivityViewModel? = null
+    private lateinit var pagerAdapter: MyPagerAdapter
+    private lateinit var viewModel: SearchActivityViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,8 +44,8 @@ class SearchActivity : AbstractNavActivity() {
         val firstTag: String? = intent.getStringExtra(TAG_SEARCHTAG)
         val recreated = savedInstanceState?.getBoolean(TAG_RECREATED) ?: false
         viewModel = ViewModelProviders.of(this)[SearchActivityViewModel::class.java]
-        if (viewModel!!.tags.size > 0 || firstTag == null || recreated) {
-            viewModel!!.tags.forEach { addNewChip(it) }
+        if (viewModel.tags.size > 0 || firstTag == null || recreated) {
+            viewModel.tags.forEach { addNewChip(it) }
             searchChipGroup.removeView(searchFirstChip)
             if (!recreated) {
                 window.setSoftInputMode(LayoutParams.SOFT_INPUT_STATE_VISIBLE)
@@ -53,13 +53,13 @@ class SearchActivity : AbstractNavActivity() {
                 doSearch()
             }
         } else {
-            viewModel!!.tags.add(firstTag)
+            viewModel.tags.add(firstTag)
             searchFirstChip.text = firstTag
             searchFirstChip.setOnCloseIconClickListener(onChipClickListener)
             doSearch()
         }
         searchText.setOnEditorActionListener { _, _, _ ->
-            viewModel!!.query = searchText!!.text.toString()
+            viewModel.query = searchText!!.text.toString()
             doSearch()
             true
         }
@@ -67,9 +67,9 @@ class SearchActivity : AbstractNavActivity() {
             if (actionId == EditorInfo.IME_ACTION_SEARCH || actionId == EditorInfo.IME_ACTION_DONE || event != null && event.action == KeyEvent.ACTION_DOWN && event.keyCode == KeyEvent.KEYCODE_ENTER) {
                 if (event == null || !event.isShiftPressed) {
                     val newTag = tagInput!!.text.toString()
-                    if (newTag.isNotEmpty() && !viewModel!!.tags.contains(newTag)) {
+                    if (newTag.isNotEmpty() && !viewModel.tags.contains(newTag)) {
                         addNewChip(newTag)
-                        viewModel!!.tags.add(newTag)
+                        viewModel.tags.add(newTag)
                         tagInput.setText("")
                         doSearch()
                     }
@@ -92,7 +92,7 @@ class SearchActivity : AbstractNavActivity() {
     private val onChipClickListener = OnClickListener { x ->
         val chip = x as Chip
         searchChipGroup.removeView(chip)
-        viewModel!!.tags.remove(chip.text.toString())
+        viewModel.tags.remove(chip.text.toString())
         doSearch()
     }
 
@@ -109,14 +109,14 @@ class SearchActivity : AbstractNavActivity() {
     }
 
     private fun doSearch() {
-        val query = viewModel!!.query
-        val tagsExtra = viewModel!!.tags.joinToString(",")
+        val query = viewModel.query
+        val tagsExtra = viewModel.tags.joinToString(",")
         if ((query != null && query.isNotEmpty()) || tagsExtra.isNotEmpty()) {
             tabLayout.visibility = View.VISIBLE
             val fragmentRelevant = newInstance(query, tagsExtra, "relevance")
             val fragmentMostViewed = newInstance(query, tagsExtra, "interestingness-desc")
             val fragmentLatest = newInstance(query, tagsExtra, "date-posted-desc")
-            pagerAdapter?.apply {
+            pagerAdapter.apply {
                 clear()
                 addFragment(fragmentRelevant, getString(string.relevant))
                 addFragment(fragmentMostViewed, getString(string.most_viewed))

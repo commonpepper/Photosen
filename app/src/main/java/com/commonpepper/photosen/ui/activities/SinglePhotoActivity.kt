@@ -42,9 +42,9 @@ import java.util.concurrent.Executors
 
 class SinglePhotoActivity : AbstractNavActivity() {
     override val abstractDrawerLayout: DrawerLayout get() = drawerLayout
-    private var photo: Photo? = null
+    private lateinit var photo: Photo
+    private lateinit var detailsFragment: PhotoDetailsFragment
     private var action: Aciton? = null
-    private var detailsFragment: PhotoDetailsFragment? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(layout.activity_single_photo)
@@ -54,13 +54,13 @@ class SinglePhotoActivity : AbstractNavActivity() {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
         navigationView.setNavigationItemSelectedListener(this)
-        photo = intent.getParcelableExtra(PHOTO_TAG)
+        photo = intent.getParcelableExtra(PHOTO_TAG)!!
         val saveHistory = intent.getBooleanExtra(SAVE_HISTORY_TAG, true)
         val historyDao = instance.database.historyDao
         if (saveHistory) {
             Executors.newSingleThreadExecutor().execute {
-                photo!!.time = System.currentTimeMillis()
-                historyDao.insert(photo!!)
+                photo.time = System.currentTimeMillis()
+                historyDao.insert(photo)
             }
         }
         val title: TextView = findViewById(id.single_photo_title)
@@ -82,26 +82,14 @@ class SinglePhotoActivity : AbstractNavActivity() {
                 downloadPhoto()
             }
         }
-        if (photo!!.title != null && photo!!.title!!.isNotEmpty()) {
-            title.text = photo!!.title
+        if (photo.title != null && photo.title!!.isNotEmpty()) {
+            title.text = photo.title
         } else {
             title.visibility = View.GONE
         }
-        Picasso.get().load(photo!!.url_z).into(imageView)
-
-//        OLD VERSION:
-//        if (getSupportFragmentManager().getFragments().size() == 0) {
-//            detailsFragment = PhotoDetailsFragment.newInstance(photo);
-//            getSupportFragmentManager().beginTransaction()
-//                    .add(R.id.single_image_details_layout, detailsFragment)
-//                    .commit();
-//        } else {
-//            detailsFragment = (PhotoDetailsFragment) getSupportFragmentManager().getFragments().get(0);
-//        }
+        Picasso.get().load(photo.url_z).into(imageView)
 
 //        LET'S GET FRAGMENT LINKS IN CASE OF SCREEN ROTATION
-
-
         var commentsFragment: CommentsFragment? = null
         var detailsFlag = false
         var commentsFlag = false
@@ -118,11 +106,11 @@ class SinglePhotoActivity : AbstractNavActivity() {
         if (!detailsFlag) {
             detailsFragment = newInstance(photo)
             supportFragmentManager.beginTransaction()
-                    .add(id.single_image_details_layout, detailsFragment!!)
+                    .add(id.single_image_details_layout, detailsFragment)
                     .commit()
         }
         if (!commentsFlag) {
-            commentsFragment = newInstance(photo!!.id)
+            commentsFragment = newInstance(photo.id)
             supportFragmentManager.beginTransaction()
                     .add(id.single_image_comments_layout, commentsFragment)
                     .commit()
@@ -131,7 +119,7 @@ class SinglePhotoActivity : AbstractNavActivity() {
 
 
         commentsFragment!!.setNestedScrollView(nestedScrollView)
-        detailsFragment!!.liveSizes.observe(this, Observer { x: PhotoSizes ->
+        detailsFragment.liveSizes.observe(this, Observer { x: PhotoSizes ->
             showFAB(fabDownload)
             showFAB(fabSetWallpaper)
             val prefs: SharedPreferences = getSharedPreferences(Photosen.PREFERENCES, Context.MODE_PRIVATE)
@@ -174,9 +162,9 @@ class SinglePhotoActivity : AbstractNavActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
         if (id == R.id.single_image_open_in_browser) {
-            openInBrowser(PHOTOS_URL + photo!!.owner + "/" + photo!!.id)
+            openInBrowser(PHOTOS_URL + photo.owner + "/" + photo.id)
         } else if (id == R.id.single_image_share) {
-            shareUrl(PHOTOS_URL + photo!!.owner + "/" + photo!!.id)
+            shareUrl(PHOTOS_URL + photo.owner + "/" + photo.id)
         }
         return super.onOptionsItemSelected(item)
     }
@@ -185,15 +173,15 @@ class SinglePhotoActivity : AbstractNavActivity() {
         if (!DownloadService.isRunning) {
             Toast.makeText(this, getString(string.download_started), Toast.LENGTH_SHORT).show()
             val intent = Intent(this, DownloadService::class.java)
-            if (detailsFragment!!.liveSizes.value != null) { //shouldn't be null, when fabs are visible, but check just in case
+            if (detailsFragment.liveSizes.value != null) { //shouldn't be null, when fabs are visible, but check just in case
 
-                val sizes = detailsFragment!!.liveSizes.value!!.sizes!!.size
+                val sizes = detailsFragment.liveSizes.value!!.sizes!!.size
                 val url = sizes!![sizes.size - 1].source
                 intent.putExtra(DownloadService.TAG_URL, url)
                 val urlSplit = url!!.split("\\.").toTypedArray()
                 var format = urlSplit[urlSplit.size - 1]
                 if (format != "jpg" && format != "gif" && format != "png") format = "jpg"
-                intent.putExtra(DownloadService.TAG_FILENAME, photo!!.id + "." + format)
+                intent.putExtra(DownloadService.TAG_FILENAME, photo.id + "." + format)
                 intent.putExtra(DownloadService.TAG_ACTION, action)
                 startService(intent)
             }
@@ -204,7 +192,7 @@ class SinglePhotoActivity : AbstractNavActivity() {
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             Log.v(TAG, "Permission: " + permissions[0] + "was " + grantResults[0])
             if (action != null) downloadPhoto()
         } else {
@@ -213,14 +201,12 @@ class SinglePhotoActivity : AbstractNavActivity() {
     }
 
     private fun shareUrl(url: String) {
-        if (photo != null) {
-            val share = Intent(Intent.ACTION_SEND)
-            share.type = "text/plain"
-            share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-            share.putExtra(Intent.EXTRA_SUBJECT, string.flickr_image)
-            share.putExtra(Intent.EXTRA_TEXT, url)
-            startActivity(Intent.createChooser(share, getString(string.share_with)))
-        }
+        val share = Intent(Intent.ACTION_SEND)
+        share.type = "text/plain"
+        share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        share.putExtra(Intent.EXTRA_SUBJECT, string.flickr_image)
+        share.putExtra(Intent.EXTRA_TEXT, url)
+        startActivity(Intent.createChooser(share, getString(string.share_with)))
     }
 
     private fun hideFAB(fab: FloatingActionButton) {

@@ -25,7 +25,7 @@ abstract class AbstractListFragmentViewModel<T> : ViewModel() {
                 .setInitialLoadSizeHint(Photosen.PAGE_SIZE)
                 .build()
         val dataSourceFactory = createDataSourceFactory()
-        networkState = Transformations.switchMap(dataSourceFactory.liveDataSource) { obj: AbstractListDataSource<T> -> obj.networkState }
+        networkState = Transformations.switchMap(dataSourceFactory.liveDataSource) { obj -> obj.networkState }
         photosList = LivePagedListBuilder(dataSourceFactory, config)
                 .setFetchExecutor(Executors.newSingleThreadExecutor())
                 .build()

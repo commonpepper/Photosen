@@ -23,7 +23,7 @@ import kotlinx.android.synthetic.main.navigation_view.*
 import java.util.concurrent.Executors
 
 class HistoryActivity : AbstractNavActivity() {
-    private var viewModel: HistoryActivityViewModel? = null
+    private lateinit var viewModel: HistoryActivityViewModel
     override val abstractDrawerLayout: DrawerLayout get() = drawerLayout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +42,7 @@ class HistoryActivity : AbstractNavActivity() {
         viewModel = ViewModelProviders.of(this).get(HistoryActivityViewModel::class.java)
         val recyclerView: RecyclerView = findViewById(id.recyclerViewHistory)
         val adapter = HistoryAdapter()
-        viewModel!!.photosList.observe(this, Observer { pagedList: PagedList<Photo?> -> adapter.submitList(pagedList) })
+        viewModel.photosList.observe(this, Observer { pagedList: PagedList<Photo?> -> adapter.submitList(pagedList) })
         val llm = LinearLayoutManager(this)
         llm.orientation = RecyclerView.VERTICAL
         recyclerView.layoutManager = llm
