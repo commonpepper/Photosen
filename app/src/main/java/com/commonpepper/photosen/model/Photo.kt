@@ -50,7 +50,7 @@ data class Photo(
     }
 
     val iconUrl: String
-        get() = if (Integer.parseInt(iconserver!!) > 0) {
+        get() = if (Integer.parseInt(iconserver ?: "-1") > 0) {
             ("https://farm" + iconfarm.toString() + ".staticflickr.com/"
                     + iconserver + "/buddyicons/"
                     + owner + ".jpg")
