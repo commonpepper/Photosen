@@ -1,9 +1,6 @@
 package com.commonpepper.photosen.network
 
-import com.commonpepper.photosen.model.Comments
-import com.commonpepper.photosen.model.PhotoDetails
-import com.commonpepper.photosen.model.PhotoSizes
-import com.commonpepper.photosen.model.SearchPhotos
+import com.commonpepper.photosen.model.*
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -39,4 +36,10 @@ interface FlickrApi {
 
     @GET("services/rest/?method=flickr.photos.comments.getList")
     fun getComments(@Query("photo_id") photo_id: String?): Call<Comments>
+
+    @GET("services/rest/?method=flickr.photosets.getList" +
+            "&primary_photo_extras=url_z")
+    fun getAlbums(@Query("user_id") user_id: String?,
+                  @Query("page") page: Int,
+                  @Query("per_page") per_page: Int): Call<AlbumsList>
 }

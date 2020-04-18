@@ -48,6 +48,11 @@
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:tabMode="scrollable"/>
         </com.google.android.material.appbar.AppBarLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -57,15 +62,13 @@
             android:layout_margin="24dp"
             android:src="@drawable/baseline_open_in_browser_24"
             app:layout_anchor="@id/appbar"
-            app:layout_anchorGravity="bottom|right|end"
-            />
+            app:layout_anchorGravity="bottom|right|end" />
 
-        <LinearLayout
-            android:id="@+id/user_photos_fragment_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
