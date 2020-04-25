@@ -8,16 +8,19 @@ import android.os.Build.VERSION
 import androidx.core.app.ActivityCompat
 import androidx.room.Room
 import com.commonpepper.photosen.database.PhotosenDatabase
+import com.commonpepper.photosen.network.BooleanTypeAdapter
 import com.commonpepper.photosen.network.FlickrApi
 import com.commonpepper.photosen.network.KeyFormatInterceptor
 import com.crashlytics.android.Crashlytics
 import com.crashlytics.android.core.CrashlyticsCore
 import com.crashlytics.android.core.CrashlyticsCore.Builder
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.gson.GsonBuilder
 import io.fabric.sdk.android.Fabric
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+
 
 class Photosen : Application() {
     lateinit var database: PhotosenDatabase
@@ -49,10 +52,13 @@ class Photosen : Application() {
         lateinit var instance: Photosen
 
         val flickrApi: FlickrApi by lazy {
+            val builder = GsonBuilder()
+            builder.registerTypeAdapter(Boolean::class.java, BooleanTypeAdapter())
+            val gson = builder.create()
             Retrofit.Builder()
                     .baseUrl(API_URL)
                     .client(client)
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create(gson))
                     .build()
                     .create(FlickrApi::class.java)
         }

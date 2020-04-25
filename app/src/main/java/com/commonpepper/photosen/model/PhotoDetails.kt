@@ -102,10 +102,10 @@ class PhotoDetails {
 
         class UsageBean {
 
-            var candownload = 0
-            var canblog = 0
-            var canprint = 0
-            var canshare = 0
+            var candownload = false
+            var canblog = false
+            var canprint = false
+            var canshare = false
 
         }
 

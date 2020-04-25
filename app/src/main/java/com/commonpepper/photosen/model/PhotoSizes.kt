@@ -7,9 +7,9 @@ class PhotoSizes {
 
     class SizesBean {
 
-        var canblog = 0
-        var canprint = 0
-        var candownload = 0
+        var canblog = false
+        var canprint = false
+        var candownload = false
         var size: List<SizeBean>? = null
 
         class SizeBean {
