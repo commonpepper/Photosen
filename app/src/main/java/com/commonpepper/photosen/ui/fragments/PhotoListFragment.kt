@@ -9,8 +9,8 @@ class PhotoListFragment : AbstractListFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val args = arguments
-        val order_by = args!!.getString(TAG_DATE) ?: ""
-        val factory = PhotoFragmentViewModelFactory(order_by)
+        val orderBy = args!!.getString(TAG_DATE) ?: ""
+        val factory = PhotoFragmentViewModelFactory(orderBy)
         mViewModel = ViewModelProviders.of(this, factory).get(PhotoListFragmentViewModel::class.java)
     }
 

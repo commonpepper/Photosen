@@ -20,8 +20,8 @@ class UserPhotosListFragment : AbstractListFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val args = arguments
-        val user_id = args!!.getString(TAG_USER_ID) ?: ""
-        val factory = UserPhotosFragmentViewModelFactory(user_id)
+        val userId = args?.getString(TAG_USER_ID) ?: ""
+        val factory = UserPhotosFragmentViewModelFactory(userId)
         mViewModel = ViewModelProviders.of(this, factory).get(UserPhotosListFragmentViewModel::class.java)
     }
 }

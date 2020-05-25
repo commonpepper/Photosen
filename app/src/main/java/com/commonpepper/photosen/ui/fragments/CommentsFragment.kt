@@ -52,8 +52,8 @@ class CommentsFragment : Fragment(), OnExpansionUpdateListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val args = arguments
-        val photo_id = args!!.getString(TAG_PHOTO_ID)!!
-        val factory = CommentsViewModelFactory(photo_id)
+        val photoId = args?.getString(TAG_PHOTO_ID)
+        val factory = CommentsViewModelFactory(photoId ?: "")
         mViewModel = ViewModelProviders.of(this, factory).get(CommentsViewModel::class.java)
     }
 
@@ -67,60 +67,62 @@ class CommentsFragment : Fragment(), OnExpansionUpdateListener {
         refreshButton = view.findViewById<Button?>(R.id.item_last_refreshButton)
         recyclerView = view.findViewById(R.id.comments_recycler)
         expandableLayout = view.findViewById(R.id.expandable_layout)
-        refreshButton!!.setOnClickListener { mViewModel!!.loadComments() }
-        showComments!!.setOnClickListener {
-            mViewModel!!.hiden = false
-            showComments!!.visibility = View.GONE
-            hideComments!!.visibility = View.VISIBLE
-            expandableLayout!!.expand()
-            if (mViewModel!!.getNetworkState().value != NetworkState.SUCCESS) {
-                mViewModel!!.loadComments()
+        refreshButton?.setOnClickListener { mViewModel!!.loadComments() }
+        showComments?.setOnClickListener {
+            mViewModel?.hiden = false
+            showComments?.visibility = View.GONE
+            hideComments?.visibility = View.VISIBLE
+            expandableLayout?.expand()
+            if (mViewModel?.getNetworkState()?.value != NetworkState.SUCCESS) {
+                mViewModel?.loadComments()
             }
-            expandableLayout!!.setOnExpansionUpdateListener(this)
+            expandableLayout?.setOnExpansionUpdateListener(this)
         }
-        hideComments!!.setOnClickListener {
-            mViewModel!!.hiden = true
-            showComments!!.visibility = View.VISIBLE
-            hideComments!!.visibility = View.GONE
+        hideComments?.setOnClickListener {
+            mViewModel?.hiden = true
+            showComments?.visibility = View.VISIBLE
+            hideComments?.visibility = View.GONE
             expandableLayout!!.collapse()
         }
-        mViewModel!!.getNetworkState().observe(this, Observer { networkState: NetworkState ->
-            if (networkState == NetworkState.FAILED) {
-                progressLayout!!.visibility = View.VISIBLE
-                progressBar!!.visibility = View.GONE
-                errorTextView!!.visibility = View.VISIBLE
-                refreshButton!!.visibility = View.VISIBLE
-            } else if (networkState == NetworkState.SUCCESS) {
-                progressLayout!!.visibility = View.GONE
-            } else if (networkState == NetworkState.RUNNING) {
-                progressLayout!!.visibility = View.VISIBLE
-                progressBar!!.visibility = View.VISIBLE
-                errorTextView!!.visibility = View.GONE
-                refreshButton!!.visibility = View.GONE
+        mViewModel?.getNetworkState()?.observe(viewLifecycleOwner, Observer { networkState: NetworkState ->
+            when (networkState) {
+                NetworkState.FAILED -> {
+                    progressLayout?.visibility = View.VISIBLE
+                    progressBar?.visibility = View.GONE
+                    errorTextView?.visibility = View.VISIBLE
+                    refreshButton?.visibility = View.VISIBLE
+                }
+                NetworkState.SUCCESS -> progressLayout?.visibility = View.GONE
+                NetworkState.RUNNING -> {
+                    progressLayout?.visibility = View.VISIBLE
+                    progressBar?.visibility = View.VISIBLE
+                    errorTextView?.visibility = View.GONE
+                    refreshButton?.visibility = View.GONE
+                }
             }
         })
-        mViewModel!!.getComments().observe(this, Observer { comments: Comments? ->
+        mViewModel?.getComments()?.observe(viewLifecycleOwner, Observer { comments: Comments? ->
             val adapter = CommentsAdapter(comments)
             adapter.setHasStableIds(true)
             val llm = LinearLayoutManager(context)
             llm.orientation = RecyclerView.VERTICAL
-            recyclerView!!.layoutManager = llm
+            recyclerView?.layoutManager = llm
 //            recyclerView.setItemViewCacheSize(10);
 //            recyclerView.setDrawingCacheEnabled(true);
 
 
-            recyclerView!!.adapter = adapter
+            recyclerView?.adapter = adapter
         })
 
         //INITIALIZATION:
-        if (mViewModel!!.hiden) {
-            showComments!!.visibility = View.VISIBLE
-            hideComments!!.visibility = View.GONE
+        if (mViewModel?.hiden == true) {
+            showComments?.visibility = View.VISIBLE
+            hideComments?.visibility = View.GONE
             expandableLayout!!.collapse()
         } else {
-            showComments!!.visibility = View.GONE
-            hideComments!!.visibility = View.VISIBLE
-            expandableLayout!!.expand()
+            showComments?.visibility = View.GONE
+            hideComments?.visibility = View.VISIBLE
+            expandableLayout?.expand()
         }
         return view
     }
@@ -130,10 +132,10 @@ class CommentsFragment : Fragment(), OnExpansionUpdateListener {
     }
 
     override fun onExpansionUpdate(expansionFraction: Float, state: Int) {
-        if (state == State.EXPANDING && nestedScrollView!!.get() != null) {
+        if (state == State.EXPANDING && nestedScrollView?.get() != null) {
 //            Log.d("ExpandableLayout:", "expansionFraction = " + expansionFraction);
 
-            val nestedScroll = nestedScrollView!!.get()
+            val nestedScroll = nestedScrollView?.get()
             nestedScroll!!.fullScroll(View.FOCUS_DOWN)
         }
     }
