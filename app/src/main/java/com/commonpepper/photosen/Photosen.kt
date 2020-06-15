@@ -40,7 +40,7 @@ class Photosen : Application() {
     }
 
     companion object {
-        const val API_URL = "https://api.flickr.com/"
+        private const val API_URL = "https://api.flickr.com/"
         const val PAGE_SIZE = 30
         const val PREFETCH_DISTANCE = 5
         const val PACKAGE_NAME = "com.commonpepper.photosen"
