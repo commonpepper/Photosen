@@ -132,7 +132,7 @@ class PhotoDetailsFragment : Fragment() {
         }
         val views = photoDetails.photo!!.views
         viewsNumber!!.text = resources.getQuantityString(plurals.x_views, views, views)
-        val locationStr: String = photoDetails.photo!!.owner!!.location!!
+        val locationStr: String = photoDetails.photo?.owner?.location ?: ""
         if (locationStr.isNotEmpty()) {
             location!!.text = locationStr
         } else {
