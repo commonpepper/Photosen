@@ -70,33 +70,33 @@ class PhotoDetailsFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view: View = inflater.inflate(layout.fragment_details, container, false)
-        progressLayout = view.findViewById<LinearLayout?>(R.id.single_image_progress_layout)
-        progressBar = progressLayout!!.findViewById<ProgressBar?>(R.id.item_last_progressBar)
-        errorTextView = progressLayout!!.findViewById<TextView?>(R.id.item_last_error_textView)
+        progressLayout = view.findViewById(R.id.single_image_progress_layout)
+        progressBar = progressLayout!!.findViewById(R.id.item_last_progressBar)
+        errorTextView = progressLayout!!.findViewById(R.id.item_last_error_textView)
         refreshButton = progressLayout!!.findViewById(R.id.item_last_refreshButton)
         refreshButton!!.setOnClickListener { mViewModel!!.loadDetails() }
-        detailsLayout = view.findViewById<LinearLayout?>(R.id.single_image_details_layout)
-        username = view.findViewById<TextView?>(R.id.single_image_username)
-        viewsNumber = view.findViewById<TextView?>(R.id.single_image_views_number)
-        imageViewAvatar = view.findViewById<ImageView?>(R.id.single_photo_avatar_image_view)
-        location = view.findViewById<TextView?>(R.id.single_image_location)
-        locationLayout = view.findViewById<LinearLayout?>(R.id.single_image_location_layout)
-        textViewWidth = view.findViewById<TextView?>(R.id.single_image_width)
-        textViewHeigth = view.findViewById<TextView?>(R.id.single_image_height)
-        textViewDate = view.findViewById<TextView?>(R.id.single_image_date)
-        tagsLayout = view.findViewById<LinearLayout?>(R.id.single_photo_tags_layout)
-        tagsLabel = view.findViewById<TextView?>(R.id.tags_label)
-        usernameLayout = view.findViewById<LinearLayout?>(R.id.single_image_username_layout)
+        detailsLayout = view.findViewById(R.id.single_image_details_layout)
+        username = view.findViewById(R.id.single_image_username)
+        viewsNumber = view.findViewById(R.id.single_image_views_number)
+        imageViewAvatar = view.findViewById(R.id.single_photo_avatar_image_view)
+        location = view.findViewById(R.id.single_image_location)
+        locationLayout = view.findViewById(R.id.single_image_location_layout)
+        textViewWidth = view.findViewById(R.id.single_image_width)
+        textViewHeigth = view.findViewById(R.id.single_image_height)
+        textViewDate = view.findViewById(R.id.single_image_date)
+        tagsLayout = view.findViewById(R.id.single_photo_tags_layout)
+        tagsLabel = view.findViewById(R.id.tags_label)
+        usernameLayout = view.findViewById(R.id.single_image_username_layout)
         showRunning()
-        mViewModel!!.networkState.observe(this, Observer { networkState: NetworkState ->
+        mViewModel?.networkState?.observe(viewLifecycleOwner, Observer { networkState: NetworkState ->
             if (networkState == NetworkState.RUNNING) {
                 showRunning()
             } else if (networkState == NetworkState.FAILED) {
                 showFailed()
             } //else SUCCESS
         })
-        mViewModel!!.photoDetails.observe(this, Observer { photoDetails: PhotoDetails? -> if (photoDetails != null) showSuccess(photoDetails) })
-        mViewModel!!.photoSizes.observe(this, Observer { sizes: PhotoSizes ->
+        mViewModel!!.photoDetails.observe(viewLifecycleOwner, Observer { photoDetails: PhotoDetails? -> if (photoDetails != null) showSuccess(photoDetails) })
+        mViewModel!!.photoSizes.observe(viewLifecycleOwner, Observer { sizes: PhotoSizes ->
             photoSizes.postValue(sizes)
             if (sizes.sizes!!.size!!.isNotEmpty()) {
                 val width = sizes.sizes!!.size!![sizes.sizes!!.size!!.size - 1].width
@@ -109,11 +109,11 @@ class PhotoDetailsFragment : Fragment() {
     }
 
     private fun showRunning() {
-        progressLayout!!.visibility = View.VISIBLE
-        progressBar!!.visibility = View.VISIBLE
-        errorTextView!!.visibility = View.GONE
-        refreshButton!!.visibility = View.GONE
-        detailsLayout!!.visibility = View.GONE
+        progressLayout?.visibility = View.VISIBLE
+        progressBar?.visibility = View.VISIBLE
+        errorTextView?.visibility = View.GONE
+        refreshButton?.visibility = View.GONE
+        detailsLayout?.visibility = View.GONE
     }
 
     private fun showSuccess(photoDetails: PhotoDetails) {

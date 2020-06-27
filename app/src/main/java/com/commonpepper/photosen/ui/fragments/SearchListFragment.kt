@@ -24,9 +24,9 @@ class SearchListFragment : AbstractListFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val args = arguments
-        val query = args!!.getString(TAG_QUERY) ?: ""
-        val tags = args.getString(TAG_TAGS) ?: ""
-        val sort = args.getString(TAG_SORT) ?: ""
+        val query = args?.getString(TAG_QUERY) ?: ""
+        val tags = args?.getString(TAG_TAGS) ?: ""
+        val sort = args?.getString(TAG_SORT) ?: ""
         val factory = SearchFragmentViewModelFactory(query, tags, sort)
         mViewModel = ViewModelProviders.of(this, factory).get(SearchListFragmentViewModel::class.java)
     }

@@ -18,17 +18,18 @@ import com.commonpepper.photosen.ui.viewmodels.AbstractListFragmentViewModel
 
 open class AbstractListFragment : Fragment() {
     protected var mViewModel: AbstractListFragmentViewModel<*>? = null
-    protected var mRecyclerView: RecyclerView? = null
-    protected var mPhotoAdapter = PhotoAdapter()
+    private var mRecyclerView: RecyclerView? = null
+    private var mPhotoAdapter = PhotoAdapter()
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view: View = inflater.inflate(layout.fragment_images, container, false)
         mRecyclerView = view.findViewById(R.id.fragment_images_recyclerView)
-        mViewModel!!.photosList.observe(this, Observer { pagedList: PagedList<*> -> mPhotoAdapter.submitList(pagedList as PagedList<Photo?>) })
-        mViewModel!!.networkState.observe(this, Observer { networkState: NetworkState -> mPhotoAdapter.setNetworkState(networkState) })
+        mViewModel?.photosList?.observe(viewLifecycleOwner, Observer { pagedList: PagedList<*> -> mPhotoAdapter.submitList(pagedList as PagedList<Photo?>) })
+        mViewModel?.networkState?.observe(viewLifecycleOwner, Observer { networkState: NetworkState -> mPhotoAdapter.setNetworkState(networkState) })
         val llm = LinearLayoutManager(context)
         llm.orientation = RecyclerView.VERTICAL
-        mRecyclerView!!.layoutManager = llm
-        mRecyclerView!!.adapter = mPhotoAdapter
+        mRecyclerView?.layoutManager = llm
+        mRecyclerView?.adapter = mPhotoAdapter
         return view
     }
 
