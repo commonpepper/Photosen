@@ -1,18 +1,18 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
-apply plugin: 'io.fabric'
+apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 30
     defaultConfig {
         applicationId "com.commonpepper.photosen"
         minSdkVersion 21
-        targetSdkVersion 29
-        versionCode 18
-        versionName "2.3.6"
+        targetSdkVersion 30
+        versionCode 19
+        versionName "2.4.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "APP_KEY", MY_APP_KEY)
         buildConfigField("String", "APP_SECRET", MY_APP_SECRET)
@@ -30,11 +30,9 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            manifestPlaceholders = [enableCrashReporting: "true"]
         }
         debug {
             minifyEnabled false
-            manifestPlaceholders = [enableCrashReporting: "false"]
         }
     }
     compileOptions {
@@ -46,16 +44,17 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'androidx.core:core-ktx:1.2.0'
+    implementation 'androidx.core:core-ktx:1.3.2'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.paging:paging-runtime:2.1.1'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.paging:paging-runtime-ktx:2.1.2'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'com.google.android.material:material:1.2.1'
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.google.android:flexbox:1.1.0'
-    implementation 'com.google.firebase:firebase-core:17.2.3'
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
+
+    implementation 'com.google.firebase:firebase-crashlytics-ktx:17.2.2'
+    implementation 'com.google.firebase:firebase-analytics-ktx:18.0.0'
 
     implementation 'com.squareup.retrofit2:retrofit:2.6.2'
     implementation 'com.squareup.retrofit2:converter-gson:2.6.2'
@@ -63,7 +62,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp-urlconnection:4.2.2'
     implementation 'com.squareup.picasso:picasso:2.71828'
 
-    def room_version = "2.2.4"
+    def room_version = "2.2.5"
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
 
@@ -75,6 +74,6 @@ dependencies {
     implementation 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
 
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.test:runner:1.3.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 }

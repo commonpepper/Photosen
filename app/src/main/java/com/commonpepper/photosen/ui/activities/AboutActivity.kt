@@ -14,6 +14,7 @@ import com.commonpepper.photosen.Photosen.Companion.firebaseAnalytics
 import com.commonpepper.photosen.R.*
 import kotlinx.android.synthetic.main.activity_about.*
 import kotlinx.android.synthetic.main.navigation_view.*
+import java.lang.RuntimeException
 
 class AboutActivity : AbstractNavActivity() {
     override val abstractDrawerLayout: DrawerLayout get() = drawerLayout

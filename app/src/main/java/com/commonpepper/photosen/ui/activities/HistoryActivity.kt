@@ -7,7 +7,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog.Builder
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,8 +18,10 @@ import com.commonpepper.photosen.R.layout
 import com.commonpepper.photosen.model.Photo
 import com.commonpepper.photosen.ui.adapters.HistoryAdapter
 import com.commonpepper.photosen.ui.viewmodels.HistoryActivityViewModel
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import kotlinx.android.synthetic.main.activity_history.*
 import kotlinx.android.synthetic.main.navigation_view.*
+import java.lang.RuntimeException
 import java.util.concurrent.Executors
 
 class HistoryActivity : AbstractNavActivity() {
@@ -39,7 +41,7 @@ class HistoryActivity : AbstractNavActivity() {
             isChecked = true
         }
         navigationView.setNavigationItemSelectedListener(this)
-        viewModel = ViewModelProviders.of(this).get(HistoryActivityViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(HistoryActivityViewModel::class.java)
         val recyclerView: RecyclerView = findViewById(id.recyclerViewHistory)
         val adapter = HistoryAdapter()
         viewModel.photosList.observe(this, Observer { pagedList: PagedList<Photo?> -> adapter.submitList(pagedList) })
@@ -60,8 +62,8 @@ class HistoryActivity : AbstractNavActivity() {
             Builder(this)
                     .setTitle(getString(R.string.clear_history))
                     .setMessage(getString(R.string.clear_confirm))
-                    .setPositiveButton(string.yes) { _, _ -> Executors.newSingleThreadExecutor().execute { instance.database.historyDao.clear() } }
-                    .setNegativeButton(string.no, null).show()
+                    .setPositiveButton(string.ok) { _, _ -> Executors.newSingleThreadExecutor().execute { instance.database.historyDao.clear() } }
+                    .setNegativeButton(string.cancel, null).show()
         }
         return super.onOptionsItemSelected(item)
     }

@@ -11,12 +11,10 @@ import com.commonpepper.photosen.database.PhotosenDatabase
 import com.commonpepper.photosen.network.BooleanTypeAdapter
 import com.commonpepper.photosen.network.FlickrApi
 import com.commonpepper.photosen.network.KeyFormatInterceptor
-import com.crashlytics.android.Crashlytics
-import com.crashlytics.android.core.CrashlyticsCore
-import com.crashlytics.android.core.CrashlyticsCore.Builder
+import com.google.firebase.FirebaseApp
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.gson.GsonBuilder
-import io.fabric.sdk.android.Fabric
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -28,18 +26,13 @@ class Photosen : Application() {
     override fun onCreate() {
         super.onCreate()
         instance = this
+        FirebaseApp.initializeApp(this)
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
-        configureCrashReporting()
+        FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(true)
+        firebaseAnalytics.setAnalyticsCollectionEnabled(true)
         database = Room.databaseBuilder(this, PhotosenDatabase::class.java, "photosen_database")
                 .fallbackToDestructiveMigration()
                 .build()
-    }
-
-    private fun configureCrashReporting() {
-        val crashlyticsCore: CrashlyticsCore? = Builder()
-                .disabled(BuildConfig.DEBUG)
-                .build()
-        Fabric.with(this, Crashlytics.Builder().core(crashlyticsCore).build())
     }
 
     companion object {

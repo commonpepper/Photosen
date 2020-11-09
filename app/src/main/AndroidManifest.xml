@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.SET_WALLPAPER" />
     <uses-permission android:name="android.permission.SET_WALLPAPER_HINTS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
@@ -57,7 +58,6 @@
                 android:resource="@xml/fileprovider" />
         </provider>
 
-        <meta-data android:name="firebase_crashlytics_collection_enabled" android:value="${enableCrashReporting}" />
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-9549741462907732~3154052855"/>
